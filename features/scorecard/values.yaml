@@ -37,23 +37,202 @@ global:
       - package: oci://ghcr.io/redhat-developer/rhdh-plugin-export-overlays/red-hat-developer-hub-backstage-plugin-scorecard-backend:pr_1807__2.3.0
       - package: oci://ghcr.io/redhat-developer/rhdh-plugin-export-overlays/red-hat-developer-hub-backstage-plugin-scorecard-backend-module-github:pr_1807__2.3.0
       - package: oci://ghcr.io/redhat-developer/rhdh-plugin-export-overlays/red-hat-developer-hub-backstage-plugin-scorecard-backend-module-jira:pr_1807__2.3.0
+        pluginConfig:
+          scorecard:
+            plugins:
+              jira:
+                open_issues:
+                  options:
+                    mandatoryFilter: Resolution = Unresolved
       - package: oci://ghcr.io/redhat-developer/rhdh-plugin-export-overlays/red-hat-developer-hub-backstage-plugin-scorecard-backend-module-openssf:pr_1807__0.1.0
 
       # test scorecard related plugins
-      - package:  oci://ghcr.io/redhat-developer/rhdh-plugin-export-overlays/backstage-community-plugin-github-issues:bs_1.45.3__0.16.0
-        disabled: true
+      - package: oci://ghcr.io/redhat-developer/rhdh-plugin-export-overlays/backstage-community-plugin-github-issues:bs_1.45.3__0.16.0
+        disabled: false
+        pluginConfig:
+          dynamicPlugins:
+            frontend:
+              backstage-community.plugin-github-issues:
+                mountPoints:
+                  - mountPoint: entity.page.issues/cards
+                    importName: GithubIssuesCard
+                    config:
+                      layout:
+                        gridColumn: 1 / -1
+                      # if:
+                      #   allOf:
+                      #     - hasAnnotation: github.com/project-slug
 
       - package: oci://ghcr.io/redhat-developer/rhdh-plugin-export-overlays/backstage-community-plugin-github-pull-requests-board:bs_1.45.3__0.12.0
-        disabled: true
+        disabled: false
+        pluginConfig:
+          dynamicPlugins:
+            frontend:
+              backstage-community.plugin-pull-requests-board:
+                entityTabs:
+                  - mountPoint: entity.page.pull-requests-board
+                    path: /pull-requests-board
+                    title: Pull Requests Board
+                mountPoints:
+                  - mountPoint: entity.page.pull-requests-board/cards
+                    importName: EntityTeamPullRequestsCard
+                    config:
+                      layout:
+                        gridColumn: 1 / -1
+                      if:
+                        anyOf:
+                          - isKind: Group
+                  - mountPoint: home.page/cards
+                    importName: PullRequestsBoard
+                    config:
+                      id: github-pull-request-board
+                      title: "GitHub: Pull Request Board"
+                      description: A board that shows open Pull Requests and their review status
+                      cardLayout:
+                        width:
+                          minColumns: 4
+                          maxColumns: 12
+                          defaultColumns: 12
+                        height:
+                          minRows: 4
+                          maxRows: 12
+                          defaultRows: 6
+                      props:
+                        entities: [] # Required! If not provided, the board will use the current user's repositories and team.
 
       - package: oci://ghcr.io/redhat-developer/rhdh-plugin-export-overlays/roadiehq-backstage-plugin-github-pull-requests:bs_1.45.3__3.6.2
-        disabled: true
+        disabled: false
+        pluginConfig:
+          dynamicPlugins:
+            frontend:
+              roadiehq.backstage-plugin-github-pull-requests:
+                mountPoints:
+                  - mountPoint: entity.page.overview/cards
+                    importName: EntityGithubPullRequestsOverviewCard
+                    config:
+                      layout:
+                        gridColumnEnd:
+                          lg: span 4
+                          md: span 6
+                          xs: span 12
+                      # if:
+                      #   allOf:
+                      #     - isGithubPullRequestsAvailable
+                  - mountPoint: entity.page.pull-requests/cards
+                    importName: EntityGithubPullRequestsContent
+                    config:
+                      layout:
+                        gridColumn: 1 / -1
+                      # if:
+                      #   allOf:
+                      #     - isGithubPullRequestsAvailable
+                  - mountPoint: home.page/cards
+                    importName: HomePageYourOpenPullRequestsCard
+                    config:
+                      id: github-assigned-issues
+                      title: "GitHub: Assigned Issues"
+                      description: Issues assigned to the logged in user
+                      cardLayout:
+                        width:
+                          minColumns: 4
+                          maxColumns: 12
+                          defaultColumns: 12
+                        height:
+                          minRows: 2
+                          maxRows: 12
+                          defaultRows: 4
+                      props:
+                        title: "GitHub: Assigned Issues"
+                        query: is:issue state:open archived:false assignee:@me
+                  - mountPoint: home.page/cards
+                    importName: HomePageYourOpenPullRequestsCard
+                    config:
+                      id: github-assigned-pull-requests
+                      title: "GitHub: Assigned Pull Requests"
+                      description: Pull Requests assigned to the logged in user
+                      cardLayout:
+                        width:
+                          minColumns: 4
+                          maxColumns: 12
+                          defaultColumns: 12
+                        height:
+                          minRows: 2
+                          maxRows: 12
+                          defaultRows: 4
+                      props:
+                        title: "GitHub: Assigned Pull Requests"
+                        query: is:pr state:open archived:false assignee:@me
+                  - mountPoint: home.page/cards
+                    importName: HomePageYourOpenPullRequestsCard
+                    config:
+                      id: github-open-issues
+                      title: "GitHub: Open Issues"
+                      description: Issues opened by the logged in user
+                      cardLayout:
+                        width:
+                          minColumns: 4
+                          maxColumns: 12
+                          defaultColumns: 12
+                        height:
+                          minRows: 2
+                          maxRows: 12
+                          defaultRows: 4
+                      props:
+                        title: "GitHub: Open Issues"
+                        query: is:issue state:open archived:false author:@me
+                  - mountPoint: home.page/cards
+                    importName: HomePageYourOpenPullRequestsCard
+                    config:
+                      id: github-open-pull-requests
+                      title: "GitHub: Open Pull Requests"
+                      description: Pull Requests opened by the logged in user
+                      cardLayout:
+                        width:
+                          minColumns: 4
+                          maxColumns: 12
+                          defaultColumns: 12
+                        height:
+                          minRows: 2
+                          maxRows: 12
+                          defaultRows: 4
+                      props:
+                        title: "GitHub: Open Pull Requests"
+                  - mountPoint: home.page/cards
+                    importName: HomePageRequestedReviewsCard
+                    config:
+                      id: github-requested-reviews
+                      title: "GitHub: Requested Reviews"
+                      description: Pull Requests that waiting for a code review of the logged in user
+                      cardLayout:
+                        width:
+                          minColumns: 4
+                          maxColumns: 12
+                          defaultColumns: 12
+                        height:
+                          minRows: 2
+                          maxRows: 12
+                          defaultRows: 4
+                      props:
+                        title: "GitHub: Requested Reviews"
 
       - package: oci://ghcr.io/redhat-developer/rhdh-plugin-export-overlays/roadiehq-backstage-plugin-jira:bs_1.45.3__2.14.0
-        disabled: true
+        disabled: false
+        pluginConfig:
+          dynamicPlugins:
+            frontend:
+              roadiehq.backstage-plugin-jira:
+                mountPoints:
+                  - mountPoint: entity.page.issues/cards
+                    importName: EntityJiraOverviewCard
+                    config:
+                      layout:
+                        gridColumn: 1 / -1
+                      # if:
+                      #   allOf:
+                      #     - isJiraAvailable
 
       # test config viewer
-      - package: oci://ghcr.io/redhat-developer/rhdh-plugin-export-overlays/proberaum-backstage-plugin-config-viewer:next__0.4.1!proberaum-backstage-plugin-config-viewer
+      - package: oci://ghcr.io/redhat-developer/rhdh-plugin-export-overlays/proberaum-backstage-plugin-config-viewer:bs_1.45.3__0.12.0
         pluginConfig:
           dynamicPlugins:
             frontend:
@@ -62,10 +241,19 @@ global:
                   - importName: configViewerTranslations
                     ref: configViewerTranslationRef
                 dynamicRoutes:
-                  - path: /config-viewer
-                    importName: ConfigViewerPage
+                  - importName: ConfigViewerPage
+                    path: /config-viewer
                     menuItem:
-                      text: Config viewer (from yaml)
+                      text: Config viewer
+      - package: oci://ghcr.io/redhat-developer/rhdh-plugin-export-overlays/proberaum-backstage-plugin-config-viewer-backend:bs_1.45.3__0.12.0
+        pluginConfig:
+          configViewer:
+            dangerouslyAnyoneCanReadAllTheFiles: true
+            workingDirectory: /opt/app-root/src
+            files:
+              - '*.yaml'
+            ignore:
+              - '*example*'
 
 upstream:
   backstage:
@@ -103,6 +291,12 @@ upstream:
             menuItems:
               default.home:
                 title: Home (changed)
+                titleKey: ""
+
+          red-hat-developer-hub.backstage-plugin-dynamic-home-page:
+            dynamicRoutes:
+              - path: /
+                importName: DynamicCustomizableHomePage
 
       i18n:
         locales:
