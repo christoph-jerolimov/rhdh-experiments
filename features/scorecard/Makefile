@@ -1,7 +1,7 @@
 # https://quay.io/repository/rhdh/chart?tab=tags
 # https://quay.io/repository/rhdh/rhdh-hub-rhel9?tab=tags
 chart-name=oci://quay.io/rhdh/chart
-chart-version=1.7-113-CI
+chart-version=1.9-158-CI
 
 release-name=redhat-developer-hub
 release-namespace=rhdh-scorecard-test
@@ -15,8 +15,7 @@ install:
 		--namespace "${release-namespace}" \
 		--set "global.clusterRouterBase=${cluster-route-suffix}" \
 		--values ../../github.local.yaml \
-		--values ../../kubernetes.local.yaml \
-		--values ../../acr.local.yaml \
+		--values ../../jira.local.yaml \
 		--values values.yaml
 
 uninstall:

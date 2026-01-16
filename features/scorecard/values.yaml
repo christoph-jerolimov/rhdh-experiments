@@ -1,37 +1,24 @@
 global:
   dynamic:
     plugins:
-      # - package: ./dynamic-plugins/dist/backstage-community-plugin-rbac
-      #   disabled: false
-      - package: ./dynamic-plugins/dist/red-hat-developer-hub-backstage-plugin-bulk-import
+      # disable broken extensions plugin
+      - package: ./dynamic-plugins/dist/red-hat-developer-hub-backstage-plugin-extensions
+        disabled: true
+      - package: ./dynamic-plugins/dist/red-hat-developer-hub-backstage-plugin-extensions-backend-dynamic
+        disabled: true
+      - package: ./dynamic-plugins/dist/red-hat-developer-hub-backstage-plugin-catalog-backend-module-extensions-dynamic
+        disabled: true
+
+      # enable rbac plugin
+      - package: ./dynamic-plugins/dist/backstage-community-plugin-rbac
         disabled: false
-      - package: ./dynamic-plugins/dist/red-hat-developer-hub-backstage-plugin-bulk-import-backend-dynamic
-        disabled: false
-      # - package: ./dynamic-plugins/dist/backstage-community-plugin-tech-radar
-      #   disabled: false
-      # - package: ./dynamic-plugins/dist/backstage-plugin-kubernetes
-      #   disabled: false
-      # - package: ./dynamic-plugins/dist/backstage-plugin-kubernetes-backend-dynamic
-      #   disabled: false
-      # - package: ./dynamic-plugins/dist/backstage-community-plugin-tekton
-      #   disabled: false
-      # - package: ./dynamic-plugins/dist/backstage-community-plugin-topology
-      #   disabled: false
-      # - package: ./dynamic-plugins/dist/backstage-community-plugin-acr
-      #   disabled: false
-      # - package: ./dynamic-plugins/dist/backstage-community-plugin-jfrog-artifactory
-      #   disabled: false
-      # - package: ./dynamic-plugins/dist/backstage-community-plugin-nexus-repository-manager
-      #   disabled: false
-      # - package: ./dynamic-plugins/dist/backstage-community-plugin-quay
-      #   disabled: false
 
       # test scorecard plugin
-      - package: oci://ghcr.io/redhat-developer/rhdh-plugin-export-overlays/red-hat-developer-hub-backstage-plugin-scorecard:next__0.1.0!red-hat-developer-hub-backstage-plugin-scorecard
+      - package: oci://ghcr.io/redhat-developer/rhdh-plugin-export-overlays/red-hat-developer-hub-backstage-plugin-scorecard:pr_1807__2.3.0!red-hat-developer-hub-backstage-plugin-scorecard
         pluginConfig:
           dynamicPlugins:
             frontend:
-              red-hat-developer-hub-backstage-plugin-scorecard:
+              red-hat-developer-hub.backstage-plugin-scorecard:
                 entityTabs:
                   - mountPoint: entity.page.scorecard
                     path: /scorecard
@@ -47,33 +34,23 @@ global:
                     config:
                       layout:
                         gridColumn: 1 / -1
+      - package: oci://ghcr.io/redhat-developer/rhdh-plugin-export-overlays/red-hat-developer-hub-backstage-plugin-scorecard-backend:pr_1807__2.3.0
+      - package: oci://ghcr.io/redhat-developer/rhdh-plugin-export-overlays/red-hat-developer-hub-backstage-plugin-scorecard-backend-module-github:pr_1807__2.3.0
+      - package: oci://ghcr.io/redhat-developer/rhdh-plugin-export-overlays/red-hat-developer-hub-backstage-plugin-scorecard-backend-module-jira:pr_1807__2.3.0
+      - package: oci://ghcr.io/redhat-developer/rhdh-plugin-export-overlays/red-hat-developer-hub-backstage-plugin-scorecard-backend-module-openssf:pr_1807__0.1.0
 
-      - package: oci://ghcr.io/redhat-developer/rhdh-plugin-export-overlays/red-hat-developer-hub-backstage-plugin-scorecard-backend:next__0.1.0!red-hat-developer-hub-backstage-plugin-scorecard-backend
-      - package: oci://ghcr.io/redhat-developer/rhdh-plugin-export-overlays/red-hat-developer-hub-backstage-plugin-scorecard-backend-module-github:next__0.1.0!red-hat-developer-hub-backstage-plugin-scorecard-backend-module-github
-      - package: oci://ghcr.io/redhat-developer/rhdh-plugin-export-overlays/red-hat-developer-hub-backstage-plugin-scorecard-backend-module-jira:next__0.1.0!red-hat-developer-hub-backstage-plugin-scorecard-backend-module-jira
-        pluginConfig:
-          proxy:
-            '/jira/api':
-              target: https://redhat-team-f703ynt3.atlassian.net
-              headers:
-                Authorization: 'Basic Y2plcm9saW1AcmVkaGF0LmNvbTpBVEFUVDN4RmZHRjBwRG1IV3dQQm5JMlpuNzBWY3B5dkFPRGg2WGx5ZjJWLS1KQzNwM0VZUkx6Z3hPUlZRQlF2U05UdFY0MXlLMUt6YWlnei1URjJ6REV5d25ZRmFNa3hLQUFuZERxUUE4RWNiQWZXbmZPeS12bGZFazVpV3Nxc18zRDFQZUtGb2VabXpkVDg3YjFpZDBCT0Z4RG9XYzZKYV9VeHZYY0V2aTZqTFZyaFQ5M0UteGs9M0UzN0U2M0I='
-                Accept: 'application/json'
-                Content-Type: 'application/json'
-                X-Atlassian-Token: 'nocheck'
-                User-Agent: RHDH
-
-          jira:
-            proxyPath: /jira/api
-            product: cloud
-            baseUrl: https://redhat-team-f703ynt3.atlassian.net
-            token: 'Y2plcm9saW1AcmVkaGF0LmNvbTpBVEFUVDN4RmZHRjBwRG1IV3dQQm5JMlpuNzBWY3B5dkFPRGg2WGx5ZjJWLS1KQzNwM0VZUkx6Z3hPUlZRQlF2U05UdFY0MXlLMUt6YWlnei1URjJ6REV5d25ZRmFNa3hLQUFuZERxUUE4RWNiQWZXbmZPeS12bGZFazVpV3Nxc18zRDFQZUtGb2VabXpkVDg3YjFpZDBCT0Z4RG9XYzZKYV9VeHZYY0V2aTZqTFZyaFQ5M0UteGs9M0UzN0U2M0I='
-
-      - package: ./dynamic-plugins/dist/roadiehq-backstage-plugin-jira
+      # test scorecard related plugins
+      - package:  oci://ghcr.io/redhat-developer/rhdh-plugin-export-overlays/backstage-community-plugin-github-issues:bs_1.45.3__0.16.0
         disabled: true
-      - package:  ./dynamic-plugins/dist/backstage-community-plugin-github-issues
-        disabled: false
-      - package: ./dynamic-plugins/dist/roadiehq-backstage-plugin-github-pull-requests
-        disabled: false
+
+      - package: oci://ghcr.io/redhat-developer/rhdh-plugin-export-overlays/backstage-community-plugin-github-pull-requests-board:bs_1.45.3__0.12.0
+        disabled: true
+
+      - package: oci://ghcr.io/redhat-developer/rhdh-plugin-export-overlays/roadiehq-backstage-plugin-github-pull-requests:bs_1.45.3__3.6.2
+        disabled: true
+
+      - package: oci://ghcr.io/redhat-developer/rhdh-plugin-export-overlays/roadiehq-backstage-plugin-jira:bs_1.45.3__2.14.0
+        disabled: true
 
       # test config viewer
       - package: oci://ghcr.io/redhat-developer/rhdh-plugin-export-overlays/proberaum-backstage-plugin-config-viewer:next__0.4.1!proberaum-backstage-plugin-config-viewer
@@ -110,21 +87,15 @@ upstream:
 
           # test scorecard plugin
           - type: url
-            target: https://github.com/redhat-developer/rhdh-plugins/blob/main/workspaces/scorecard/examples/all-scorecards.yaml
-          - type: url
             target: https://github.com/redhat-developer/rhdh-plugins/blob/main/workspaces/scorecard/examples/github-scorecard-only.yaml
           - type: url
             target: https://github.com/redhat-developer/rhdh-plugins/blob/main/workspaces/scorecard/examples/jira-scorecard-only.yaml
           - type: url
+            target: https://github.com/redhat-developer/rhdh-plugins/blob/main/workspaces/scorecard/examples/openssf-scorecard-only.yaml
+          - type: url
+            target: https://github.com/redhat-developer/rhdh-plugins/blob/main/workspaces/scorecard/examples/all-scorecards.yaml
+          - type: url
             target: https://github.com/redhat-developer/rhdh-plugins/blob/main/workspaces/scorecard/examples/no-scorecards.yaml
-
-          # test npm plugin
-          - type: url
-            target: https://github.com/backstage/community-plugins/blob/main/workspaces/npm/examples/npmjs-examples.yaml
-          - type: url
-            target: https://github.com/backstage/community-plugins/blob/main/workspaces/npm/examples/github-examples.yaml
-          - type: url
-            target: https://github.com/backstage/community-plugins/blob/main/workspaces/npm/examples/gitlab-examples.yaml
 
       dynamicPlugins:
         frontend:
@@ -137,16 +108,20 @@ upstream:
         locales:
           - en
           - de
+          - es
           - fr
           - it
+          - ja
 
       permission:
+        # TODO
         enabled: false
         rbac:
           pluginsWithPermission:
             - catalog
             - permission
             - scaffolder
+            - scorecard
           # policyFileReload: true
           # policies-csv-file: ./rbac/rbac-policies.csv
           # conditionalPoliciesFile: ./rbac-conditions/rbac-conditional-policies.yaml
