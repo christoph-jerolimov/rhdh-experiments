@@ -13,6 +13,8 @@ spec:
     - ./users/cjerolim.yaml
     - ./users/debsmita1.yaml
     - ./users/divyanshiGupta.yaml
+    - ./users/dzemanov.yaml
+    - ./users/imykhno.yaml
     - ./users/invincibleJai.yaml
     - ./users/its-mitesh-kumar.yaml
     - ./users/kadel.yaml

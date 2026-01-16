@@ -1,0 +1,10 @@
+apiVersion: backstage.io/v1alpha1
+kind: User
+metadata:
+  name: imykhno
+  title: Ihor Mykhno (GitHub) # shown in the table
+spec:
+  profile:
+    displayName: Ihor Mykhno (GitHub) # shown on the detail page
+    picture: https://avatars.githubusercontent.com/u/224524164?v=4
+  memberOf: [rhdh-team]
