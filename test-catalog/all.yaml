@@ -16,6 +16,7 @@ spec:
     - ./users/dzemanov.yaml
     - ./users/imykhno.yaml
     - ./users/invincibleJai.yaml
+    - ./users/jrichter1.yaml
     - ./users/its-mitesh-kumar.yaml
     - ./users/kadel.yaml
     - ./users/lokanandaprabhu.yaml

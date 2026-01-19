@@ -1,0 +1,10 @@
+apiVersion: backstage.io/v1alpha1
+kind: User
+metadata:
+  name: jrichter1
+  title: Jan Richter (GitHub) # shown in the table
+spec:
+  profile:
+    displayName: Jan Richter (GitHub) # shown on the detail page
+    picture: https://avatars.githubusercontent.com/u/4181232?v=4
+  memberOf: [rhdh-team]
