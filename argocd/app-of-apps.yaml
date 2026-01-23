@@ -1,0 +1,32 @@
+apiVersion: argoproj.io/v1alpha1
+kind: AppProject
+metadata:
+  # namespace: argocd or openshift-gitops
+  name: rhdh
+spec:
+  description: rhdh applications
+  sourceRepos:
+    - '*'
+  destinations:
+    - '*'
+  clusterResourceWhitelist:
+    - group: '*'
+      kind: '*'
+---
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  # namespace: argocd or openshift-gitops
+  name: rhdh-app-of-apps
+spec:
+  project: default
+  source:
+    repoURL: 'https://github.com/christoph-jerolimov/rhdh-experiments.git'
+    targetRevision: HEAD
+    path: argocd/apps
+  destination:
+    server: 'https://kubernetes.default.svc'
+    namespace: argocd or openshift-gitops # TODO set correct namespace
+  syncPolicy:
+    automated:
+      enabled: true
