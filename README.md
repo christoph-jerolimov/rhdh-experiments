@@ -1,4 +1,4 @@
-# Some [RHDH](https://developers.redhat.com/rhdh) helm-charts for testing purpose 🧪
+# Some personal [RHDH](https://developers.redhat.com/rhdh) experiments 🧪
 
 ## How to use it
 
@@ -33,5 +33,4 @@ make
 
 ## Links
 
-* For some other RHDH experiments see https://github.com/christoph-jerolimov/rhdh-experiments
 * For some Backstage experiments see https://github.com/christoph-jerolimov/backstage-experiments
