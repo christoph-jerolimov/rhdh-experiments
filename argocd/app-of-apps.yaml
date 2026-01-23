@@ -8,7 +8,8 @@ spec:
   sourceRepos:
     - '*'
   destinations:
-    - '*'
+    - namespace: '*'
+      server: '*'
   clusterResourceWhitelist:
     - group: '*'
       kind: '*'
@@ -26,7 +27,7 @@ spec:
     path: argocd/apps
   destination:
     server: 'https://kubernetes.default.svc'
-    namespace: argocd or openshift-gitops # TODO set correct namespace
+    namespace: openshift-gitops # TODO set correct namespace
   syncPolicy:
     automated:
       enabled: true
