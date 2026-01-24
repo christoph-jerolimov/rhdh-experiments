@@ -13,11 +13,14 @@ metadata:
 spec:
   project: rhdh
   source:
-    repoURL: 'https://github.com/christoph-jerolimov/rhdh-experiments.git'
-    targetRevision: HEAD
-    path: argocd/rhdh-19
+    chart: redhat-developer-hub
+    repoURL: oci://quay.io/rhdh/chart
+    targetRevision: '1.9-172-CI'
+    # helm:
+    #   valueFiles:
+    #   - values-production.yaml
   destination:
-    server: 'https://kubernetes.default.svc'
+    name: in-cluster
     namespace: rhdh-19
   syncPolicy:
     automated:

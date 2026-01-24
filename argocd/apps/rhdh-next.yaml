@@ -17,7 +17,7 @@ spec:
     targetRevision: HEAD
     path: argocd/rhdh-next
   destination:
-    server: 'https://kubernetes.default.svc'
+    name: in-cluster
     namespace: rhdh-next
   syncPolicy:
     automated:

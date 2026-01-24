@@ -26,7 +26,7 @@ spec:
     targetRevision: HEAD
     path: argocd/apps
   destination:
-    server: 'https://kubernetes.default.svc'
+    name: in-cluster
     namespace: openshift-gitops # TODO set correct namespace
   syncPolicy:
     automated:
