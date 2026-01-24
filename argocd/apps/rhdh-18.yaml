@@ -16,9 +16,9 @@ spec:
     chart: redhat-developer-hub
     repoURL: https://charts.openshift.io
     targetRevision: '1.8.0'
-    # helm:
-    #   valueFiles:
-    #   - values-production.yaml
+    helm:
+      valueFiles:
+      - values-production.yaml
   destination:
     name: in-cluster
     namespace: rhdh-18
