@@ -21,7 +21,7 @@ spec:
       - values-production.yaml
   helm:
     valueFiles:
-    - values-production.yaml
+    - values-production2.yaml
   destination:
     name: in-cluster
     namespace: rhdh-18
