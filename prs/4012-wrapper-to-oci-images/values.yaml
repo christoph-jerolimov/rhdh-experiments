@@ -1,47 +1,195 @@
 global:
   dynamic:
-    plugins:
-      # enabled by default:
-      # - package: ./dynamic-plugins/dist/backstage-community-plugin-scaffolder-backend-module-quay-dynamic
-      #   disabled: true
-      # - package: ./dynamic-plugins/dist/backstage-community-plugin-scaffolder-backend-module-regex-dynamic
-      #   disabled: true
-      # - package: ./dynamic-plugins/dist/red-hat-developer-hub-backstage-plugin-adoption-insights
-      #   disabled: true
-      # - package: ./dynamic-plugins/dist/red-hat-developer-hub-backstage-plugin-adoption-insights-backend-dynamic
-      #   disabled: true
-      # - package: ./dynamic-plugins/dist/red-hat-developer-hub-backstage-plugin-analytics-module-adoption-insights-dynamic
-      #   disabled: true
+    includes:
+      # -- List of dynamic plugins included inside the `rhdh-community/rhdh` container image, some of which are disabled by default.
+      # This file ONLY works with the `rhdh-community/rhdh` container image.
+      - "dynamic-plugins.default.yaml"
 
-      # disabled by default, but enabled for testing:
-      # - package: ./dynamic-plugins/dist/backstage-community-plugin-catalog-backend-module-scaffolder-relation-processor-dynamic
-      #   disabled: true
-      # - package: ./dynamic-plugins/dist/backstage-community-plugin-scaffolder-backend-module-kubernetes-dynamic
-      #   disabled: true
-      # - package: ./dynamic-plugins/dist/backstage-community-plugin-scaffolder-backend-module-servicenow-dynamic
-      #   disabled: true
-      # - package: ./dynamic-plugins/dist/backstage-community-plugin-scaffolder-backend-module-sonarqube-dynamic
-      #   disabled: true
-      # - package: ./dynamic-plugins/dist/backstage-plugin-scaffolder-backend-module-azure-dynamic
-      #   disabled: true
-      # - package: ./dynamic-plugins/dist/backstage-plugin-scaffolder-backend-module-bitbucket-cloud-dynamic
-      #   disabled: true
-      # - package: ./dynamic-plugins/dist/backstage-plugin-scaffolder-backend-module-bitbucket-server-dynamic
-      #   disabled: true
-      # - package: ./dynamic-plugins/dist/backstage-plugin-scaffolder-backend-module-gerrit-dynamic
-      #   disabled: true
-      # - package: ./dynamic-plugins/dist/backstage-plugin-scaffolder-backend-module-github-dynamic
-      #   disabled: true
-      # - package: ./dynamic-plugins/dist/backstage-plugin-scaffolder-backend-module-gitlab-dynamic
-      #   disabled: true
-      # - package: ./dynamic-plugins/dist/parfuemerie-douglas-scaffolder-backend-module-azure-repositories-dynamic
-      #   disabled: true
-      # - package: ./dynamic-plugins/dist/roadiehq-scaffolder-backend-module-http-request-dynamic
-      #   disabled: true
-      # - package: ./dynamic-plugins/dist/roadiehq-scaffolder-backend-module-utils-dynamic
-      #   disabled: true
-      # - package: '@redhat/backstage-plugin-scaffolder-backend-module-orchestrator-dynamic@1.8.2'
-      #   disabled: false
+    # -- List of dynamic plugins, possibly overriding the plugins listed in `includes` files.
+    # Every item defines the plugin `package` as a [NPM package spec](https://docs.npmjs.com/cli/v10/using-npm/package-spec),
+    # an optional `pluginConfig` with plugin-specific backstage configuration, and an optional `disabled` flag to disable/enable a plugin
+    # listed in `includes` files. It also includes an `integrity` field that is used to verify the plugin package [integrity](https://w3c.github.io/webappsec-subresource-integrity/#integrity-metadata-description).
+    plugins:
+      - package: ./dynamic-plugins/dist/backstage-plugin-catalog-backend-module-github-dynamic
+        disabled: false
+        pluginConfig:
+          catalog:
+            providers:
+              github:
+                my-test-org:
+                  organization: janus-qe
+                  catalogPath: "/catalog-info.yaml"
+                  schedule:
+                    # Let's perform a single execution per test run
+                    frequency:
+                      hours: 24
+                    timeout:
+                      minutes: 1
+                    initialDelay:
+                      seconds: 15
+      - package: ./dynamic-plugins/dist/backstage-plugin-catalog-backend-module-github-org-dynamic
+        disabled: false
+        pluginConfig:
+          catalog:
+            providers:
+              githubOrg:
+                id: production
+                githubUrl: https://github.com
+                orgs:
+                  - redhat-developer
+                schedule:
+                  frequency:
+                    minutes: 60
+                  initialDelay:
+                    seconds: 15
+                  timeout:
+                    minutes: 15
+      - package: oci://ghcr.io/redhat-developer/rhdh-plugin-export-overlays/backstage-community-plugin-github-issues:bs_1.45.3__0.16.0!backstage-community-plugin-github-issues
+        disabled: false
+      - package: oci://ghcr.io/redhat-developer/rhdh-plugin-export-overlays/roadiehq-backstage-plugin-github-pull-requests:bs_1.45.3__3.6.2!roadiehq-backstage-plugin-github-pull-requests
+        disabled: false
+      - package: oci://ghcr.io/redhat-developer/rhdh-plugin-export-overlays/backstage-community-plugin-github-actions:bs_1.45.3__0.18.0!backstage-community-plugin-github-actions
+        disabled: false
+      - package: ./dynamic-plugins/dist/backstage-community-plugin-quay
+        disabled: false
+      - package: ./dynamic-plugins/dist/backstage-community-plugin-catalog-backend-module-keycloak-dynamic
+        disabled: true
+      - package: ./dynamic-plugins/dist/backstage-community-plugin-tekton
+        disabled: false
+      - package: ./dynamic-plugins/dist/backstage-community-plugin-topology
+        disabled: false
+      - package: ./dynamic-plugins/dist/backstage-plugin-kubernetes
+        disabled: false
+      - package: ./dynamic-plugins/dist/backstage-plugin-kubernetes-backend-dynamic
+        disabled: false
+        pluginConfig:
+          kubernetes:
+            clusterLocatorMethods:
+              - clusters:
+                  - authProvider: serviceAccount
+                    name: "my-cluster"
+                    serviceAccountToken: K8S_CLUSTER_TOKEN_ENCODED
+                    url: https://K8S_CLUSTER_API_SERVER_URL
+                    skipTLSVerify: true
+                type: config
+            customResources:
+              # Add for tekton
+              - apiVersion: "v1beta1"
+                group: "tekton.dev"
+                plural: "pipelines"
+              - apiVersion: v1beta1
+                group: tekton.dev
+                plural: pipelineruns
+              - apiVersion: v1beta1
+                group: tekton.dev
+                plural: taskruns
+              # Add for topology plugin
+              - apiVersion: "v1"
+                group: "route.openshift.io"
+                plural: "routes"
+            serviceLocatorMethod:
+              type: multiTenant
+      # Enable Bulk import plugins.
+      - package: ./dynamic-plugins/dist/red-hat-developer-hub-backstage-plugin-bulk-import-backend-dynamic
+        disabled: false
+      - package: ./dynamic-plugins/dist/red-hat-developer-hub-backstage-plugin-bulk-import
+        disabled: false
+      - package: ./dynamic-plugins/dist/red-hat-developer-hub-backstage-plugin-global-header
+        disabled: false
+      # Enable tech-radar plugin.
+      - package: ./dynamic-plugins/dist/backstage-community-plugin-tech-radar
+        disabled: false
+      - package: ./dynamic-plugins/dist/backstage-community-plugin-tech-radar-backend-dynamic
+        disabled: true
+      - package: ./dynamic-plugins/dist/backstage-community-plugin-rbac
+        disabled: false
+      - package: ./dynamic-plugins/dist/backstage-community-plugin-analytics-provider-segment
+        disabled: true
+      #Enable Scorecard plugin.
+      - disabled: false
+        package: oci://ghcr.io/redhat-developer/rhdh-plugin-export-overlays/red-hat-developer-hub-backstage-plugin-scorecard:pr_1499__0.1.0!red-hat-developer-hub-backstage-plugin-scorecard
+        pluginConfig:
+          dynamicPlugins:
+            frontend:
+              red-hat-developer-hub.backstage-plugin-scorecard:
+                entityTabs:
+                  - path: "/scorecard"
+                    title: Scorecard
+                    titleKey: catalog.entityPage.scorecard.title
+                    mountPoint: entity.page.scorecard
+                mountPoints:
+                  - mountPoint: entity.page.scorecard/cards
+                    importName: EntityScorecardContent
+                    config:
+                      layout:
+                        gridColumn: 1 / -1
+      - disabled: false
+        package: oci://ghcr.io/redhat-developer/rhdh-plugin-export-overlays/red-hat-developer-hub-backstage-plugin-scorecard-backend:pr_1499__0.1.0!red-hat-developer-hub-backstage-plugin-scorecard-backend
+      - disabled: false
+        package: oci://ghcr.io/redhat-developer/rhdh-plugin-export-overlays/red-hat-developer-hub-backstage-plugin-scorecard-backend-module-github:pr_1499__0.1.0!red-hat-developer-hub-backstage-plugin-scorecard-backend-module-github
+        pluginConfig:
+          integrations:
+            github:
+              - host: github.com
+                token: "{gh-token}"
+      - disabled: false
+        package: oci://ghcr.io/redhat-developer/rhdh-plugin-export-overlays/red-hat-developer-hub-backstage-plugin-scorecard-backend-module-jira:pr_1499__0.1.0!red-hat-developer-hub-backstage-plugin-scorecard-backend-module-jira
+        pluginConfig:
+          jira:
+            baseUrl: "{jira-base-url}"
+            token: "{jira-api-token}"
+            product: datacenter
+      # Enable orchestrator plugins - Official release (Backstage 1.45.3)
+      - package: "oci://ghcr.io/redhat-developer/rhdh-plugin-export-overlays/red-hat-developer-hub-backstage-plugin-orchestrator:bs_1.45.3__5.1.0!red-hat-developer-hub-backstage-plugin-orchestrator"
+        disabled: false
+        pluginConfig:
+          dynamicPlugins:
+            frontend:
+              red-hat-developer-hub.backstage-plugin-orchestrator:
+                appIcons:
+                  - importName: OrchestratorIcon
+                    name: orchestratorIcon
+                dynamicRoutes:
+                  - importName: OrchestratorPage
+                    menuItem:
+                      icon: orchestratorIcon
+                      text: Orchestrator
+                      textKey: menuItem.orchestrator
+                    path: /orchestrator
+                entityTabs:
+                  - path: /workflows
+                    title: Workflows
+                    titleKey: catalog.entityPage.workflows.title
+                    mountPoint: entity.page.workflows
+                mountPoints:
+                  - mountPoint: entity.page.workflows/cards
+                    importName: OrchestratorCatalogTab
+                    config:
+                      layout:
+                        gridColumn: "1 / -1"
+                        if:
+                          anyOf:
+                            - IsOrchestratorCatalogTabAvailable
+      - package: "oci://ghcr.io/redhat-developer/rhdh-plugin-export-overlays/red-hat-developer-hub-backstage-plugin-orchestrator-backend:bs_1.45.3__8.3.0!red-hat-developer-hub-backstage-plugin-orchestrator-backend"
+        disabled: false
+        pluginConfig:
+          orchestrator:
+            dataIndexService:
+              url: http://sonataflow-platform-data-index-service
+
+      - package: "oci://ghcr.io/redhat-developer/rhdh-plugin-export-overlays/red-hat-developer-hub-backstage-plugin-scaffolder-backend-module-orchestrator:bs_1.45.3__1.3.1!red-hat-developer-hub-backstage-plugin-scaffolder-backend-module-orchestrator"
+        disabled: false
+        pluginConfig:
+          orchestrator:
+            dataIndexService:
+              url: http://sonataflow-platform-data-index-service
+
+      - package: "oci://ghcr.io/redhat-developer/rhdh-plugin-export-overlays/red-hat-developer-hub-backstage-plugin-orchestrator-form-widgets:bs_1.45.3__1.2.0!red-hat-developer-hub-backstage-plugin-orchestrator-form-widgets"
+        disabled: false
+        pluginConfig:
+          dynamicPlugins:
+            frontend:
+              red-hat-developer-hub.backstage-plugin-orchestrator-form-widgets: {}
 
 upstream:
   backstage:
@@ -85,7 +233,7 @@ upstream:
           - zh-CN
 
       permission:
-        enabled: false
+        enabled: true
         rbac:
           pluginsWithPermission:
             - catalog
