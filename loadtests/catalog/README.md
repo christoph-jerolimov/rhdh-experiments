@@ -5,7 +5,7 @@ Generates a number of backstage catalog components and a `Location` file to incl
 Run:
 
 ```
-./gen.sh 100
+./gen.sh 10000
 ```
 
 Include into your `app-config.yaml`:

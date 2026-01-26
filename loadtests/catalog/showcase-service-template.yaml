@@ -1,0 +1,27 @@
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: loadtest-catalog-entity-$i
+  title: Loadtest Catalog Entity $i
+  description: |
+    This is a Backstage Catalog entity
+  links: [] # Todo, add some links here again
+  annotations:
+    argocd/app-name: 'loadtest-catalog-entity'
+    backstage.io/kubernetes-id: 'loadtest-catalog-entity'
+    backstage.io/techdocs-ref: url:https://github.com/redhat-developer/rhdh
+    github.com/project-slug: redhat-developer/rhdh
+    quay.io/repository-slug: redhat-developer/rhdh
+    sonarqube.org/project-key: redhat-developer_rhdh
+    tekton.dev/cicd: "true"
+spec:
+  type: service
+  system: janus-idp
+  owner: rhdh-team
+  lifecycle: production
+  dependsOn:
+    - resource:pgdb
+    - resource:argocd
+    - resource:obc
+    - resource:keycloak
+    - resource:github

@@ -2,7 +2,7 @@
 
 set -e
 
-items=${1:-100}
+items=${1:-10000}
 
 outFolder="generated"
 
