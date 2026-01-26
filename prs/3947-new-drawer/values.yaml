@@ -1,0 +1,108 @@
+global:
+  dynamic:
+    plugins:
+      - package: ./dynamic-plugins/dist/backstage-community-plugin-quay
+        disabled: true
+
+      #Enable Scorecard plugin.
+      - disabled: false
+        package: oci://ghcr.io/redhat-developer/rhdh-plugin-export-overlays/red-hat-developer-hub-backstage-plugin-scorecard:pr_1499__0.1.0!red-hat-developer-hub-backstage-plugin-scorecard
+        pluginConfig:
+          dynamicPlugins:
+            frontend:
+              red-hat-developer-hub.backstage-plugin-scorecard:
+                entityTabs:
+                  - path: "/scorecard"
+                    title: Scorecard
+                    titleKey: catalog.entityPage.scorecard.title
+                    mountPoint: entity.page.scorecard
+                mountPoints:
+                  - mountPoint: entity.page.scorecard/cards
+                    importName: EntityScorecardContent
+                    config:
+                      layout:
+                        gridColumn: 1 / -1
+      - disabled: false
+        package: oci://ghcr.io/redhat-developer/rhdh-plugin-export-overlays/red-hat-developer-hub-backstage-plugin-scorecard-backend:pr_1499__0.1.0!red-hat-developer-hub-backstage-plugin-scorecard-backend
+      - disabled: false
+        package: oci://ghcr.io/redhat-developer/rhdh-plugin-export-overlays/red-hat-developer-hub-backstage-plugin-scorecard-backend-module-github:pr_1499__0.1.0!red-hat-developer-hub-backstage-plugin-scorecard-backend-module-github
+        pluginConfig:
+          integrations:
+            github:
+              - host: github.com
+                token: "{gh-token}"
+      - disabled: false
+        package: oci://ghcr.io/redhat-developer/rhdh-plugin-export-overlays/red-hat-developer-hub-backstage-plugin-scorecard-backend-module-jira:pr_1499__0.1.0!red-hat-developer-hub-backstage-plugin-scorecard-backend-module-jira
+        pluginConfig:
+          jira:
+            baseUrl: "{jira-base-url}"
+            token: "{jira-api-token}"
+            product: datacenter
+
+upstream:
+  backstage:
+    image:
+      registry: quay.io
+      repository: rhdh-community/rhdh
+      tag: pr-3947
+      pullPolicy: Always
+
+    appConfig:
+      catalog:
+        rules:
+          - allow: [Component, System, API, Resource, Location]
+        locations:
+          - type: url
+            target: https://github.com/christoph-jerolimov/rhdh-experiments/blob/main/test-catalog/all.yaml
+            rules:
+              - allow: [Component, System, API, Resource, Location, User, Group]
+          - type: url
+            target: https://github.com/christoph-jerolimov/rhdh-experiments/blob/main/features/github/catalog.yaml
+            rules:
+              - allow: [Component, System, API, Resource, Location, User, Group]
+          - type: url
+            target: https://github.com/redhat-developer/rhdh/blob/main/catalog-info.yaml
+          - type: url
+            target: https://github.com/redhat-developer/rhdh-cli/blob/main/catalog-info.yaml
+
+      i18n:
+        locales:
+          - en
+          - de
+          - fr
+          - it
+          - ja
+          - ko
+          - en-US
+          - en-IN
+          - en-UK
+          - zh
+          - pt-BR
+          - zh-CN
+
+      permission:
+        enabled: true
+        rbac:
+          pluginsWithPermission:
+            - catalog
+            - permission
+            - scaffolder
+          # policyFileReload: true
+          # policies-csv-file: ./rbac/rbac-policies.csv
+          # conditionalPoliciesFile: ./rbac-conditions/rbac-conditional-policies.yaml
+          admin:
+            superUsers:
+              - name: user:default/christoph-jerolimov
+            users:
+              - name: user:default/rhdh-qe
+
+  # reduce memory usage
+  postgresql:
+    primary:
+      resources:
+        requests:
+          cpu: 250m
+          memory: 256Mi
+        limits:
+          cpu: 250m
+          memory: 256Mi
