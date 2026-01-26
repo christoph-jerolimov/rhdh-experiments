@@ -1,10 +1,10 @@
 # https://quay.io/repository/rhdh/chart?tab=tags
 # https://quay.io/repository/rhdh/rhdh-hub-rhel9?tab=tags
 chart-name=oci://quay.io/rhdh/chart
-chart-version=1.8-160-CI
+chart-version=1.9-172-CI
 
 release-name=redhat-developer-hub
-release-namespace=rhdh-all-in-one-1-8-ci
+release-namespace=rhdh-all-in-one-1-9-ci
 
 cluster-route-suffix != ../../scripts/get-cluster-route-suffix.sh
 

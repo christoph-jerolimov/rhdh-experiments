@@ -69,7 +69,7 @@ upstream:
     image:
       registry: quay.io
       repository: rhdh/rhdh-hub-rhel9
-      tag: 1.8-153
+      tag: 1.9-172
 
     appConfig:
       app:
@@ -84,7 +84,7 @@ upstream:
           - allow: [Component, System, API, Resource, Location]
         locations:
           - type: url
-            target: https://github.com/christoph-jerolimov/rhdh-experiments/blob/main/test-catalog/all.yaml
+            target: https://github.com/christoph-jerolimov/rhdh-experiments/blob/main/catalog/all.yaml
             rules:
               - allow: [Component, System, API, Resource, Location, User, Group]
 

@@ -26,7 +26,7 @@ upstream:
           - allow: [Component, System, API, Resource, Location]
         locations:
           - type: url
-            target: https://github.com/christoph-jerolimov/rhdh-experiments/blob/main/test-catalog/all.yaml
+            target: https://github.com/christoph-jerolimov/rhdh-experiments/blob/main/catalog/all.yaml
             rules:
               - allow: [Component, System, API, Resource, Location, User, Group]
 
