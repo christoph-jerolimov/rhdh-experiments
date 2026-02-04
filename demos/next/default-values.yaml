@@ -42,7 +42,7 @@ global:
       # tag is set to digest via prepare.sh script
       # tag: "${PLUGIN_CATALOG_INDEX_DIGEST}"
 
-      tag: "d83ddf3952d29d408c36f8faa02e5661f4e722354da9bd0f075f4f8675fafbc5"
+      tag: "9784294baa3da355e3671bf8ba3be9b2815653a1dcd910567a8d50e7d1262374"
 # -- Upstream Backstage [chart configuration](https://github.com/backstage/charts/blob/main/charts/backstage/values.yaml)
 # @default -- Use Openshift compatible settings
 upstream:
@@ -56,7 +56,7 @@ upstream:
       # tag is set to digest via prepare.sh script
       # tag: "${RHDH_DIGEST}"
 
-      tag: 3f363d74c09de84f9228811fd4186cbbed67dc3afd39cc5cd690270da14d0659
+      tag: 1d62b0f4a7ee9130c84746c07f3c898650b44b4cf133d69d31ae871c17135abb
       pullPolicy: ""
     command: []
     # FIXME (tumido): USE POSTGRES_PASSWORD and POSTGRES_USER instead of POSTGRES_ADMIN_PASSWORD
@@ -285,7 +285,7 @@ upstream:
       # tag is set to digest via prepare.sh script
       # tag: "${POSTGRESQL_DIGEST}"
 
-      tag: 043aee818744461212ec2c5bed04dbdb2ab3cb9ca642ad986200a009e462c0e1
+      tag: da7f51caac15e400ed11852d890ca8fcfe08612445c34124fddc275d86e71f71
     auth:
       secretKeys:
         adminPasswordKey: postgres-password

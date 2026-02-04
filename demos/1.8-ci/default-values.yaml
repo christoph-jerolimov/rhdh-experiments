@@ -45,7 +45,7 @@ upstream:
       # tag is set to digest via prepare.sh script
       # tag: "${RHDH_DIGEST}"
 
-      tag: "9f870202198dca9d941ebb5321334c45cc2309bb079d2a9e602d8a099f8ffa6f"
+      tag: "2f4b22f14c9c323402c7eb142e94d19f94fadd2d8f8e7c56ec2a1963c6923118"
       pullPolicy: IfNotPresent
     command: []
     # FIXME (tumido): USE POSTGRES_PASSWORD and POSTGRES_USER instead of POSTGRES_ADMIN_PASSWORD
@@ -262,7 +262,7 @@ upstream:
       # tag is set to digest via prepare.sh script
       # tag: "${POSTGRESQL_DIGEST}"
 
-      tag: 8da4d3837db7dc4baaa1cc2612fe8e13b7507a4690f1ff5e5e97a26a157aa9e5
+      tag: da7f51caac15e400ed11852d890ca8fcfe08612445c34124fddc275d86e71f71
     auth:
       secretKeys:
         adminPasswordKey: postgres-password

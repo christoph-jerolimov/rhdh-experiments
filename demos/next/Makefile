@@ -1,7 +1,7 @@
 # https://quay.io/repository/rhdh/chart?tab=tags
 # https://quay.io/repository/rhdh/rhdh-hub-rhel9?tab=tags
 chart-name=oci://quay.io/rhdh/chart
-chart-version=1.10-6-CI
+chart-version=1.10-47-CI
 
 release-name=redhat-developer-hub
 release-namespace=rhdh-all-in-one-next-test
@@ -9,6 +9,7 @@ release-namespace=rhdh-all-in-one-next-test
 cluster-route-suffix != ../../scripts/get-cluster-route-suffix.sh
 
 install:
+	oc apply -f extra-resources.yaml
 	helm upgrade "${release-name}" "${chart-name}" --version "${chart-version}" \
 		--install \
 		--create-namespace \

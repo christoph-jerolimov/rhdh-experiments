@@ -1,0 +1,54 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: rhdh-all-in-one-1-8-test
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  namespace: rhdh-all-in-one-1-8-test
+  name: dynamic-plugins-root
+spec:
+  accessModes:
+    - ReadWriteOnce
+  volumeMode: Filesystem
+  resources:
+    requests:
+      storage: 5Gi
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  namespace: rhdh-all-in-one-1-8-test
+  name: rhdh-translations-configmap
+data:
+  allTranslations.json: |
+    {
+      "plugin.config-viewer.translation-ref": {
+        "en": {
+          "page.title": "Config Viewer page.title from allTranslations.json"
+        },
+        "de": {
+          "page.title": "Konfiguration page.title aus allTranslations.json"
+        }
+      },
+      "plugin.npm.translation-ref": {
+        "en": {
+          "infoCard.title": "NPM Packet JSON {{packageName}}"
+        },
+        "de": {
+          "infoCard.title": "NPM Paket JSON {{packageName}}"
+        },
+        "zh": {
+          "infoCard.title": "NPM 包 JSON {{packageName}}"
+        }
+      },
+      "catalog-import": {
+        "en": {
+          "defaultImportPage.headerTitle": "Import an existing Git repository JSON"
+        },
+        "de": {
+          "defaultImportPage.headerTitle": "Ein vorhandenes Git-Repository importieren JSON"
+        }
+      }
+    }

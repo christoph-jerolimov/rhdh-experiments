@@ -28,7 +28,61 @@ upstream:
     image:
       registry: quay.io
       repository: rhdh/rhdh-hub-rhel9
-      tag: 1.10-6
+      tag: 1.10-47
+
+    extraVolumeMounts:
+      # defaults from chart
+      - name: dynamic-plugins-root
+        mountPath: /opt/app-root/src/dynamic-plugins-root
+      - name: extensions-catalog
+        mountPath: /extensions
+      - name: temp
+        mountPath: /tmp
+
+      # add translations configmap
+      - name: rhdh-translations-configmap
+        mountPath: /translations
+
+    extraVolumes:
+      # defaults from chart
+      # - name: dynamic-plugins-root
+      #   ephemeral:
+      #     volumeClaimTemplate:
+      #       spec:
+      #         accessModes:
+      #           - ReadWriteOnce
+      #         resources:
+      #           requests:
+      #             storage: 5Gi
+      - name: dynamic-plugins
+        configMap:
+          defaultMode: 420
+          name: '{{ printf "%s-dynamic-plugins" .Release.Name }}'
+          optional: true
+      - name: dynamic-plugins-npmrc
+        secret:
+          defaultMode: 420
+          optional: true
+          secretName: '{{ printf "%s-dynamic-plugins-npmrc" .Release.Name }}'
+      - name: dynamic-plugins-registry-auth
+        secret:
+          defaultMode: 416
+          optional: true
+          secretName: '{{ printf "%s-dynamic-plugins-registry-auth" .Release.Name }}'
+      - name: npmcacache
+        emptyDir: {}
+      - name: extensions-catalog
+        emptyDir: {}
+      - name: temp
+        emptyDir: {}
+
+      # add translations configmap
+      - name: dynamic-plugins-root
+        persistentVolumeClaim:
+          claimName: dynamic-plugins-root
+      - name: rhdh-translations-configmap
+        configMap:
+          name: rhdh-translations-configmap
 
     appConfig:
       app:
@@ -37,6 +91,23 @@ upstream:
           # iconLogo: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAMAAABEpIrGAAADAFBMVEVHcEyWcCiolEdoUSP+4DD7xRX8zBe4qVCtjDKtiCL+94mkgSWpiy6tmDmogyC1mzGvnkCjgCaypUW2pTvjuzbhuzfMvD2viBzWwjfYqBW2rU360R+3jRnz2jPg1ETmvzTPsCvZsDn8yhrvuR31ySL+7ETsxC68lCK2jyDhujrFmhq5sVPYrBzerS3zwh+9kBj3yBxWORf+5jL91CF/XB3swizdtTjrrRTitTD1yCO5sFfjujbnvS9KOi3DkBTovC/WqDKLcVr8yyP5yhzEiB+NYxj+81CMWx3q4VfjoxZ+Sg1XNRL7wRK2sF7itzGibhXFjRDQpDbl3VzcsDO/hBDyqQ7cnRXkqyLyuxr+6DuyeRPYoCXKgA/ZlRjbggq1r2XOoTBcOiBfPCMNBQTWz2TwrBnKmCXCvWr+60XFli5ySiTPiQouEQYlDgd8QAvl4XvHixe3s2y+kCn7zit+VhF1WheZgDnbuCGffSXYlBHDvnCsfRhzYRfGtURxWQrz1y6EYAjVwkbX03fw3kLRylf+93HEvWjp5X65smrAtGPt6XW7sGTx7oTd12H91hz91Bv8xRLjjAr96D791xz8yRf90B/91ib80R7+4y/91Rn90Bz9zyH+4jX9zRn92yT91iD6yBn8xxT8wxb+8EP6uw/0pQz+81r+82782TT+9Hz98VP++IXy30HnshTwuRX1uRL+5jb+7Tz+6Dj+6zj2uhD84DT760nrxij+4jPq4E798Ez+2i3+8k390hr5zyL1uxT5xhj+5zD6zh38xxvtvxv9zxr92S7+3Cr80SH+4C3wsA/3uRL92SP+4zb+6j7+81X3sQ/9yxm4aAj80hrqpg6+ZwnvoAztngv/9Ffehg3gigr1qhDxoA3eiQ3SewnplQv2wBrgnAz+7kT882T+5TvWlRDbkAr82zX38HX2viP93zjjmA7+82fJgAmwgyn+60+6egnyth359If94j/gvSP++ZCsdAiqjQ/++ZT40Cresxr99Wb++pr08ID//J/+/JaMm2H6AAAAlHRSTlMABgko/v7+AQJ0/iQVKFWdGChWnVse64L6/pT+rP7+m/Y1/vz+/t/TtSnrpP7H/tX+I/7+C+E6/qz+lninIO/RhXX+/jBa/jH+/uCR/mpoofln/h32/v2+/P7bTvLG/it6Durz9f6zvf4bGv77/v7+70Vx/vHmZ/5K/q/WtG39/v699P5X/i/+NGH+Wv7Y///////+AJaghAAAAYtJREFUOMtjYKAGcLTFL8+YlMyBVwFzbk4iXgVl7/Ky8CqoLS9hxyfP3vilFK8BLc31dcx45Dl6f6/6XoNHQVvX/9ZfDRW4FXT+/bf657dqRpwKunv+cK2o/FCEU0FH+4/Vnz++LcjEpYCp6SvX++LX2Wk4g7vq08o3r14+e5qAS0Fh/srlGc9TH4YF4lKR/mL5sicrHlzxdMBhS3zK42WPIuc4nzLXVcSuwjdo1Y3F585O37Je2cIMa7xZeZx3Wxw5Z9pC1gN69taaWOJDe+euPRs37dg9e9GUuYcs1eRFRNFVSMltU91sNIPlmNNhtv7JfdIqpjZ+wShKhMTWTNpwcMbJ49NmT521t3/mzMsLIsKjkb0lICwhu5Vl3rwz8+cbT50+l23CwglLQmNdkA3h5VfYvu/E9P6+vv6jFxfdvnn3ztLrMe4o9vBwquscMVigNIV1gs+SpRMnToy76o3uIUFODS3Jtev2n75w7f6te5e8DLElQm4+cRl9u4CQKH9XEzxplYmRgToAADVmlE2t74hfAAAAAElFTkSuQmCC"
           # fullLogo: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAMAAABEpIrGAAADAFBMVEVHcEyWcCiolEdoUSP+4DD7xRX8zBe4qVCtjDKtiCL+94mkgSWpiy6tmDmogyC1mzGvnkCjgCaypUW2pTvjuzbhuzfMvD2viBzWwjfYqBW2rU360R+3jRnz2jPg1ETmvzTPsCvZsDn8yhrvuR31ySL+7ETsxC68lCK2jyDhujrFmhq5sVPYrBzerS3zwh+9kBj3yBxWORf+5jL91CF/XB3swizdtTjrrRTitTD1yCO5sFfjujbnvS9KOi3DkBTovC/WqDKLcVr8yyP5yhzEiB+NYxj+81CMWx3q4VfjoxZ+Sg1XNRL7wRK2sF7itzGibhXFjRDQpDbl3VzcsDO/hBDyqQ7cnRXkqyLyuxr+6DuyeRPYoCXKgA/ZlRjbggq1r2XOoTBcOiBfPCMNBQTWz2TwrBnKmCXCvWr+60XFli5ySiTPiQouEQYlDgd8QAvl4XvHixe3s2y+kCn7zit+VhF1WheZgDnbuCGffSXYlBHDvnCsfRhzYRfGtURxWQrz1y6EYAjVwkbX03fw3kLRylf+93HEvWjp5X65smrAtGPt6XW7sGTx7oTd12H91hz91Bv8xRLjjAr96D791xz8yRf90B/91ib80R7+4y/91Rn90Bz9zyH+4jX9zRn92yT91iD6yBn8xxT8wxb+8EP6uw/0pQz+81r+82782TT+9Hz98VP++IXy30HnshTwuRX1uRL+5jb+7Tz+6Dj+6zj2uhD84DT760nrxij+4jPq4E798Ez+2i3+8k390hr5zyL1uxT5xhj+5zD6zh38xxvtvxv9zxr92S7+3Cr80SH+4C3wsA/3uRL92SP+4zb+6j7+81X3sQ/9yxm4aAj80hrqpg6+ZwnvoAztngv/9Ffehg3gigr1qhDxoA3eiQ3SewnplQv2wBrgnAz+7kT882T+5TvWlRDbkAr82zX38HX2viP93zjjmA7+82fJgAmwgyn+60+6egnyth359If94j/gvSP++ZCsdAiqjQ/++ZT40Cresxr99Wb++pr08ID//J/+/JaMm2H6AAAAlHRSTlMABgko/v7+AQJ0/iQVKFWdGChWnVse64L6/pT+rP7+m/Y1/vz+/t/TtSnrpP7H/tX+I/7+C+E6/qz+lninIO/RhXX+/jBa/jH+/uCR/mpoofln/h32/v2+/P7bTvLG/it6Durz9f6zvf4bGv77/v7+70Vx/vHmZ/5K/q/WtG39/v699P5X/i/+NGH+Wv7Y///////+AJaghAAAAYtJREFUOMtjYKAGcLTFL8+YlMyBVwFzbk4iXgVl7/Ky8CqoLS9hxyfP3vilFK8BLc31dcx45Dl6f6/6XoNHQVvX/9ZfDRW4FXT+/bf657dqRpwKunv+cK2o/FCEU0FH+4/Vnz++LcjEpYCp6SvX++LX2Wk4g7vq08o3r14+e5qAS0Fh/srlGc9TH4YF4lKR/mL5sicrHlzxdMBhS3zK42WPIuc4nzLXVcSuwjdo1Y3F585O37Je2cIMa7xZeZx3Wxw5Z9pC1gN69taaWOJDe+euPRs37dg9e9GUuYcs1eRFRNFVSMltU91sNIPlmNNhtv7JfdIqpjZ+wShKhMTWTNpwcMbJ49NmT521t3/mzMsLIsKjkb0lICwhu5Vl3rwz8+cbT50+l23CwglLQmNdkA3h5VfYvu/E9P6+vv6jFxfdvnn3ztLrMe4o9vBwquscMVigNIV1gs+SpRMnToy76o3uIUFODS3Jtev2n75w7f6te5e8DLElQm4+cRl9u4CQKH9XEzxplYmRgToAADVmlE2t74hfAAAAAElFTkSuQmCC"
           # fullLogoWidth: 32
+
+      i18n:
+        locales:
+          - en
+          - de
+          - fr
+          - it
+          - ja
+          - ko
+          - en-US
+          - en-IN
+          - en-UK
+          - zh
+          - pt-BR
+          - zh-CN
+        overrides:
+          - /translations/allTranslations.json
 
       catalog:
         rules:

@@ -2,7 +2,7 @@ repo-name=openshift-helm-charts
 repo-url=https://charts.openshift.io/
 
 chart-name=openshift-helm-charts/redhat-developer-hub
-chart-version=1.8.0
+chart-version=1.8.2
 
 release-name=redhat-developer-hub
 release-namespace=rhdh-all-in-one-1-8-test
@@ -10,6 +10,7 @@ release-namespace=rhdh-all-in-one-1-8-test
 cluster-route-suffix != ../../scripts/get-cluster-route-suffix.sh
 
 install:
+	oc apply -f extra-resources.yaml
 	helm repo add "${repo-name}" "${repo-url}"
 	helm upgrade "${release-name}" "${chart-name}" \
 		--install \
