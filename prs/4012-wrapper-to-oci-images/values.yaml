@@ -225,12 +225,12 @@ upstream:
           - it
           - ja
           - ko
-          - en-US
-          - en-IN
-          - en-UK
-          - zh
-          - pt-BR
-          - zh-CN
+          # - en-US
+          # - en-IN
+          # - en-UK
+          # - zh
+          # - pt-BR
+          # - zh-CN
 
       permission:
         enabled: true

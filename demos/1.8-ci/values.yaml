@@ -19,6 +19,8 @@ global:
         disabled: false
       - package: ./dynamic-plugins/dist/backstage-community-plugin-acr
         disabled: false
+      - package: ./dynamic-plugins/dist/backstage-plugin-scaffolder-backend-module-github-dynamic
+        disabled: false
       - package: ./dynamic-plugins/dist/red-hat-developer-hub-backstage-plugin-global-floating-action-button
         disabled: false
         pluginConfig:
@@ -131,12 +133,12 @@ upstream:
           - it
           - ja
           - ko
-          - en-US
-          - en-IN
-          - en-UK
-          - zh
-          - pt-BR
-          - zh-CN
+          # - en-US
+          # - en-IN
+          # - en-UK
+          # - zh
+          # - pt-BR
+          # - zh-CN
         overrides:
           - /translations/allTranslations.json
 
@@ -148,6 +150,14 @@ upstream:
             target: https://github.com/christoph-jerolimov/rhdh-experiments/blob/main/catalog/all.yaml
             rules:
               - allow: [Component, System, API, Resource, Location, User, Group]
+          - type: url
+            target: https://github.com/backstage/community-plugins/blob/main/workspaces/scaffolder-backend-module-annotator/plugins/scaffolder-backend-module-annotator/examples/templates/01-scaffolder-template.yaml
+            rules:
+              - allow: [Template]
+          - type: url
+            target: https://github.com/backstage/community-plugins/blob/main/workspaces/scaffolder-backend-module-annotator/plugins/scaffolder-backend-module-annotator/examples/templates/02-scaffolder-template.yaml
+            rules:
+              - allow: [Template]
 
       dynamicPlugins:
         frontend:
