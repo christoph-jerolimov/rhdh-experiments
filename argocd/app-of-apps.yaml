@@ -24,7 +24,7 @@ spec:
   source:
     repoURL: 'https://github.com/christoph-jerolimov/rhdh-experiments.git'
     targetRevision: HEAD
-    path: argocd/apps
+    path: argocd/default-apps
   destination:
     name: in-cluster
     namespace: openshift-gitops # TODO set correct namespace

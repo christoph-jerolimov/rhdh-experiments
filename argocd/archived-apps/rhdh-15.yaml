@@ -1,0 +1,27 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: rhdh-15
+  labels:
+    argocd.argoproj.io/managed-by: openshift-gitops
+---
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  # namespace: argocd or openshift-gitops
+  name: rhdh-15
+spec:
+  project: rhdh
+  sources:
+    - chart: redhat-developer-hub
+      repoURL: https://charts.openshift.io
+      targetRevision: '1.7.1'
+    - repoURL: 'https://github.com/christoph-jerolimov/rhdh-experiments.git'
+      targetRevision: HEAD
+      path: argocd/rhdh-15
+  destination:
+    name: in-cluster
+    namespace: rhdh-15
+  syncPolicy:
+    automated:
+      enabled: true
