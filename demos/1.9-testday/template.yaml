@@ -19,6 +19,19 @@ spec:
           ui:autofocus: true
 
   steps:
+    - action: catalog:write
+      id: create-catalog-info-file
+      name: Create catalog file
+      input:
+        entity:
+          apiVersion: backstage.io/v1alpha1
+          kind: Component
+          metadata:
+            name: ${{ parameters.name }}
+          spec:
+            type: service
+            lifecycle: production
+            owner: default/owner
     - id: version-templateRef
       name: Append the version of this template to the entityRef
       action: catalog:template:version
