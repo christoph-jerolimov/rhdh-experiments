@@ -3,8 +3,23 @@ kind: Template
 metadata:
   name: register-entity-test
   title: Register entity-test
+  annotations:
+    backstage.io/template-version: "1"
 spec:
   type: service
+
+  parameters:
+    - title: Fill in some steps
+      required:
+        - name
+        - owner
+      properties:
+        name:
+          title: Project name
+          type: string
+          description: Choose a unique project name.
+          ui:field: EntityNamePicker
+          ui:autofocus: true
 
   steps:
     - id: version-templateRef
