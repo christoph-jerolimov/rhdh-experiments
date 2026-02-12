@@ -4,7 +4,7 @@ metadata:
   name: register-entity-test
   title: Register entity-test
   annotations:
-    backstage.io/template-version: "1"
+    backstage.io/template-version: "2"
 spec:
   type: service
 
@@ -31,7 +31,7 @@ spec:
           spec:
             type: service
             lifecycle: production
-            owner: default/owner
+            owner: rhdh-team
     - id: version-templateRef
       name: Append the version of this template to the entityRef
       action: catalog:template:version
