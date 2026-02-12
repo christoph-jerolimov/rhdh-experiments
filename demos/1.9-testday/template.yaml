@@ -32,6 +32,9 @@ spec:
             type: service
             lifecycle: production
             owner: rhdh-team
+    - id: create-provenance-annotation
+      name: Append the entityRef of this template to the entityRef
+      action: catalog:scaffolded-from
     - id: version-templateRef
       name: Append the version of this template to the entityRef
       action: catalog:template:version
