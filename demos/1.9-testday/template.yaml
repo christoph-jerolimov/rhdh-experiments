@@ -12,13 +12,10 @@ spec:
     - title: Fill in some steps
       required:
         - name
-        - owner
       properties:
         name:
-          title: Project name
+          title: Entity name
           type: string
-          description: Choose a unique project name.
-          ui:field: EntityNamePicker
           ui:autofocus: true
 
   steps:
