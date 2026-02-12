@@ -38,10 +38,7 @@ spec:
       input:
         annotations:
           backstage.io/template-version: ${{ parameters.version }}
-    - action: fs:readdir
-      id: read-workdir
-      name: Read workspace directory
+    - action: github:repo:create
+      name: Create a new GitHub repository
       input:
-        paths:
-          - .
-        recursive: true
+        repoUrl: github.com?repo=${{ parameters.name }}&owner=christoph-jerolimov
