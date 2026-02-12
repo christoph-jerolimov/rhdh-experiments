@@ -38,3 +38,9 @@ spec:
       input:
         annotations:
           backstage.io/template-version: ${{ parameters.version }}
+    - action: fs:readdir
+      id: read-workdir
+      name: Read workspace directory
+      input:
+        paths:
+          - .
