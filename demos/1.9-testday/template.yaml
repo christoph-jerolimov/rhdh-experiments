@@ -1,0 +1,15 @@
+apiVersion: scaffolder.backstage.io/v1beta3
+kind: Template
+metadata:
+  name: register-entity-test
+  title: Register entity-test
+spec:
+  type: service
+
+  steps:
+    - id: version-templateRef
+      name: Append the version of this template to the entityRef
+      action: catalog:template:version
+      input:
+        annotations:
+          backstage.io/template-version: ${{ parameters.version }}
