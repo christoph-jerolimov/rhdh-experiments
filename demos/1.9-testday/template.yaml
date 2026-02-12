@@ -46,3 +46,8 @@ spec:
       name: Create test repo with testuser as owner.
       input:
         repoUrl: github.com?repo=${{ parameters.name }}&owner=christoph-jerolimov
+    - action: catalog:register
+      id: register-with-catalog
+      name: Register with the catalog
+      input:
+        catalogInfoUrl: http://github.com/christoph-jerolimov/${{ parameters.name }}/blob/master/catalog-info.yaml
