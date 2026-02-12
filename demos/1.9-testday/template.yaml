@@ -38,7 +38,11 @@ spec:
       input:
         annotations:
           backstage.io/template-version: ${{ parameters.version }}
-    - action: github:repo:create
-      name: Create a new GitHub repository
+    # - action: github:repo:create
+    #   name: Create a new GitHub repository
+    #   input:
+    #     repoUrl: github.com?repo=${{ parameters.name }}&owner=christoph-jerolimov
+    - action: github:repo:push
+      name: Create test repo with testuser as owner.
       input:
         repoUrl: github.com?repo=${{ parameters.name }}&owner=christoph-jerolimov
