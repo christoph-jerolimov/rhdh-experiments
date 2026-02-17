@@ -21,6 +21,10 @@ global:
         disabled: false
       - package: ./dynamic-plugins/dist/backstage-community-plugin-catalog-backend-module-scaffolder-relation-processor-dynamic
         disabled: false
+      - package: ./dynamic-plugins/dist/backstage-plugin-signals
+        disabled: false
+      - package: ./dynamic-plugins/dist/backstage-plugin-signals-backend-dynamic
+        disabled: false
       - package: ./dynamic-plugins/dist/backstage-plugin-notifications
         disabled: false
       - package: ./dynamic-plugins/dist/backstage-plugin-notifications-backend-dynamic

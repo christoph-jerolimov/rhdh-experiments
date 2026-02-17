@@ -4,7 +4,7 @@ metadata:
   name: register-entity-test
   title: Register entity-test
   annotations:
-    backstage.io/template-version: "4"
+    backstage.io/template-version: "5"
 spec:
   type: service
 
