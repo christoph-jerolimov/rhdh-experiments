@@ -12,6 +12,7 @@ cluster-route-suffix != ../../scripts/get-cluster-route-suffix.sh
 install:
 	helm repo add "${repo-name}" "${repo-url}"
 	helm upgrade "${release-name}" "${chart-name}" \
+	    --version "${chart-version}" \
 		--install \
 		--create-namespace \
 		--namespace "${release-namespace}" \

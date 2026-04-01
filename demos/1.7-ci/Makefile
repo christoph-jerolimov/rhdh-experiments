@@ -9,7 +9,8 @@ release-namespace=rhdh-all-in-one-1-7-ci
 cluster-route-suffix != ../../scripts/get-cluster-route-suffix.sh
 
 install:
-	helm upgrade "${release-name}" "${chart-name}" --version "${chart-version}" \
+	helm upgrade "${release-name}" "${chart-name}" \
+	    --version "${chart-version}" \
 		--install \
 		--create-namespace \
 		--namespace "${release-namespace}" \

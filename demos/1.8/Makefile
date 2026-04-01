@@ -13,6 +13,7 @@ install:
 	oc apply -f extra-resources.yaml
 	helm repo add "${repo-name}" "${repo-url}"
 	helm upgrade "${release-name}" "${chart-name}" \
+	    --version "${chart-version}" \
 		--install \
 		--create-namespace \
 		--namespace "${release-namespace}" \

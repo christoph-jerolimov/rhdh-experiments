@@ -10,7 +10,8 @@ cluster-route-suffix != ../../scripts/get-cluster-route-suffix.sh
 
 install:
 	oc apply -f extra-resources.yaml
-	helm upgrade "${release-name}" "${chart-name}" --version "${chart-version}" \
+	helm upgrade "${release-name}" "${chart-name}" \
+	    --version "${chart-version}" \
 		--install \
 		--create-namespace \
 		--namespace "${release-namespace}" \
