@@ -1,0 +1,12 @@
+apiVersion: scaffolder.backstage.io/v1beta3
+kind: Component
+metadata:
+  name: argocd-entity-test
+  title: Argo CD entity test
+  annotations:
+    argocd/app-name: 'argocd-entity'
+spec:
+  type: service
+  system: test
+  owner: test
+  lifecycle: production
