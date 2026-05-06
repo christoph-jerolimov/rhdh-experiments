@@ -25,12 +25,44 @@ global:
       - package: ./dynamic-plugins/dist/backstage-plugin-scaffolder-backend-module-github-dynamic
         disabled: false
 
+  lightspeed:
+    plugins:
+      - package: oci://ghcr.io/redhat-developer/rhdh-plugin-export-overlays/red-hat-developer-hub-backstage-plugin-lightspeed:bs_1.49.4__2.6.3 
+        disabled: false
+        pluginConfig:
+          dynamicPlugins:
+            frontend:
+              red-hat-developer-hub.backstage-plugin-lightspeed:
+                translationResources:
+                  - importName: lightspeedTranslations
+                    module: Alpha
+                    ref: lightspeedTranslationRef
+                dynamicRoutes:
+                  - path: /lightspeed
+                    importName: LightspeedPage
+                mountPoints:
+                  - mountPoint: application/listener
+                    importName: LightspeedFAB
+                  - mountPoint: application/provider
+                    importName: LightspeedDrawerProvider
+                  - mountPoint: application/internal/drawer-state
+                    importName: LightspeedDrawerStateExposer
+                    config:
+                      id: lightspeed
+                  - mountPoint: application/internal/drawer-content
+                    importName: LightspeedChatContainer
+                    config:
+                      id: lightspeed
+                      priority: 100
+      - package: oci://ghcr.io/redhat-developer/rhdh-plugin-export-overlays/red-hat-developer-hub-backstage-plugin-lightspeed-backend:bs_1.49.4__2.6.3 
+        disabled: false
+
 upstream:
   backstage:
     image:
       registry: quay.io
       repository: rhdh/rhdh-hub-rhel9
-      tag: 1.10-47
+      tag: 1.10-117
 
     extraVolumeMounts:
       # defaults from chart
