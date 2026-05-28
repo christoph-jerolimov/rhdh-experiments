@@ -6,6 +6,14 @@ global:
       tag: "1.10"
   dynamic:
     plugins:
+      # disable broken extensions plugin
+      - package: ./dynamic-plugins/dist/red-hat-developer-hub-backstage-plugin-extensions
+        disabled: true
+      - package: ./dynamic-plugins/dist/red-hat-developer-hub-backstage-plugin-extensions-backend-dynamic
+        disabled: true
+      - package: ./dynamic-plugins/dist/red-hat-developer-hub-backstage-plugin-catalog-backend-module-extensions-dynamic
+        disabled: true
+
       - package: ./dynamic-plugins/dist/backstage-community-plugin-rbac
         disabled: false
       - package: ./dynamic-plugins/dist/red-hat-developer-hub-backstage-plugin-bulk-import
@@ -16,8 +24,8 @@ global:
         disabled: false
       - package: ./dynamic-plugins/dist/backstage-plugin-kubernetes-backend-dynamic
         disabled: false
-      - package: ./dynamic-plugins/dist/backstage-community-plugin-tekton
-        disabled: false
+      # - package: ./dynamic-plugins/dist/backstage-community-plugin-tekton
+      #   disabled: false
       - package: ./dynamic-plugins/dist/backstage-community-plugin-topology
         disabled: false
       - package: ./dynamic-plugins/dist/backstage-community-plugin-acr
@@ -25,44 +33,136 @@ global:
       - package: ./dynamic-plugins/dist/backstage-plugin-scaffolder-backend-module-github-dynamic
         disabled: false
 
-  lightspeed:
-    plugins:
-      - package: oci://ghcr.io/redhat-developer/rhdh-plugin-export-overlays/red-hat-developer-hub-backstage-plugin-lightspeed:bs_1.49.4__2.6.3 
-        disabled: false
+      - package: oci://ghcr.io/redhat-developer/rhdh-plugin-export-overlays/red-hat-developer-hub-backstage-plugin-dynamic-home-page:bs_1.49.4__1.13.1
+      - package: oci://ghcr.io/redhat-developer/rhdh-plugin-export-overlays/red-hat-developer-hub-backstage-plugin-homepage-backend:bs_1.49.4__0.1.1
         pluginConfig:
-          dynamicPlugins:
-            frontend:
-              red-hat-developer-hub.backstage-plugin-lightspeed:
-                translationResources:
-                  - importName: lightspeedTranslations
-                    module: Alpha
-                    ref: lightspeedTranslationRef
-                dynamicRoutes:
-                  - path: /lightspeed
-                    importName: LightspeedPage
-                mountPoints:
-                  - mountPoint: application/listener
-                    importName: LightspeedFAB
-                  - mountPoint: application/provider
-                    importName: LightspeedDrawerProvider
-                  - mountPoint: application/internal/drawer-state
-                    importName: LightspeedDrawerStateExposer
-                    config:
-                      id: lightspeed
-                  - mountPoint: application/internal/drawer-content
-                    importName: LightspeedChatContainer
-                    config:
-                      id: lightspeed
-                      priority: 100
-      - package: oci://ghcr.io/redhat-developer/rhdh-plugin-export-overlays/red-hat-developer-hub-backstage-plugin-lightspeed-backend:bs_1.49.4__2.6.3 
-        disabled: false
+          homepage:
+            defaultWidgets:
+            - id: onboarding-without-permissions
+              ref: 'rhdh-onboarding-section'
+              layout:
+                xl: { w: 12, h: 6 }
+                lg: { w: 12, h: 6 }
+                md: { w: 12, h: 7 }
+                sm: { w: 12, h: 8 }
+                xs: { w: 12, h: 9 }
+                xxs: { w: 12, h: 14 }
+            - id: onboarding-for-christoph
+              ref: 'rhdh-onboarding-section'
+              if:
+                users:
+                  - user:default/christoph-jerolimov
+                  - user:default/christoph-jerolimov2
+              layout:
+                xl: { w: 12, h: 6 }
+                lg: { w: 12, h: 6 }
+                md: { w: 12, h: 7 }
+                sm: { w: 12, h: 8 }
+                xs: { w: 12, h: 9 }
+                xxs: { w: 12, h: 14 }
+            - id: onboarding-for-rhdh-team
+              ref: 'rhdh-onboarding-section'
+              if:
+                groups:
+                  - group:default/rhdh-team
+              layout:
+                xl: { w: 12, h: 6 }
+                lg: { w: 12, h: 6 }
+                md: { w: 12, h: 7 }
+                sm: { w: 12, h: 8 }
+                xs: { w: 12, h: 9 }
+                xxs: { w: 12, h: 14 }
+            - id: onboarding-for-rhdh-team-and-christoph
+              ref: 'rhdh-onboarding-section'
+              if:
+                groups:
+                  - group:default/rhdh-team
+                users:
+                  - user:default/christoph-jerolimov
+                  - user:default/christoph-jerolimov2
+              layout:
+                xl: { w: 12, h: 6 }
+                lg: { w: 12, h: 6 }
+                md: { w: 12, h: 7 }
+                sm: { w: 12, h: 8 }
+                xs: { w: 12, h: 9 }
+                xxs: { w: 12, h: 14 }
+            - id: onboarding-for-another-user-and-group
+              ref: 'rhdh-onboarding-section'
+              if:
+                users:
+                  - user:default/another-user
+                groups:
+                  - group:default/another-group
+              layout:
+                xl: { w: 12, h: 6 }
+                lg: { w: 12, h: 6 }
+                md: { w: 12, h: 7 }
+                sm: { w: 12, h: 8 }
+                xs: { w: 12, h: 9 }
+                xxs: { w: 12, h: 14 }
+            - id: onboarding-for-test-permission
+              ref: 'rhdh-onboarding-section'
+              if:
+                permissions:
+                  - test
+                  - test2
+              layout:
+                xl: { w: 12, h: 6 }
+                lg: { w: 12, h: 6 }
+                md: { w: 12, h: 7 }
+                sm: { w: 12, h: 8 }
+                xs: { w: 12, h: 9 }
+                xxs: { w: 12, h: 14 }
+
+      # - package: oci://ghcr.io/redhat-developer/rhdh-plugin-export-overlays/red-hat-developer-hub-backstage-plugin-lightspeed:bs_1.49.4__2.6.3
+      #   enabled: false
+      #   disabled: true
+      # - package: oci://ghcr.io/redhat-developer/rhdh-plugin-export-overlays/red-hat-developer-hub-backstage-plugin-lightspeed-backend:bs_1.49.4__2.6.3
+      #   enabled: false
+      #   disabled: true
+
+  lightspeed:
+    enabled: false
+  #   plugins:
+  #     - package: oci://ghcr.io/redhat-developer/rhdh-plugin-export-overlays/red-hat-developer-hub-backstage-plugin-lightspeed:bs_1.49.4__2.6.3
+  #       enabled: false
+  #       disabled: true
+  #       pluginConfig:
+  #         dynamicPlugins:
+  #           frontend:
+  #             red-hat-developer-hub.backstage-plugin-lightspeed:
+  #               translationResources:
+  #                 - importName: lightspeedTranslations
+  #                   module: Alpha
+  #                   ref: lightspeedTranslationRef
+  #               dynamicRoutes:
+  #                 - path: /lightspeed
+  #                   importName: LightspeedPage
+  #               mountPoints:
+  #                 - mountPoint: application/listener
+  #                   importName: LightspeedFAB
+  #                 - mountPoint: application/provider
+  #                   importName: LightspeedDrawerProvider
+  #                 - mountPoint: application/internal/drawer-state
+  #                   importName: LightspeedDrawerStateExposer
+  #                   config:
+  #                     id: lightspeed
+  #                 - mountPoint: application/internal/drawer-content
+  #                   importName: LightspeedChatContainer
+  #                   config:
+  #                     id: lightspeed
+  #                     priority: 100
+  #     - package: oci://ghcr.io/redhat-developer/rhdh-plugin-export-overlays/red-hat-developer-hub-backstage-plugin-lightspeed-backend:bs_1.49.4__2.6.3
+  #       enabled: false
+  #       disabled: true
 
 upstream:
   backstage:
     image:
       registry: quay.io
       repository: rhdh/rhdh-hub-rhel9
-      tag: 1.10-117
+      tag: 1.10-127
 
     extraVolumeMounts:
       # defaults from chart
@@ -394,14 +494,3 @@ upstream:
               - name: user:default/christoph-jerolimov
             users:
               - name: user:default/rhdh-qe
-
-  # reduce memory usage
-  postgresql:
-    primary:
-      resources:
-        requests:
-          cpu: 250m
-          memory: 256Mi
-        limits:
-          cpu: 250m
-          memory: 256Mi
