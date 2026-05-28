@@ -11,6 +11,11 @@ upstream:
               # https://github.com/settings/apps
               clientId: TODO
               clientSecret: TODO
+              signIn:
+                resolvers:
+                  # See https://backstage.io/docs/auth/github/provider#resolvers for more resolvers
+                  - resolver: usernameMatchingUserEntityName
+
       # integrations:
       #   github:
       #     - host: github.com
