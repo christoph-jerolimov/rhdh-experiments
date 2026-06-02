@@ -1,7 +1,6 @@
 apiVersion: tekton.dev/v1
 kind: PipelineRun
 metadata:
-  namespace: christoph-backstage-test
   generateName: christoph-demo3-service-
   labels:
     backstage.io/kubernetes-id: christoph-demo3-service
@@ -43,7 +42,6 @@ spec:
 apiVersion: tekton.dev/v1
 kind: PipelineRun
 metadata:
-  namespace: christoph-backstage-test
   generateName: christoph-demo3-service-
   labels:
     backstage.io/kubernetes-id: christoph-demo3-service
@@ -153,7 +151,6 @@ spec:
 apiVersion: tekton.dev/v1
 kind: PipelineRun
 metadata:
-  namespace: christoph-backstage-test
   generateName: christoph-demo3-service-
   labels:
     backstage.io/kubernetes-id: christoph-demo3-service

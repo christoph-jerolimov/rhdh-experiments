@@ -1,7 +1,6 @@
 apiVersion: tekton.dev/v1
 kind: PipelineRun
 metadata:
-  namespace: christoph-backstage-test
   generateName: christoph-demo1-service-
   labels:
     backstage.io/kubernetes-id: christoph-demo1-service
