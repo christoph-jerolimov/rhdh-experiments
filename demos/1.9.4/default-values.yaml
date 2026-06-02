@@ -38,167 +38,12 @@ global:
   catalogIndex:
     image:
       # RHDHBUGS-2767: use unauthenticated registry
-      registry: quay.io
+      registry: registry.access.redhat.com
       repository: rhdh/plugin-catalog-index@sha256
       # tag is set to digest via prepare.sh script
       # tag: "${PLUGIN_CATALOG_INDEX_DIGEST}"
 
-      tag: "acbf7a19c41e65a57a52ecaac97b5e51ce8a105ad630c6bf3e4eace91fa67e4a"
-    # -- Extra catalog index images for additional plugin discovery in the Extensions UI.
-    # Each item must include `registry`, `repository`, and `tag` fields; `name` is optional.
-    # Only catalog entities are extracted from extra images (no `dynamic-plugins.default.yaml` handling).
-    # @default -- `[]`
-    extraImages: []
-    # - name: community
-    #   registry: ghcr.io
-    #   repository: redhat-developer/rhdh-plugin-community-index
-    #   tag: "1.10"
-    # - registry: my-registry.example.com
-    #   repository: my-org/my-rhdh-internal-plugin-catalog
-    #   tag: "1.2.3"
-  # -- Built-in Lightspeed feature configuration.
-  # @default -- Use Lightspeed compatible settings / configurations.
-  lightspeed:
-    # -- Enable or disable the built-in Lightspeed feature.
-    enabled: true
-    # -- Lightspeed plugins and their configuration. Override package references for disconnected environments.
-    plugins:
-      - package: 'oci://registry.access.redhat.com/rhdh/red-hat-developer-hub-backstage-plugin-lightspeed:{{ "{{inherit}}" }}'
-        disabled: false
-      - package: 'oci://registry.access.redhat.com/rhdh/red-hat-developer-hub-backstage-plugin-lightspeed-backend:{{ "{{inherit}}" }}'
-        disabled: false
-    runtimeVolume:
-      # -- Name of the Kubernetes volume used for writable Lightspeed runtime storage.
-      name: lightspeed-data
-      # -- Mount path inside the container for Lightspeed runtime storage.
-      mountPath: /tmp
-      # -- Volume source used for writable Lightspeed runtime storage mounted at `/tmp`.
-      # Supported values: `emptyDir`, `persistentVolumeClaim`.
-      type: emptyDir
-      # -- `emptyDir` configuration for the Lightspeed runtime data volume when `runtimeVolume.type=emptyDir`.
-      emptyDir: {}
-      # -- Existing PVC reference for the Lightspeed runtime data volume when `runtimeVolume.type=persistentVolumeClaim`.
-      persistentVolumeClaim: {}
-    ragVolume:
-      # -- Name of the Kubernetes volume used for Lightspeed RAG data.
-      name: lightspeed-rag
-      # -- Mount path inside the init container for seeding RAG data.
-      initMountPath: /rag-content
-      # -- Mount path inside the sidecar container for serving RAG data.
-      mountPath: /rag-content
-      # -- `emptyDir` configuration for the RAG data volume.
-      emptyDir: {}
-    configMaps:
-      - name: stack
-        # -- Whether to create this ConfigMap from the bundled source file.
-        # Set to false and provide `nameOverride` to use a pre-existing ConfigMap.
-        create: true
-        # -- Name of an existing ConfigMap to use instead. Required when `create` is false.
-        nameOverride: ""
-        mountPath: /app-root/lightspeed-stack.yaml
-        subPath: lightspeed-stack.yaml
-        # -- Bundled file used to populate the ConfigMap data when `create` is true.
-        sourceFile: lightspeed-stack.yaml
-        optional: false
-      - name: config
-        # -- Whether to create this ConfigMap from the bundled source file.
-        # Set to false and provide `nameOverride` to use a pre-existing ConfigMap.
-        create: true
-        # -- Name of an existing ConfigMap to use instead. Required when `create` is false.
-        nameOverride: ""
-        mountPath: /app-root/config.yaml
-        subPath: config.yaml
-        # -- Bundled file used to populate the ConfigMap data when `create` is true.
-        sourceFile: config.yaml
-        optional: false
-      - name: rhdh-profile
-        # -- Whether to create this ConfigMap from the bundled source file.
-        # Set to false and provide `nameOverride` to use a pre-existing ConfigMap.
-        create: true
-        # -- Name of an existing ConfigMap to use instead. Required when `create` is false.
-        nameOverride: ""
-        mountPath: /app-root/rhdh-profile.py
-        subPath: rhdh-profile.py
-        # -- Bundled file used to populate the ConfigMap data when `create` is true.
-        sourceFile: rhdh-profile.py
-        optional: false
-    secret:
-      # -- Whether to create a Lightspeed Secret from the bundled source file.
-      create: true
-      # -- Name of an existing Secret to use instead. Required when `create` is false.
-      name: ""
-      # -- Whether the Secret reference is optional in the pod spec.
-      optional: false
-      # -- Bundled file used to populate the Secret's `stringData` keys.
-      sourceFile: secret.yaml
-    initContainer:
-      name: lightspeed-rag-init
-      # -- Full image reference for the Lightspeed RAG bootstrap init container. Override for disconnected environments.
-      image:
-        registry: quay.io
-        repository: rhdh/rhdh-rag-content-rhel9@sha256
-        # tag is set to digest via prepare.sh script
-        # tag: "${RAG_CONTENT_DIGEST}"
-
-        tag: ec303d9fe69d5956ac6b2098bf8d8bfbc6d804e7be7e201bd6388fc56df90d4f
-      imagePullPolicy: IfNotPresent
-      command:
-        - sh
-        - -c
-      args:
-        - >-
-          mkdir -p /tmp/data && echo 'Copying Lightspeed RAG data...' && cp -r /rag/vector_db /rag-content/ && cp -r /rag/embeddings_model /rag-content/ && echo 'Copy complete.'
-      env: []
-      # -- Resource requests/limits for the Lightspeed RAG bootstrap init container.
-      resources:
-        requests:
-          cpu: 50m
-          memory: 150Mi
-        limits:
-          cpu: 100m
-          memory: 500Mi
-      securityContext:
-        readOnlyRootFilesystem: true
-        allowPrivilegeEscalation: false
-        capabilities:
-          drop:
-            - ALL
-        runAsNonRoot: true
-        seccompProfile:
-          type: "RuntimeDefault"
-    sidecar:
-      name: lightspeed-core
-      # -- Full image reference for the Lightspeed Core sidecar. Override for disconnected environments.
-      image:
-        registry: registry.redhat.io
-        repository: lightspeed-core/lightspeed-stack-rhel9@sha256
-        # tag is set to digest via prepare.sh script
-        # tag: "${LCS_DIGEST}"
-
-        tag: a8d3bf4e0a3385c7e10ab0baa5898990d0cf16660fa9a459047059e34e3d235f
-      imagePullPolicy: IfNotPresent
-      portName: http-lightspeed
-      containerPort: 8080
-      command: []
-      args: []
-      env: []
-      # -- Resource requests/limits for the Lightspeed Core sidecar.
-      resources:
-        requests:
-          cpu: 100m
-          memory: 512Mi
-        limits:
-          cpu: 1000m
-          memory: 2Gi
-      securityContext:
-        readOnlyRootFilesystem: true
-        allowPrivilegeEscalation: false
-        capabilities:
-          drop:
-            - ALL
-        runAsNonRoot: true
-        seccompProfile:
-          type: "RuntimeDefault"
+      tag: "05ca260c6511bc49f619535f7ea56d58bb7bc5336daf6d5cff5b2f03e970fb44"
 # -- Upstream Backstage [chart configuration](https://github.com/backstage/charts/blob/main/charts/backstage/values.yaml)
 # @default -- Use Openshift compatible settings
 upstream:
@@ -207,12 +52,12 @@ upstream:
   nameOverride: developer-hub
   backstage:
     image:
-      registry: quay.io
+      registry: registry.redhat.io
       repository: rhdh/rhdh-hub-rhel9@sha256
       # tag is set to digest via prepare.sh script
       # tag: "${RHDH_DIGEST}"
 
-      tag: 943af223a509add22de5c2da2803d363f0219eabaa96df945bb11c85f851b920
+      tag: 60be744e3e34e14da8505030d0223f35234d5bbfe1dd0f4332aa0dadc23d3b8f
       pullPolicy: ""
     command: []
     # FIXME (tumido): USE POSTGRES_PASSWORD and POSTGRES_USER instead of POSTGRES_ADMIN_PASSWORD
@@ -307,7 +152,7 @@ upstream:
       - name: POSTGRESQL_ADMIN_PASSWORD
         valueFrom:
           secretKeyRef:
-            key: '{{- include "rhdh.postgresql.adminPasswordKey" . }}'
+            key: postgres-password
             name: '{{- include "rhdh.postgresql.secretName" . }}'
     args:
       # This additional `app-config`` file is generated by the initContainer below, and contains the merged configuration of installed dynamic plugins.
@@ -382,7 +227,7 @@ upstream:
             type: "RuntimeDefault"
         # -- Image used by the initContainer to install dynamic plugins into the `dynamic-plugins-root` volume mount.
         # It could be replaced by a custom image based on this one.
-        # @default -- `quay.io/rhdh-community/rhdh:next-1.10`
+        # @default -- `quay.io/rhdh-community/rhdh:next`
         image: '{{ include "backstage.image" . }}'
         command:
           - ./install-dynamic-plugins.sh
@@ -392,7 +237,7 @@ upstream:
             value: /opt/app-root/src/.npmrc.dynamic-plugins
             # This following variable is required for orchestrator to startup properly.
           - name: MAX_ENTRY_SIZE
-            value: "40000000"
+            value: "30000000"
           - name: CATALOG_INDEX_IMAGE
             value: '{{ .Values.global.catalogIndex.image.registry }}/{{ .Values.global.catalogIndex.image.repository }}:{{ .Values.global.catalogIndex.image.tag }}'
           - name: CATALOG_ENTITIES_EXTRACT_DIR
@@ -420,6 +265,9 @@ upstream:
             mountPath: /tmp
         workingDir: /opt/app-root/src
     installDir: /opt/app-root/src
+    podAnnotations:
+      checksum/dynamic-plugins: >-
+        {{- include "common.tplvalues.render" ( dict "value" .Values.global.dynamic "context" $) | sha256sum }}
   ingress:
     host: "{{ .Values.global.host }}"
   metrics:
@@ -438,7 +286,7 @@ upstream:
       # tag is set to digest via prepare.sh script
       # tag: "${POSTGRESQL_DIGEST}"
 
-      tag: 327d89e4b62d990dbf55d3c78f271373747816c2e0ab3c943fb016cdcf12f9b5
+      tag: 7355b65f7e5f30da8f5bec1983ef9d46cbd1a940eb264b9f82ed2abee28e2283
     auth:
       secretKeys:
         adminPasswordKey: postgres-password
@@ -469,7 +317,7 @@ upstream:
         - name: POSTGRESQL_ADMIN_PASSWORD
           valueFrom:
             secretKeyRef:
-              key: '{{- include "rhdh.postgresql.adminPasswordKey" . }}'
+              key: postgres-password
               name: '{{- include "postgresql.v1.secretName" . }}'
   service:
     extraPorts:

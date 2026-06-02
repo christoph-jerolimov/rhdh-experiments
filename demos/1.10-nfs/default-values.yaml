@@ -43,7 +43,7 @@ global:
       # tag is set to digest via prepare.sh script
       # tag: "${PLUGIN_CATALOG_INDEX_DIGEST}"
 
-      tag: "85a5c4358570111328d4f755d842fb637bfa00ed7129ed9b75e907874c6c9583"
+      tag: "acbf7a19c41e65a57a52ecaac97b5e51ce8a105ad630c6bf3e4eace91fa67e4a"
     # -- Extra catalog index images for additional plugin discovery in the Extensions UI.
     # Each item must include `registry`, `repository`, and `tag` fields; `name` is optional.
     # Only catalog entities are extracted from extra images (no `dynamic-plugins.default.yaml` handling).
@@ -140,7 +140,7 @@ global:
         # tag is set to digest via prepare.sh script
         # tag: "${RAG_CONTENT_DIGEST}"
 
-        tag: 28ec9b4cfca5043a7b4d4022afcea5862bffb7d45a08e220b3972fb1abc4e3eb
+        tag: ec303d9fe69d5956ac6b2098bf8d8bfbc6d804e7be7e201bd6388fc56df90d4f
       imagePullPolicy: IfNotPresent
       command:
         - sh
@@ -175,7 +175,7 @@ global:
         # tag is set to digest via prepare.sh script
         # tag: "${LCS_DIGEST}"
 
-        tag: d392e5b21f6449433c5be96591619f919cc39638e6be3d80294cd9bc3ed67e7f
+        tag: a8d3bf4e0a3385c7e10ab0baa5898990d0cf16660fa9a459047059e34e3d235f
       imagePullPolicy: IfNotPresent
       portName: http-lightspeed
       containerPort: 8080
@@ -212,7 +212,7 @@ upstream:
       # tag is set to digest via prepare.sh script
       # tag: "${RHDH_DIGEST}"
 
-      tag: d7df8ff6a5aaae67ad6ca2cb7f11c04a894d8866944b83800c399bc2d79f108f
+      tag: 943af223a509add22de5c2da2803d363f0219eabaa96df945bb11c85f851b920
       pullPolicy: ""
     command: []
     # FIXME (tumido): USE POSTGRES_PASSWORD and POSTGRES_USER instead of POSTGRES_ADMIN_PASSWORD
@@ -438,7 +438,7 @@ upstream:
       # tag is set to digest via prepare.sh script
       # tag: "${POSTGRESQL_DIGEST}"
 
-      tag: 1240015e579ffd457e79587e14b5fc8806beb1f9389bd3d5b79ee491021e2f1e
+      tag: 327d89e4b62d990dbf55d3c78f271373747816c2e0ab3c943fb016cdcf12f9b5
     auth:
       secretKeys:
         adminPasswordKey: postgres-password
