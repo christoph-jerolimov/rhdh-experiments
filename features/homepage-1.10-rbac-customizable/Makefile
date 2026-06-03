@@ -1,14 +1,15 @@
 # https://quay.io/repository/rhdh/chart?tab=tags
 # https://quay.io/repository/rhdh/rhdh-hub-rhel9?tab=tags
 chart-name=oci://quay.io/rhdh/chart
-chart-version=1.8-160-CI
+chart-version=1.10-128-CI
 
 release-name=redhat-developer-hub
-release-namespace=rhdh-homepage-test
+release-namespace=rhdh-homepage-1-10-rbac-customizable
 
 cluster-route-suffix != ../../scripts/get-cluster-route-suffix.sh
 
 install:
+	oc apply -f extra-resources.yaml
 	helm upgrade "${release-name}" "${chart-name}" \
 	    --version "${chart-version}" \
 		--install \
@@ -16,6 +17,8 @@ install:
 		--namespace "${release-namespace}" \
 		--set "global.clusterRouterBase=${cluster-route-suffix}" \
 		--values ../../github.local.yaml \
+		--values ../../kubernetes.local.yaml \
+		--values ../../acr.local.yaml \
 		--values values.yaml
 
 uninstall:

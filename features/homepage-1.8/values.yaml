@@ -281,18 +281,5 @@ upstream:
           # policies-csv-file: ./rbac/rbac-policies.csv
           # conditionalPoliciesFile: ./rbac-conditions/rbac-conditional-policies.yaml
           admin:
-            superUsers:
-              - name: user:default/christoph-jerolimov
             users:
               - name: user:default/rhdh-qe
-
-  # reduce memory usage
-  postgresql:
-    primary:
-      resources:
-        requests:
-          cpu: 250m
-          memory: 256Mi
-        limits:
-          cpu: 250m
-          memory: 256Mi
