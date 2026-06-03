@@ -24,6 +24,225 @@ global:
                     config:
                       props:
                         title: Howdy!
+                mountPoints:
+                  - mountPoint: home.page/cards
+                    importName: SearchBar
+                    config:
+                      id: searchbar
+                      layouts:
+                        xl: { w: 10, h: 1, x: 1 }
+                        lg: { w: 10, h: 1, x: 1 }
+                        md: { w: 10, h: 1, x: 1 }
+                        sm: { w: 10, h: 1, x: 1 }
+                        xs: { w: 12, h: 1 }
+                        xxs: { w: 12, h: 1 }
+                  - mountPoint: home.page/cards
+                    importName: CatalogStarredEntitiesCard
+                    config:
+                      id: starred
+                      layouts:
+                        xl: { w: 6, h: 4 }
+                        lg: { w: 6, h: 4 }
+                        md: { w: 6, h: 4 }
+                        sm: { w: 12, h: 4 }
+                        xs: { w: 12, h: 4 }
+                        xxs: { w: 12, h: 4 }
+                  - mountPoint: home.page/cards
+                    importName: Placeholder
+                    config:
+                      id: placeholder1
+                      layouts:
+                        xl: { w: 1, h: 1 }
+                        lg: { w: 1, h: 1 }
+                        md: { w: 1, h: 1 }
+                        sm: { w: 1, h: 1 }
+                        xs: { w: 1, h: 1 }
+                        xxs: { w: 1, h: 1 }
+                      props:
+                        showBorder: true
+                        debugContent: '1 rhdh'
+                  - mountPoint: home.page/cards
+                    importName: Placeholder
+                    config:
+                      id: placeholder2
+                      layouts:
+                        xl: { w: 1, h: 1, x: 1 }
+                        lg: { w: 1, h: 1, x: 1 }
+                        md: { w: 1, h: 1, x: 1 }
+                        sm: { w: 1, h: 1, x: 1 }
+                        xs: { w: 1, h: 1, x: 1 }
+                        xxs: { w: 1, h: 1, x: 1 }
+                      props:
+                        showBorder: true
+                        debugContent: '2'
+                  - mountPoint: home.page/cards
+                    importName: Placeholder
+                    config:
+                      id: placeholder3
+                      layouts:
+                        xl: { w: 1, h: 1 }
+                        lg: { w: 1, h: 1 }
+                        md: { w: 1, h: 1 }
+                        sm: { w: 1, h: 1 }
+                        xs: { w: 1, h: 1 }
+                        xxs: { w: 1, h: 1 }
+                      props:
+                        showBorder: true
+                        debugContent: '3'
+          
+                  - mountPoint: home.page/cards
+                    importName: Placeholder
+                    config:
+                      id: placeholder4
+                      layouts:
+                        xl: { w: 12, h: 1 }
+                        lg: { w: 12, h: 1 }
+                        md: { w: 12, h: 1 }
+                        sm: { w: 12, h: 1 }
+                        xs: { w: 12, h: 1 }
+                        xxs: { w: 12, h: 1 }
+                      props:
+                        showBorder: true
+                        debugContent: '4'
+          
+                  - mountPoint: home.page/cards
+                    importName: Placeholder
+                    config:
+                      id: placeholder5
+                      layouts:
+                        xl: { w: 1, h: 1 }
+                        lg: { w: 1, h: 1 }
+                        md: { w: 1, h: 1 }
+                        sm: { w: 1, h: 1 }
+                        xs: { w: 1, h: 1 }
+                        xxs: { w: 1, h: 1 }
+                      props:
+                        showBorder: true
+                        debugContent: '5'
+                  - mountPoint: home.page/cards
+                    importName: Placeholder
+                    config:
+                      id: placeholder6
+                      layouts:
+                        xl: { w: 1, h: 1, x: 1 }
+                        lg: { w: 1, h: 1, x: 1 }
+                        md: { w: 1, h: 1, x: 1 }
+                        sm: { w: 1, h: 1, x: 1 }
+                        xs: { w: 1, h: 1, x: 1 }
+                        xxs: { w: 1, h: 1, x: 1 }
+                      props:
+                        showBorder: true
+                        debugContent: '6'
+                  - mountPoint: home.page/cards
+                    importName: FeaturedDocsCard
+                  - mountPoint: home.page/cards
+                    importName: Headline
+                    config:
+                      id: headline-left
+                      layouts:
+                        xl: { h: 1 }
+                        lg: { h: 1 }
+                        md: { h: 1 }
+                        sm: { h: 1 }
+                        xs: { h: 1 }
+                        xxs: { h: 1 }
+                      props:
+                        title: Important info
+                  - mountPoint: home.page/cards
+                    importName: Headline
+                    config:
+                      id: headline-right
+                      layouts:
+                        xl: { h: 1 }
+                        lg: { h: 1 }
+                        md: { h: 1 }
+                        sm: { h: 1 }
+                        xs: { h: 1 }
+                        xxs: { h: 1 }
+                      props:
+                        title: Important info
+                        align: right
+                  - mountPoint: home.page/cards
+                    importName: MarkdownCard
+                    config:
+                      id: markdown-company-links
+                      layouts:
+                        xl: { w: 6, h: 3 }
+                        lg: { w: 6, h: 3 }
+                        md: { w: 6, h: 3 }
+                        sm: { w: 6, h: 3 }
+                        xs: { w: 6, h: 3 }
+                        xxs: { w: 6, h: 3 }
+                      props:
+                        title: Company links
+                        content: |
+                          ### RHDH
+          
+                          * [Website](https://developers.redhat.com/rhdh/overview)
+                          * [Documentation](https://docs.redhat.com/en/documentation/red_hat_developer_hub/)
+                          * [GitHub Showcase](https://github.com/janus-idp/backstage-showcase)
+                          * [GitHub Plugins](https://github.com/janus-idp/backstage-plugins)
+                          * [Website](https://developers.redhat.com/rhdh/overview)
+                          * [Documentation](https://docs.redhat.com/en/documentation/red_hat_developer_hub/)
+                          * [GitHub Showcase](https://github.com/janus-idp/backstage-showcase)
+                          * [GitHub Plugins](https://github.com/janus-idp/backstage-plugins)
+                  - mountPoint: home.page/cards
+                    importName: Markdown
+                    config:
+                      id: markdown-company-links-2
+                      layouts:
+                        xl: { w: 6, h: 3, x: 6 }
+                        lg: { w: 6, h: 3, x: 6 }
+                        md: { w: 6, h: 3, x: 6 }
+                        sm: { w: 6, h: 3, x: 6 }
+                        xs: { w: 6, h: 3, x: 6 }
+                        xxs: { w: 6, h: 3, x: 6 }
+                      props:
+                        title: Important company links
+                        content: |
+                          ### RHDH
+          
+                          * [Website](https://developers.redhat.com/rhdh/overview)
+                          * [Documentation](https://docs.redhat.com/en/documentation/red_hat_developer_hub/)
+                          * [GitHub Showcase](https://github.com/janus-idp/backstage-showcase)
+                          * [GitHub Plugins](https://github.com/janus-idp/backstage-plugins)
+                          * [Website](https://developers.redhat.com/rhdh/overview)
+                          * [Documentation](https://docs.redhat.com/en/documentation/red_hat_developer_hub/)
+                          * [GitHub Showcase](https://github.com/janus-idp/backstage-showcase)
+                          * [GitHub Plugins](https://github.com/janus-idp/backstage-plugins)
+                  - mountPoint: home.page/cards
+                    importName: QuickAccessCard
+                    config:
+                      id: quick-access
+                      layouts:
+                        xl: { h: 8 }
+                        lg: { h: 8 }
+                        md: { h: 8 }
+                        sm: { h: 8 }
+                        xs: { h: 8 }
+                        xxs: { h: 8 }
+                  - mountPoint: home.page/cards
+                    importName: TopVisitedCard
+                    config:
+                      id: top-visited
+                      layouts:
+                        xl: { w: 6, h: 4 }
+                        lg: { w: 6, h: 4 }
+                        md: { w: 6, h: 4 }
+                        sm: { w: 6, h: 4 }
+                        xs: { w: 6, h: 4 }
+                        xxs: { w: 6, h: 4 }
+                  - mountPoint: home.page/cards
+                    importName: RecentlyVisitedCard
+                    config:
+                      id: recently-visited
+                      layouts:
+                        xl: { w: 6, h: 4, x: 6 }
+                        lg: { w: 6, h: 4, x: 6 }
+                        md: { w: 6, h: 4, x: 6 }
+                        sm: { w: 6, h: 4, x: 6 }
+                        xs: { w: 6, h: 4, x: 6 }
+                        xxs: { w: 6, h: 4, x: 6 }
 
 upstream:
   backstage:
@@ -138,6 +357,8 @@ upstream:
           # policies-csv-file: ./rbac/rbac-policies.csv
           # conditionalPoliciesFile: ./rbac-conditions/rbac-conditional-policies.yaml
           admin:
+            superUsers:
+              - name: user:default/christoph-jerolimov
             users:
               - name: user:default/rhdh-qe
 

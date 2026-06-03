@@ -16,6 +16,7 @@ global:
         disabled: false
       - package: ./dynamic-plugins/dist/backstage-plugin-notifications-backend-dynamic
         disabled: false
+
       - package: "./dynamic-plugins/dist/red-hat-developer-hub-backstage-plugin-dynamic-home-page"
         disabled: false
         pluginConfig:
@@ -32,6 +33,7 @@ global:
                   - mountPoint: home.page/cards
                     importName: SearchBar
                     config:
+                      id: searchbar
                       layouts:
                         xl: { w: 10, h: 1, x: 1 }
                         lg: { w: 10, h: 1, x: 1 }
@@ -42,6 +44,7 @@ global:
                   - mountPoint: home.page/cards
                     importName: CatalogStarredEntitiesCard
                     config:
+                      id: starred
                       layouts:
                         xl: { w: 6, h: 4 }
                         lg: { w: 6, h: 4 }
@@ -52,6 +55,7 @@ global:
                   - mountPoint: home.page/cards
                     importName: Placeholder
                     config:
+                      id: placeholder1
                       layouts:
                         xl: { w: 1, h: 1 }
                         lg: { w: 1, h: 1 }
@@ -65,6 +69,7 @@ global:
                   - mountPoint: home.page/cards
                     importName: Placeholder
                     config:
+                      id: placeholder2
                       layouts:
                         xl: { w: 1, h: 1, x: 1 }
                         lg: { w: 1, h: 1, x: 1 }
@@ -78,6 +83,7 @@ global:
                   - mountPoint: home.page/cards
                     importName: Placeholder
                     config:
+                      id: placeholder3
                       layouts:
                         xl: { w: 1, h: 1 }
                         lg: { w: 1, h: 1 }
@@ -92,6 +98,7 @@ global:
                   - mountPoint: home.page/cards
                     importName: Placeholder
                     config:
+                      id: placeholder4
                       layouts:
                         xl: { w: 12, h: 1 }
                         lg: { w: 12, h: 1 }
@@ -106,6 +113,7 @@ global:
                   - mountPoint: home.page/cards
                     importName: Placeholder
                     config:
+                      id: placeholder5
                       layouts:
                         xl: { w: 1, h: 1 }
                         lg: { w: 1, h: 1 }
@@ -119,6 +127,7 @@ global:
                   - mountPoint: home.page/cards
                     importName: Placeholder
                     config:
+                      id: placeholder6
                       layouts:
                         xl: { w: 1, h: 1, x: 1 }
                         lg: { w: 1, h: 1, x: 1 }
@@ -134,6 +143,7 @@ global:
                   - mountPoint: home.page/cards
                     importName: Headline
                     config:
+                      id: headline-left
                       layouts:
                         xl: { h: 1 }
                         lg: { h: 1 }
@@ -146,6 +156,7 @@ global:
                   - mountPoint: home.page/cards
                     importName: Headline
                     config:
+                      id: headline-right
                       layouts:
                         xl: { h: 1 }
                         lg: { h: 1 }
@@ -159,6 +170,7 @@ global:
                   - mountPoint: home.page/cards
                     importName: MarkdownCard
                     config:
+                      id: markdown-company-links
                       layouts:
                         xl: { w: 6, h: 3 }
                         lg: { w: 6, h: 3 }
@@ -182,6 +194,7 @@ global:
                   - mountPoint: home.page/cards
                     importName: Markdown
                     config:
+                      id: markdown-company-links-2
                       layouts:
                         xl: { w: 6, h: 3, x: 6 }
                         lg: { w: 6, h: 3, x: 6 }
@@ -205,6 +218,7 @@ global:
                   - mountPoint: home.page/cards
                     importName: QuickAccessCard
                     config:
+                      id: quick-access
                       layouts:
                         xl: { h: 8 }
                         lg: { h: 8 }
@@ -215,6 +229,7 @@ global:
                   - mountPoint: home.page/cards
                     importName: TopVisitedCard
                     config:
+                      id: top-visited
                       layouts:
                         xl: { w: 6, h: 4 }
                         lg: { w: 6, h: 4 }
@@ -225,6 +240,7 @@ global:
                   - mountPoint: home.page/cards
                     importName: RecentlyVisitedCard
                     config:
+                      id: recently-visited
                       layouts:
                         xl: { w: 6, h: 4, x: 6 }
                         lg: { w: 6, h: 4, x: 6 }
@@ -347,5 +363,7 @@ upstream:
           # policies-csv-file: ./rbac/rbac-policies.csv
           # conditionalPoliciesFile: ./rbac-conditions/rbac-conditional-policies.yaml
           admin:
+            superUsers:
+              - name: user:default/christoph-jerolimov
             users:
               - name: user:default/rhdh-qe
