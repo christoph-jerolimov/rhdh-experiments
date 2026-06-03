@@ -4,6 +4,9 @@ metadata:
   name: christoph-demo-components
 spec:
   targets:
+    - ./groups/group-a.yaml
+    - ./groups/group-b.yaml
+    - ./groups/group-c.yaml
     - ./groups/rhdh-team.yaml
     - ./users/AndrienkoAleksandr.yaml
     - ./users/benwilcock.yaml

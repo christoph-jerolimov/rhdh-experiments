@@ -7,4 +7,4 @@ spec:
   profile:
     displayName: Christoph Jerolimov (GitHub) # shown on the detail page
     picture: https://avatars.githubusercontent.com/u/139310?v=4
-  memberOf: [rhdh-team]
+  memberOf: [rhdh-team, group-a, group-b]
