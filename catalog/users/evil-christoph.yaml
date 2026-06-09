@@ -1,0 +1,8 @@
+apiVersion: backstage.io/v1alpha1
+kind: User
+metadata:
+  name: evil-jerolimov
+spec:
+  profile:
+    picture: https://avatars.githubusercontent.com/u/292031457?v=4
+  memberOf: [group-c]

@@ -4,10 +4,22 @@ metadata:
   name: christoph-demo-components
 spec:
   targets:
+    - ./apis/christoph-demo1-api.yaml
+    - ./apis/christoph-demo2-api.yaml
+    - ./apis/christoph-demo3-api.yaml
+    - ./components/backstage-showcase.yaml
+    - ./components/christoph-demo1-service.yaml
+    - ./components/christoph-demo2-service.yaml
+    - ./components/christoph-demo3-service.yaml
+    - ./components/has-tech-docs-1.yaml
+    - ./components/has-tech-docs-2.yaml
+    - ./components/has-tech-docs-3.yaml
+    - ./components/has-tech-docs-4.yaml
     - ./groups/group-a.yaml
     - ./groups/group-b.yaml
     - ./groups/group-c.yaml
     - ./groups/rhdh-team.yaml
+    - ./systems/christoph-demo-system.yaml
     - ./users/AndrienkoAleksandr.yaml
     - ./users/benwilcock.yaml
     - ./users/christoph-jerolimov.yaml
@@ -17,25 +29,15 @@ spec:
     - ./users/debsmita1.yaml
     - ./users/divyanshiGupta.yaml
     - ./users/dzemanov.yaml
+    - ./users/evil-christoph.yaml
+    - ./users/good-christoph.yaml
     - ./users/imykhno.yaml
     - ./users/invincibleJai.yaml
-    - ./users/jrichter1.yaml
     - ./users/its-mitesh-kumar.yaml
+    - ./users/jrichter1.yaml
     - ./users/kadel.yaml
     - ./users/lokanandaprabhu.yaml
     - ./users/Lucifergene.yaml
     - ./users/rhdh-qe.yaml
     - ./users/ShiranHi.yaml
     - ./users/teknaS47.yaml
-    - ./systems/christoph-demo-system.yaml
-    - ./components/backstage-showcase.yaml
-    - ./components/christoph-demo1-service.yaml
-    - ./components/christoph-demo2-service.yaml
-    - ./components/christoph-demo3-service.yaml
-    - ./components/has-tech-docs-1.yaml
-    - ./components/has-tech-docs-2.yaml
-    - ./components/has-tech-docs-3.yaml
-    - ./components/has-tech-docs-4.yaml
-    - ./apis/christoph-demo1-api.yaml
-    - ./apis/christoph-demo2-api.yaml
-    - ./apis/christoph-demo3-api.yaml

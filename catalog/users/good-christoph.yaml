@@ -1,0 +1,8 @@
+apiVersion: backstage.io/v1alpha1
+kind: User
+metadata:
+  name: good-jerolimov
+spec:
+  profile:
+    picture: https://avatars.githubusercontent.com/u/291922217?v=4
+  memberOf: [group-a, group-b]
