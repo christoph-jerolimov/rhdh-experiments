@@ -182,7 +182,7 @@ upstream:
     image:
       registry: quay.io
       repository: rhdh/rhdh-hub-rhel9
-      tag: 1.10-128
+      tag: 1.10-131
 
     extraEnvVars:
       # defaults from chart
