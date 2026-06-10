@@ -15,10 +15,12 @@ spec:
     - ./components/has-tech-docs-2.yaml
     - ./components/has-tech-docs-3.yaml
     - ./components/has-tech-docs-4.yaml
-    - ./groups/group-a.yaml
-    - ./groups/group-b.yaml
-    - ./groups/group-c.yaml
+    - ./groups/engineers.yaml
+    - ./groups/managers.yaml
     - ./groups/rhdh-team.yaml
+    - ./groups/team-a.yaml
+    - ./groups/team-b.yaml
+    - ./groups/team-c.yaml
     - ./systems/christoph-demo-system.yaml
     - ./users/AndrienkoAleksandr.yaml
     - ./users/benwilcock.yaml

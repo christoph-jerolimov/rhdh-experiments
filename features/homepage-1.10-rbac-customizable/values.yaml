@@ -252,92 +252,97 @@ global:
 
       - package: oci://registry.access.redhat.com/rhdh/red-hat-developer-hub-backstage-plugin-homepage-backend:1.10!red-hat-developer-hub-backstage-plugin-homepage-backend
       # - package: oci://ghcr.io/redhat-developer/rhdh-plugin-export-overlays/red-hat-developer-hub-backstage-plugin-homepage-backend:bs_1.49.4__0.1.1
+        disabled: false
         pluginConfig:
           homepage:
             defaultWidgets:
-            - id: onboarding-without-permissions
-              ref: 'rhdh-onboarding-section'
-              layout:
-                xl: { w: 12, h: 6 }
-                lg: { w: 12, h: 6 }
-                md: { w: 12, h: 7 }
-                sm: { w: 12, h: 8 }
-                xs: { w: 12, h: 9 }
-                xxs: { w: 12, h: 14 }
-        #     - id: onboarding-for-christoph
-        #       ref: 'rhdh-onboarding-section'
-        #       if:
-        #         users:
-        #           - user:default/christoph-jerolimov
-        #           - user:default/christoph-jerolimov2
-        #       layout:
-        #         xl: { w: 12, h: 6 }
-        #         lg: { w: 12, h: 6 }
-        #         md: { w: 12, h: 7 }
-        #         sm: { w: 12, h: 8 }
-        #         xs: { w: 12, h: 9 }
-        #         xxs: { w: 12, h: 14 }
-        #     - id: onboarding-for-rhdh-team
-        #       ref: 'rhdh-onboarding-section'
-        #       if:
-        #         groups:
-        #           - group:default/rhdh-team
-        #       layout:
-        #         xl: { w: 12, h: 6 }
-        #         lg: { w: 12, h: 6 }
-        #         md: { w: 12, h: 7 }
-        #         sm: { w: 12, h: 8 }
-        #         xs: { w: 12, h: 9 }
-        #         xxs: { w: 12, h: 14 }
-        #     - id: onboarding-for-rhdh-team-and-christoph
-        #       ref: 'rhdh-onboarding-section'
-        #       if:
-        #         groups:
-        #           - group:default/rhdh-team
-        #         users:
-        #           - user:default/christoph-jerolimov
-        #           - user:default/christoph-jerolimov2
-        #       layout:
-        #         xl: { w: 12, h: 6 }
-        #         lg: { w: 12, h: 6 }
-        #         md: { w: 12, h: 7 }
-        #         sm: { w: 12, h: 8 }
-        #         xs: { w: 12, h: 9 }
-        #         xxs: { w: 12, h: 14 }
-        #     - id: onboarding-for-another-user-and-group
-        #       ref: 'rhdh-onboarding-section'
-        #       if:
-        #         users:
-        #           - user:default/another-user
-        #         groups:
-        #           - group:default/another-group
-        #       layout:
-        #         xl: { w: 12, h: 6 }
-        #         lg: { w: 12, h: 6 }
-        #         md: { w: 12, h: 7 }
-        #         sm: { w: 12, h: 8 }
-        #         xs: { w: 12, h: 9 }
-        #         xxs: { w: 12, h: 14 }
-        #     - id: onboarding-for-test-permission
-        #       ref: 'rhdh-onboarding-section'
-        #       if:
-        #         permissions:
-        #           - test
-        #           - test2
-        #       layout:
-        #         xl: { w: 12, h: 6 }
-        #         lg: { w: 12, h: 6 }
-        #         md: { w: 12, h: 7 }
-        #         sm: { w: 12, h: 8 }
-        #         xs: { w: 12, h: 9 }
-        #         xxs: { w: 12, h: 14 }
+              - id: searchbar
+                ref: searchbar
+                layout:
+                  xl: { w: 10, h: 1, x: 1 }
+                  lg: { w: 10, h: 1, x: 1 }
+                  md: { w: 10, h: 1, x: 1 }
+                  sm: { w: 10, h: 1, x: 1 }
+                  xs: { w: 12, h: 1 }
+                  xxs: { w: 12, h: 1 }
 
-      # - package: oci://ghcr.io/redhat-developer/rhdh-plugin-export-overlays/red-hat-developer-hub-backstage-plugin-lightspeed:bs_1.49.4__2.6.3
-      #   enabled: false
-      #   disabled: true
-      # - package: oci://ghcr.io/redhat-developer/rhdh-plugin-export-overlays/red-hat-developer-hub-backstage-plugin-lightspeed-backend:bs_1.49.4__2.6.3
-      #   enabled: false
-      #   disabled: true
+              - id: onboarding-without-permissions
+                ref: 'rhdh-onboarding-section'
+                layout:
+                  xl: { w: 12, h: 6 }
+                  lg: { w: 12, h: 6 }
+                  md: { w: 12, h: 7 }
+                  sm: { w: 12, h: 8 }
+                  xs: { w: 12, h: 9 }
+                  xxs: { w: 12, h: 14 }
+
+          #     - id: onboarding-for-christoph
+          #       ref: 'rhdh-onboarding-section'
+          #       if:
+          #         users:
+          #           - user:default/christoph-jerolimov
+          #           - user:default/christoph-jerolimov2
+          #       layout:
+          #         xl: { w: 12, h: 6 }
+          #         lg: { w: 12, h: 6 }
+          #         md: { w: 12, h: 7 }
+          #         sm: { w: 12, h: 8 }
+          #         xs: { w: 12, h: 9 }
+          #         xxs: { w: 12, h: 14 }
+          #     - id: onboarding-for-rhdh-team
+          #       ref: 'rhdh-onboarding-section'
+          #       if:
+          #         groups:
+          #           - group:default/rhdh-team
+          #       layout:
+          #         xl: { w: 12, h: 6 }
+          #         lg: { w: 12, h: 6 }
+          #         md: { w: 12, h: 7 }
+          #         sm: { w: 12, h: 8 }
+          #         xs: { w: 12, h: 9 }
+          #         xxs: { w: 12, h: 14 }
+          #     - id: onboarding-for-rhdh-team-and-christoph
+          #       ref: 'rhdh-onboarding-section'
+          #       if:
+          #         groups:
+          #           - group:default/rhdh-team
+          #         users:
+          #           - user:default/christoph-jerolimov
+          #           - user:default/christoph-jerolimov2
+          #       layout:
+          #         xl: { w: 12, h: 6 }
+          #         lg: { w: 12, h: 6 }
+          #         md: { w: 12, h: 7 }
+          #         sm: { w: 12, h: 8 }
+          #         xs: { w: 12, h: 9 }
+          #         xxs: { w: 12, h: 14 }
+          #     - id: onboarding-for-another-user-and-group
+          #       ref: 'rhdh-onboarding-section'
+          #       if:
+          #         users:
+          #           - user:default/another-user
+          #         groups:
+          #           - group:default/another-group
+          #       layout:
+          #         xl: { w: 12, h: 6 }
+          #         lg: { w: 12, h: 6 }
+          #         md: { w: 12, h: 7 }
+          #         sm: { w: 12, h: 8 }
+          #         xs: { w: 12, h: 9 }
+          #         xxs: { w: 12, h: 14 }
+          #     - id: onboarding-for-test-permission
+          #       ref: 'rhdh-onboarding-section'
+          #       if:
+          #         permissions:
+          #           - test
+          #           - test2
+          #       layout:
+          #         xl: { w: 12, h: 6 }
+          #         lg: { w: 12, h: 6 }
+          #         md: { w: 12, h: 7 }
+          #         sm: { w: 12, h: 8 }
+          #         xs: { w: 12, h: 9 }
+          #         xxs: { w: 12, h: 14 }
 
 upstream:
   backstage:
