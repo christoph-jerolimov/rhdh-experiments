@@ -1,0 +1,290 @@
+global:
+  # catalogIndex:
+  #   image:
+  #     registry: quay.io
+  #     repository: rhdh/plugin-catalog-index
+  #     tag: "1.10"
+  dynamic:
+    plugins:
+      # GitHub signin
+      - package: oci://ghcr.io/redhat-developer/rhdh-plugin-export-overlays/red-hat-developer-hub-backstage-plugin-app-auth:bs_1.52.0__0.1.0
+        enabled: true
+        disabled: false
+      - package: oci://ghcr.io/redhat-developer/rhdh-plugin-export-overlays/red-hat-developer-hub-backstage-plugin-app-integrations:bs_1.52.0__0.1.0
+        enabled: true
+        disabled: false
+      
+      # App defaults, Header and Theme
+      - package: oci://ghcr.io/redhat-developer/rhdh-plugin-export-overlays/red-hat-developer-hub-backstage-plugin-app-defaults:bs_1.52.0__0.0.1
+        enabled: true
+        disabled: false
+      - package: oci://ghcr.io/redhat-developer/rhdh-plugin-export-overlays/red-hat-developer-hub-backstage-plugin-global-header:bs_1.52.0__1.22.0
+        enabled: true
+        disabled: false
+      - package: oci://ghcr.io/redhat-developer/rhdh-plugin-export-overlays/red-hat-developer-hub-backstage-plugin-theme:bs_1.52.0__0.15.0
+        enabled: true
+        disabled: false
+
+      # Homepage
+      - package: oci://ghcr.io/redhat-developer/rhdh-plugin-export-overlays/red-hat-developer-hub-backstage-plugin-homepage:bs_1.52.0__1.17.0
+        enabled: true
+        disabled: false
+        pluginConfig:
+          dynamicPlugins:
+            frontend:
+              red-hat-developer-hub.backstage-plugin-homepage:
+                dynamicRoutes:
+                  - path: /
+                    importName: DynamicHomePage
+                mountPoints:
+                  - mountPoint: home.page/cards
+                    importName: OnboardingSection
+                    config:
+                      layouts:
+                        xl: { w: 12, h: 6 }
+                        lg: { w: 12, h: 6 }
+                        md: { w: 12, h: 7 }
+                        sm: { w: 12, h: 8 }
+                        xs: { w: 12, h: 9 }
+                        xxs: { w: 12, h: 14 }
+                  - mountPoint: home.page/cards
+                    importName: EntitySection
+                    config:
+                      layouts:
+                        xl: { w: 12, h: 7 }
+                        lg: { w: 12, h: 7 }
+                        md: { w: 12, h: 8 }
+                        sm: { w: 12, h: 9 }
+                        xs: { w: 12, h: 11 }
+                        xxs: { w: 12, h: 15 }
+                  - mountPoint: home.page/cards
+                    importName: TemplateSection
+                    config:
+                      layouts:
+                        xl: { w: 12, h: 5 }
+                        lg: { w: 12, h: 5 }
+                        md: { w: 12, h: 5 }
+                        sm: { w: 12, h: 5 }
+                        xs: { w: 12, h: 7.5 }
+                        xxs: { w: 12, h: 13.5 }
+                  - mountPoint: home.page/widgets
+                    importName: RecentlyVisitedCard
+                    config:
+                      title: 'Recently Visited'
+                      description: 'Quick access to recently viewed entities and pages'
+                      priority: 2
+                      layouts:
+                        xl: { w: 4, h: 3 }
+                        lg: { w: 4, h: 3 }
+                        md: { w: 6, h: 3 }
+                        sm: { w: 12, h: 3 }
+                        xs: { w: 12, h: 3 }
+                        xxs: { w: 12, h: 3 }
+                  - mountPoint: home.page/widgets
+                    importName: TopVisitedCard
+                    config:
+                      title: 'Most Visited'
+                      description: 'Your most frequently accessed entities and services'
+                      priority: 1
+                      layouts:
+                        xl: { w: 4, h: 3 }
+                        lg: { w: 4, h: 3 }
+                        md: { w: 6, h: 3 }
+                        sm: { w: 12, h: 3 }
+                        xs: { w: 12, h: 3 }
+                        xxs: { w: 12, h: 3 }
+      - package: oci://ghcr.io/redhat-developer/rhdh-plugin-export-overlays/red-hat-developer-hub-backstage-plugin-homepage-backend:bs_1.52.0__0.4.0
+        enabled: true
+        disabled: false
+
+      # Extensions
+      - package: oci://ghcr.io/redhat-developer/rhdh-plugin-export-overlays/red-hat-developer-hub-backstage-plugin-extensions:bs_1.52.0__0.19.0
+        disabled: false
+      - package: oci://ghcr.io/redhat-developer/rhdh-plugin-export-overlays/red-hat-developer-hub-backstage-plugin-extensions-backend:bs_1.52.0__0.19.0
+        disabled: false
+      - package: oci://ghcr.io/redhat-developer/rhdh-plugin-export-overlays/red-hat-developer-hub-backstage-plugin-catalog-backend-module-extensions:bs_1.52.0__0.19.0
+        disabled: false
+
+      # Quickstart
+      - package: oci://ghcr.io/redhat-developer/rhdh-plugin-export-overlays/red-hat-developer-hub-backstage-plugin-quickstart:bs_1.52.0__1.12.2
+        disabled: false
+
+      # Tekton
+      - package: oci://ghcr.io/redhat-developer/rhdh-plugin-export-overlays/backstage-community-plugin-tekton:bs_1.52.0__3.40.0
+        disabled: false
+
+      # Topology
+      - package: oci://ghcr.io/redhat-developer/rhdh-plugin-export-overlays/backstage-community-plugin-topology:bs_1.52.0__2.15.0
+        disabled: false
+
+      # - package: ./dynamic-plugins/dist/backstage-community-plugin-rbac
+      #   disabled: false
+      # - package: oci://ghcr.io/redhat-developer/rhdh-plugin-export-overlays/red-hat-developer-hub-backstage-plugin-bulk-import:bs_1.49.4__7.3.5
+      #   disabled: false
+      # - package: oci://ghcr.io/redhat-developer/rhdh-plugin-export-overlays/red-hat-developer-hub-backstage-plugin-bulk-import-backend:bs_1.49.4__7.3.5
+      #   disabled: false
+      # - package: ./dynamic-plugins/dist/backstage-plugin-kubernetes
+      #   disabled: false
+      # - package: ./dynamic-plugins/dist/backstage-plugin-kubernetes-backend-dynamic
+      #   disabled: false
+      # - package: oci://ghcr.io/redhat-developer/rhdh-plugin-export-overlays/backstage-community-plugin-tekton:bs_1.49.4__3.37.0
+      # - package: oci://ghcr.io/redhat-developer/rhdh-plugin-export-overlays/backstage-community-plugin-topology:bs_1.49.4__2.12.3
+      #   disabled: false
+      # - package: oci://ghcr.io/redhat-developer/rhdh-plugin-export-overlays/backstage-community-plugin-acr:bs_1.49.4__1.24.1
+      #   disabled: false
+      # - package: ./dynamic-plugins/dist/backstage-plugin-scaffolder-backend-module-github-dynamic
+      #   disabled: false
+
+      # # - package: oci://ghcr.io/redhat-developer/rhdh-plugin-export-overlays/red-hat-developer-hub-backstage-plugin-lightspeed:bs_1.49.4__2.6.3
+      # #   enabled: false
+      # #   disabled: true
+      # # - package: oci://ghcr.io/redhat-developer/rhdh-plugin-export-overlays/red-hat-developer-hub-backstage-plugin-lightspeed-backend:bs_1.49.4__2.6.3
+      # #   enabled: false
+      # #   disabled: true
+
+  lightspeed:
+    enabled: false
+
+upstream:
+  backstage:
+    image:
+      registry: quay.io
+      repository: rhdh/rhdh-hub-rhel9
+      tag: 1.11-49
+
+    extraEnvVars:
+      # defaults from chart
+      - name: BACKEND_SECRET
+        valueFrom:
+          secretKeyRef:
+            key: backend-secret
+            name: '{{ include "rhdh.backend-secret-name" $ }}'
+      - name: POSTGRESQL_ADMIN_PASSWORD
+        valueFrom:
+          secretKeyRef:
+            key: '{{- include "rhdh.postgresql.adminPasswordKey" . }}'
+            name: '{{- include "rhdh.postgresql.secretName" . }}'
+      # added
+      - name: BACKSTAGE_LOG_LEVEL
+        value: debug
+
+    extraVolumeMounts:
+      # defaults from chart
+      - name: dynamic-plugins-root
+        mountPath: /opt/app-root/src/dynamic-plugins-root
+      - name: extensions-catalog
+        mountPath: /extensions
+      - name: temp
+        mountPath: /tmp
+
+      # add translations configmap
+      - name: rhdh-translations-configmap
+        mountPath: /translations
+
+    extraVolumes:
+      # defaults from chart
+      - name: dynamic-plugins-root
+        ephemeral:
+          volumeClaimTemplate:
+            spec:
+              accessModes:
+                - ReadWriteOnce
+              resources:
+                requests:
+                  storage: 5Gi
+      - name: dynamic-plugins
+        configMap:
+          defaultMode: 420
+          name: '{{ printf "%s-dynamic-plugins" .Release.Name }}'
+          optional: true
+      - name: dynamic-plugins-npmrc
+        secret:
+          defaultMode: 420
+          optional: true
+          secretName: '{{ printf "%s-dynamic-plugins-npmrc" .Release.Name }}'
+      - name: dynamic-plugins-registry-auth
+        secret:
+          defaultMode: 416
+          optional: true
+          secretName: '{{ printf "%s-dynamic-plugins-registry-auth" .Release.Name }}'
+      - name: npmcacache
+        emptyDir: {}
+      - name: extensions-catalog
+        emptyDir: {}
+      - name: temp
+        emptyDir: {}
+
+      # add translations configmap
+      # - name: dynamic-plugins-root
+      #   persistentVolumeClaim:
+      #     claimName: dynamic-plugins-root
+      - name: rhdh-translations-configmap
+        configMap:
+          name: rhdh-translations-configmap
+
+    appConfig:
+      signInPage: ['guest', 'github']
+      app:
+        title: RHDH 1.11 M1 OFS
+        branding:
+          # iconLogo: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAMAAABEpIrGAAADAFBMVEVHcEyWcCiolEdoUSP+4DD7xRX8zBe4qVCtjDKtiCL+94mkgSWpiy6tmDmogyC1mzGvnkCjgCaypUW2pTvjuzbhuzfMvD2viBzWwjfYqBW2rU360R+3jRnz2jPg1ETmvzTPsCvZsDn8yhrvuR31ySL+7ETsxC68lCK2jyDhujrFmhq5sVPYrBzerS3zwh+9kBj3yBxWORf+5jL91CF/XB3swizdtTjrrRTitTD1yCO5sFfjujbnvS9KOi3DkBTovC/WqDKLcVr8yyP5yhzEiB+NYxj+81CMWx3q4VfjoxZ+Sg1XNRL7wRK2sF7itzGibhXFjRDQpDbl3VzcsDO/hBDyqQ7cnRXkqyLyuxr+6DuyeRPYoCXKgA/ZlRjbggq1r2XOoTBcOiBfPCMNBQTWz2TwrBnKmCXCvWr+60XFli5ySiTPiQouEQYlDgd8QAvl4XvHixe3s2y+kCn7zit+VhF1WheZgDnbuCGffSXYlBHDvnCsfRhzYRfGtURxWQrz1y6EYAjVwkbX03fw3kLRylf+93HEvWjp5X65smrAtGPt6XW7sGTx7oTd12H91hz91Bv8xRLjjAr96D791xz8yRf90B/91ib80R7+4y/91Rn90Bz9zyH+4jX9zRn92yT91iD6yBn8xxT8wxb+8EP6uw/0pQz+81r+82782TT+9Hz98VP++IXy30HnshTwuRX1uRL+5jb+7Tz+6Dj+6zj2uhD84DT760nrxij+4jPq4E798Ez+2i3+8k390hr5zyL1uxT5xhj+5zD6zh38xxvtvxv9zxr92S7+3Cr80SH+4C3wsA/3uRL92SP+4zb+6j7+81X3sQ/9yxm4aAj80hrqpg6+ZwnvoAztngv/9Ffehg3gigr1qhDxoA3eiQ3SewnplQv2wBrgnAz+7kT882T+5TvWlRDbkAr82zX38HX2viP93zjjmA7+82fJgAmwgyn+60+6egnyth359If94j/gvSP++ZCsdAiqjQ/++ZT40Cresxr99Wb++pr08ID//J/+/JaMm2H6AAAAlHRSTlMABgko/v7+AQJ0/iQVKFWdGChWnVse64L6/pT+rP7+m/Y1/vz+/t/TtSnrpP7H/tX+I/7+C+E6/qz+lninIO/RhXX+/jBa/jH+/uCR/mpoofln/h32/v2+/P7bTvLG/it6Durz9f6zvf4bGv77/v7+70Vx/vHmZ/5K/q/WtG39/v699P5X/i/+NGH+Wv7Y///////+AJaghAAAAYtJREFUOMtjYKAGcLTFL8+YlMyBVwFzbk4iXgVl7/Ky8CqoLS9hxyfP3vilFK8BLc31dcx45Dl6f6/6XoNHQVvX/9ZfDRW4FXT+/bf657dqRpwKunv+cK2o/FCEU0FH+4/Vnz++LcjEpYCp6SvX++LX2Wk4g7vq08o3r14+e5qAS0Fh/srlGc9TH4YF4lKR/mL5sicrHlzxdMBhS3zK42WPIuc4nzLXVcSuwjdo1Y3F585O37Je2cIMa7xZeZx3Wxw5Z9pC1gN69taaWOJDe+euPRs37dg9e9GUuYcs1eRFRNFVSMltU91sNIPlmNNhtv7JfdIqpjZ+wShKhMTWTNpwcMbJ49NmT521t3/mzMsLIsKjkb0lICwhu5Vl3rwz8+cbT50+l23CwglLQmNdkA3h5VfYvu/E9P6+vv6jFxfdvnn3ztLrMe4o9vBwquscMVigNIV1gs+SpRMnToy76o3uIUFODS3Jtev2n75w7f6te5e8DLElQm4+cRl9u4CQKH9XEzxplYmRgToAADVmlE2t74hfAAAAAElFTkSuQmCC"
+          # fullLogo: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAMAAABEpIrGAAADAFBMVEVHcEyWcCiolEdoUSP+4DD7xRX8zBe4qVCtjDKtiCL+94mkgSWpiy6tmDmogyC1mzGvnkCjgCaypUW2pTvjuzbhuzfMvD2viBzWwjfYqBW2rU360R+3jRnz2jPg1ETmvzTPsCvZsDn8yhrvuR31ySL+7ETsxC68lCK2jyDhujrFmhq5sVPYrBzerS3zwh+9kBj3yBxWORf+5jL91CF/XB3swizdtTjrrRTitTD1yCO5sFfjujbnvS9KOi3DkBTovC/WqDKLcVr8yyP5yhzEiB+NYxj+81CMWx3q4VfjoxZ+Sg1XNRL7wRK2sF7itzGibhXFjRDQpDbl3VzcsDO/hBDyqQ7cnRXkqyLyuxr+6DuyeRPYoCXKgA/ZlRjbggq1r2XOoTBcOiBfPCMNBQTWz2TwrBnKmCXCvWr+60XFli5ySiTPiQouEQYlDgd8QAvl4XvHixe3s2y+kCn7zit+VhF1WheZgDnbuCGffSXYlBHDvnCsfRhzYRfGtURxWQrz1y6EYAjVwkbX03fw3kLRylf+93HEvWjp5X65smrAtGPt6XW7sGTx7oTd12H91hz91Bv8xRLjjAr96D791xz8yRf90B/91ib80R7+4y/91Rn90Bz9zyH+4jX9zRn92yT91iD6yBn8xxT8wxb+8EP6uw/0pQz+81r+82782TT+9Hz98VP++IXy30HnshTwuRX1uRL+5jb+7Tz+6Dj+6zj2uhD84DT760nrxij+4jPq4E798Ez+2i3+8k390hr5zyL1uxT5xhj+5zD6zh38xxvtvxv9zxr92S7+3Cr80SH+4C3wsA/3uRL92SP+4zb+6j7+81X3sQ/9yxm4aAj80hrqpg6+ZwnvoAztngv/9Ffehg3gigr1qhDxoA3eiQ3SewnplQv2wBrgnAz+7kT882T+5TvWlRDbkAr82zX38HX2viP93zjjmA7+82fJgAmwgyn+60+6egnyth359If94j/gvSP++ZCsdAiqjQ/++ZT40Cresxr99Wb++pr08ID//J/+/JaMm2H6AAAAlHRSTlMABgko/v7+AQJ0/iQVKFWdGChWnVse64L6/pT+rP7+m/Y1/vz+/t/TtSnrpP7H/tX+I/7+C+E6/qz+lninIO/RhXX+/jBa/jH+/uCR/mpoofln/h32/v2+/P7bTvLG/it6Durz9f6zvf4bGv77/v7+70Vx/vHmZ/5K/q/WtG39/v699P5X/i/+NGH+Wv7Y///////+AJaghAAAAYtJREFUOMtjYKAGcLTFL8+YlMyBVwFzbk4iXgVl7/Ky8CqoLS9hxyfP3vilFK8BLc31dcx45Dl6f6/6XoNHQVvX/9ZfDRW4FXT+/bf657dqRpwKunv+cK2o/FCEU0FH+4/Vnz++LcjEpYCp6SvX++LX2Wk4g7vq08o3r14+e5qAS0Fh/srlGc9TH4YF4lKR/mL5sicrHlzxdMBhS3zK42WPIuc4nzLXVcSuwjdo1Y3F585O37Je2cIMa7xZeZx3Wxw5Z9pC1gN69taaWOJDe+euPRs37dg9e9GUuYcs1eRFRNFVSMltU91sNIPlmNNhtv7JfdIqpjZ+wShKhMTWTNpwcMbJ49NmT521t3/mzMsLIsKjkb0lICwhu5Vl3rwz8+cbT50+l23CwglLQmNdkA3h5VfYvu/E9P6+vv6jFxfdvnn3ztLrMe4o9vBwquscMVigNIV1gs+SpRMnToy76o3uIUFODS3Jtev2n75w7f6te5e8DLElQm4+cRl9u4CQKH9XEzxplYmRgToAADVmlE2t74hfAAAAAElFTkSuQmCC"
+          # fullLogoWidth: 32
+
+      i18n:
+        locales:
+          - en
+          - de
+          - fr
+          - it
+          - ja
+          - ko
+          # - en-US
+          # - en-IN
+          # - en-UK
+          # - zh
+          # - pt-BR
+          # - zh-CN
+        overrides:
+          - /translations/allTranslations.json
+
+      catalog:
+        rules:
+          - allow: [Component, System, API, Resource, Location]
+        locations:
+          - type: url
+            target: https://github.com/christoph-jerolimov/rhdh-experiments/blob/main/catalog/all.yaml
+            rules:
+              - allow: [Component, System, API, Resource, Location, User, Group]
+          - type: url
+            target: https://github.com/backstage/community-plugins/blob/main/workspaces/scaffolder-backend-module-annotator/plugins/scaffolder-backend-module-annotator/examples/templates/01-scaffolder-template.yaml
+            rules:
+              - allow: [Template]
+          - type: url
+            target: https://github.com/backstage/community-plugins/blob/main/workspaces/scaffolder-backend-module-annotator/plugins/scaffolder-backend-module-annotator/examples/templates/02-scaffolder-template.yaml
+            rules:
+              - allow: [Template]
+
+      dynamicPlugins:
+        frontend:
+          default.main-menu-items:
+            menuItems:
+              default.home:
+                title: Home (changed)
+
+      permission:
+        enabled: true
+        rbac:
+          pluginsWithPermission:
+            - catalog
+            - permission
+            - scaffolder
+          # policyFileReload: true
+          # policies-csv-file: ./rbac/rbac-policies.csv
+          # conditionalPoliciesFile: ./rbac-conditions/rbac-conditional-policies.yaml
+          admin:
+            # Todo: change this
+            superUsers:
+              - name: user:default/christoph-jerolimov
+            users:
+              - name: user:default/rhdh-qe
