@@ -1,0 +1,12 @@
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: rhdh-loadtests-19
+  annotations:
+    argocd/app-name: rhdh-loadtests-19
+    backstage.io/kubernetes-label-selector: 'app.kubernetes.io/instance=rhdh-loadtests-19'
+spec:
+  type: service
+  system: rhdh
+  owner: rhdh-team
+  lifecycle: testing

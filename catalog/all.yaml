@@ -15,6 +15,9 @@ spec:
     - ./components/has-tech-docs-2.yaml
     - ./components/has-tech-docs-3.yaml
     - ./components/has-tech-docs-4.yaml
+    - ./components/rhdh-loadtests-19.yaml
+    - ./components/rhdh-loadtests-110.yaml
+    - ./components/rhdh-loadtests-next.yaml
     - ./groups/engineers.yaml
     - ./groups/managers.yaml
     - ./groups/rhdh-team.yaml
