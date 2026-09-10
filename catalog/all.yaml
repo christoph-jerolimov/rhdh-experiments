@@ -36,6 +36,7 @@ spec:
     - ./users/dzemanov.yaml
     - ./users/evil-christoph.yaml
     - ./users/good-christoph.yaml
+    - ./users/guest.yaml
     - ./users/imykhno.yaml
     - ./users/invincibleJai.yaml
     - ./users/its-mitesh-kumar.yaml
