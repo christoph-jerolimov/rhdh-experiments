@@ -12,7 +12,7 @@ image:
   repository: rhdh/rhdh-hub-rhel10
   tag: ''
   pullPolicy: IfNotPresent
-  digest: sha256:925a2b2c266085e906019eda13154266d0bd6deb943874c6df1218945c23bcf2
+  digest: sha256:8351bb3d287d6b363c2f91cfec50c95ddb2a33d636e85b67d16e7e52fee9786f
 imagePullSecrets: []
 appConfig:
   auth:
@@ -94,7 +94,7 @@ catalogIndex:
     registry: quay.io
     repository: rhdh/plugin-catalog-index
     tag: ''
-    digest: sha256:fcb3b259fb80b93b9bb17bd093e917d0c584489e64bd5e930a2b93c6d57ff009
+    digest: sha256:18310a7bf871e9c45f2050d72a68b4c13f8ea5746b3e9b9727cd9dcd7ebba029
   extraImages: []
 replicaCount: 1
 revisionHistoryLimit: 10
@@ -245,7 +245,7 @@ postgresql:
     registry: registry.redhat.io
     repository: rhel10/postgresql-18
     tag: ''
-    digest: sha256:44765ab6895a33529e2ad2cec1f819c103459a5d59e93a60ebc1fa2bfa4ee747
+    digest: sha256:2e04d97c53cd19e9fc855195f0585925fd2a704e42cb158d9c96b57747631882
   auth:
     secretKeys:
       adminPasswordKey: postgres-password
