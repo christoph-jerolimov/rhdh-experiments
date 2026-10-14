@@ -1,0 +1,475 @@
+global:
+  imageRegistry: ''
+  imagePullSecrets: []
+  defaultStorageClass: ''
+nameOverride: developer-hub
+fullnameOverride: ''
+commonLabels: {}
+commonAnnotations: {}
+extraDeploy: []
+image:
+  registry: quay.io
+  repository: rhdh/rhdh-hub-rhel10
+  tag: ''
+  pullPolicy: IfNotPresent
+  digest: sha256:925a2b2c266085e906019eda13154266d0bd6deb943874c6df1218945c23bcf2
+imagePullSecrets: []
+appConfig:
+  auth:
+    providers: {}
+  app:
+    baseUrl: https://{{- include "rhdh.hostname" . }}
+  backend:
+    baseUrl: https://{{- include "rhdh.hostname" . }}
+    cors:
+      origin: https://{{- include "rhdh.hostname" . }}
+    database:
+      connection:
+        host: ${POSTGRES_HOST}
+        port: ${POSTGRES_PORT}
+        user: ${POSTGRES_USER}
+        password: ${POSTGRES_PASSWORD}
+    auth:
+      externalAccess:
+        - type: legacy
+          options:
+            subject: legacy-default-config
+            secret: ${BACKEND_SECRET}
+extraAppConfig: []
+auth:
+  backend:
+    enabled: true
+    existingSecretRef:
+      name: ''
+      key: backend-secret
+    value: ''
+commandOverride: []
+argsOverride: []
+extraArgs: []
+envOverride: []
+extraEnv: []
+envFromOverride: []
+extraEnvFrom: []
+dynamicPlugins:
+  includes:
+    - dynamic-plugins.default.yaml
+  plugins: []
+  maxEntrySize: 40000000
+  volume:
+    type: ephemeral
+    ephemeral:
+      storageClassName: ''
+      accessModes:
+        - ReadWriteOnce
+      resources:
+        requests:
+          storage: 5Gi
+    emptyDir: {}
+    pvc:
+      claimName: ''
+    statefulSetPVC:
+      storageClassName: ''
+      accessModes:
+        - ReadWriteOnce
+      resources:
+        requests:
+          storage: 5Gi
+  initContainer:
+    commandOverride: []
+    argsOverride: []
+    extraArgs: []
+    extraEnv: []
+    extraVolumeMounts: []
+    resources:
+      requests:
+        cpu: 250m
+        memory: 256Mi
+      limits:
+        cpu: 1000m
+        memory: 2.5Gi
+        ephemeral-storage: 5Gi
+    securityContext: {}
+catalogIndex:
+  image:
+    registry: quay.io
+    repository: rhdh/plugin-catalog-index
+    tag: ''
+    digest: sha256:fcb3b259fb80b93b9bb17bd093e917d0c584489e64bd5e930a2b93c6d57ff009
+  extraImages: []
+replicaCount: 1
+revisionHistoryLimit: 10
+strategy: {}
+workload:
+  kind: Deployment
+  statefulSet:
+    serviceName: ''
+    podManagementPolicy: ''
+    updateStrategy: {}
+    persistentVolumeClaimRetentionPolicy: {}
+    extraVolumeClaimTemplates: []
+    annotations: {}
+serviceAccount:
+  create: false
+  automount: true
+  labels: {}
+  annotations: {}
+  name: ''
+podAnnotations: {}
+podLabels: {}
+podSecurityContext: {}
+containerSecurityContext:
+  readOnlyRootFilesystem: true
+  allowPrivilegeEscalation: false
+  capabilities:
+    drop:
+      - ALL
+  runAsNonRoot: true
+  seccompProfile:
+    type: RuntimeDefault
+resources:
+  requests:
+    cpu: 250m
+    memory: 1Gi
+  limits:
+    cpu: 1000m
+    memory: 2.5Gi
+    ephemeral-storage: 5Gi
+startupProbe:
+  httpGet:
+    path: /.backstage/health/v1/liveness
+    port: backend
+    scheme: HTTP
+  initialDelaySeconds: 30
+  timeoutSeconds: 4
+  periodSeconds: 20
+  successThreshold: 1
+  failureThreshold: 3
+readinessProbe:
+  httpGet:
+    path: /.backstage/health/v1/readiness
+    port: backend
+    scheme: HTTP
+  periodSeconds: 10
+  successThreshold: 2
+  failureThreshold: 3
+  timeoutSeconds: 4
+livenessProbe:
+  httpGet:
+    path: /.backstage/health/v1/liveness
+    port: backend
+    scheme: HTTP
+  periodSeconds: 10
+  successThreshold: 1
+  failureThreshold: 3
+  timeoutSeconds: 4
+extraVolumes: []
+extraVolumeMounts: []
+extraContainers: []
+preInitContainers: []
+extraInitContainers: []
+nodeSelector: {}
+tolerations: []
+affinity: {}
+topologySpreadConstraints: []
+hostAliases: []
+priorityClassName: ''
+terminationGracePeriodSeconds: null
+lifecycleHooks: {}
+deploymentAnnotations: {}
+autoscaling:
+  enabled: false
+  minReplicas: 1
+  maxReplicas: 3
+  targetCPUUtilizationPercentage: 80
+podDisruptionBudget:
+  create: false
+  minAvailable: ''
+  maxUnavailable: 1
+host: ''
+service:
+  type: ClusterIP
+  port: 7007
+  extraPorts:
+    - name: http-metrics
+      port: 9464
+      targetPort: 9464
+  annotations: {}
+  nodePort: ''
+  sessionAffinity: ''
+  clusterIP: ''
+  loadBalancerIP: ''
+  loadBalancerSourceRanges: []
+  externalTrafficPolicy: ''
+  ipFamilyPolicy: ''
+  ipFamilies: []
+ingress:
+  enabled: false
+  className: ''
+  annotations: {}
+  hosts:
+    - host: '{{ .Values.host }}'
+      paths:
+        - path: /
+          pathType: ImplementationSpecific
+  tls: []
+httpRoute:
+  enabled: false
+  labels: {}
+  annotations: {}
+  parentRefs: []
+  hostnames: []
+  rules: []
+openshift:
+  clusterRouterBase: apps.example.com
+  route:
+    annotations: {}
+    enabled: true
+    host: '{{ .Values.host }}'
+    path: /
+    wildcardPolicy: None
+    targetPort: http-backend
+    tls:
+      enabled: true
+      termination: edge
+      certificate: ''
+      key: ''
+      caCertificate: ''
+      destinationCACertificate: ''
+      insecureEdgeTerminationPolicy: Redirect
+postgresql:
+  enabled: true
+  postgresqlDataDir: /var/lib/pgsql/data/userdata
+  serviceBindings:
+    enabled: true
+  image:
+    registry: registry.redhat.io
+    repository: rhel10/postgresql-18
+    tag: ''
+    digest: sha256:44765ab6895a33529e2ad2cec1f819c103459a5d59e93a60ebc1fa2bfa4ee747
+  auth:
+    secretKeys:
+      adminPasswordKey: postgres-password
+      userPasswordKey: password
+  primary:
+    networkPolicy:
+      enabled: false
+    podSecurityContext:
+      enabled: false
+    containerSecurityContext:
+      enabled: false
+      allowPrivilegeEscalation: false
+      capabilities:
+        drop:
+          - ALL
+    resources:
+      requests:
+        cpu: 250m
+        memory: 256Mi
+      limits:
+        cpu: 250m
+        memory: 1024Mi
+        ephemeral-storage: 20Mi
+    persistence:
+      enabled: true
+      size: 1Gi
+      mountPath: /var/lib/pgsql/data
+    extraEnvVars:
+      - name: POSTGRESQL_ADMIN_PASSWORD
+        valueFrom:
+          secretKeyRef:
+            key: '{{- include "rhdh.postgresql.adminPasswordKey" . }}'
+            name: '{{- include "rhdh.postgresql.secretName" . }}'
+  readReplicas:
+    networkPolicy:
+      enabled: false
+externalDatabase:
+  host: ''
+  port: 5432
+  user: postgres
+  existingSecretRef:
+    name: ''
+    key: password
+metrics:
+  serviceMonitor:
+    enabled: false
+    path: /metrics
+    port: http-metrics
+    interval: ''
+    labels: {}
+    annotations: {}
+intelligentAssistant:
+  enabled: true
+  plugins:
+    - package: ref://red-hat-developer-hub-backstage-plugin-intelligent-assistant
+      enabled: true
+    - package: ref://red-hat-developer-hub-backstage-plugin-intelligent-assistant-backend
+      enabled: true
+  config:
+    stack:
+      existingConfigMap:
+        name: ''
+        key: ''
+    profile:
+      existingConfigMap:
+        name: ''
+        key: ''
+  existingSecret: ''
+  runtimeVolume:
+    type: emptyDir
+    emptyDir: {}
+    persistentVolumeClaim: {}
+  core:
+    image:
+      registry: registry.redhat.io
+      repository: lightspeed-core/lightspeed-stack-rhel9
+      tag: ''
+      digest: sha256:ae5ba130363ab4a364f3aebc9f98079e7650351b9f40f0a4e9b495acd20da9b1
+    imagePullPolicy: IfNotPresent
+    commandOverride: []
+    argsOverride: []
+    extraArgs: []
+    extraEnv: []
+    extraVolumeMounts: []
+    resources:
+      requests:
+        cpu: 100m
+        memory: 512Mi
+      limits:
+        cpu: 1000m
+        memory: 2Gi
+    securityContext:
+      readOnlyRootFilesystem: true
+      allowPrivilegeEscalation: false
+      capabilities:
+        drop:
+          - ALL
+      runAsNonRoot: true
+      seccompProfile:
+        type: RuntimeDefault
+  okp:
+    enabled: false
+    image:
+      registry: registry.redhat.io
+      repository: offline-knowledge-portal/rhokp-rhel9
+      tag: ''
+      digest: sha256:adbe513585a026c8392e27e7a8f3618d4edb5a90a8ec2bb79914765cb9e929e4
+      pullPolicy: IfNotPresent
+    replicaCount: 1
+    solr:
+      memory: 1g
+      hostBind: 0.0.0.0
+    httpd:
+      serverName: localhost
+      compressed: 'true'
+      encrypt: 'false'
+    resources:
+      requests:
+        cpu: 200m
+        memory: 2Gi
+      limits:
+        cpu: '2'
+        memory: 4Gi
+    service:
+      type: ClusterIP
+    imagePullSecrets: []
+    affinity: {}
+    nodeSelector: {}
+    tolerations: []
+    topologySpreadConstraints: []
+    readinessProbe:
+      initialDelaySeconds: 10
+      periodSeconds: 10
+    livenessProbe:
+      initialDelaySeconds: 30
+      periodSeconds: 30
+    route:
+      enabled: true
+      tls:
+        termination: edge
+        insecureEdgeTerminationPolicy: Redirect
+    ingress:
+      enabled: true
+      host: ''
+      className: ''
+      annotations: {}
+      tls:
+        enabled: false
+        secretName: ''
+    securityContext:
+      allowPrivilegeEscalation: false
+      runAsNonRoot: true
+      capabilities:
+        drop:
+          - ALL
+      seccompProfile:
+        type: RuntimeDefault
+orchestrator:
+  enabled: false
+  serverlessLogicOperator:
+    enabled: true
+  serverlessOperator:
+    enabled: true
+  sonataflowPlatform:
+    monitoring:
+      enabled: true
+    eventing:
+      broker:
+        name: ''
+        namespace: ''
+    resources:
+      requests:
+        memory: 64Mi
+        cpu: 250m
+      limits:
+        memory: 1Gi
+        cpu: 500m
+    externalDB:
+      existingSecret: ''
+      name: ''
+      host: ''
+      port: ''
+    dbCreationJob:
+      backoffLimit: 2
+      ttlSecondsAfterFinished: null
+      activeDeadlineSeconds: 120
+      image:
+        registry: '{{ .Values.postgresql.image.registry }}'
+        repository: '{{ .Values.postgresql.image.repository }}'
+        tag: '{{ .Values.postgresql.image.tag }}'
+        digest: '{{ .Values.postgresql.image.digest }}'
+    dataIndex:
+      image:
+        registry: ''
+        repository: ''
+        tag: ''
+        digest: ''
+    jobService:
+      image:
+        registry: ''
+        repository: ''
+        tag: ''
+        digest: ''
+  plugins:
+    - package: ref://red-hat-developer-hub-backstage-plugin-orchestrator-backend
+      enabled: true
+    - package: ref://red-hat-developer-hub-backstage-plugin-orchestrator-form-widgets
+      enabled: true
+    - package: ref://red-hat-developer-hub-backstage-plugin-orchestrator
+      enabled: true
+    - package: ref://red-hat-developer-hub-backstage-plugin-scaffolder-backend-module-orchestrator
+      enabled: true
+test:
+  enabled: true
+  image:
+    registry: quay.io
+    repository: curl/curl
+    tag: 8.22.0
+    digest: ''
+    pullPolicy: IfNotPresent
+  securityContext:
+    allowPrivilegeEscalation: false
+    readOnlyRootFilesystem: true
+    capabilities:
+      drop:
+        - ALL
+

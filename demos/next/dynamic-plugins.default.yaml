@@ -1,0 +1,1090 @@
+# THIS FILE IS GENERATED - DO NOT EDIT!
+#
+# File dynamic-plugins.default.yaml is now generated from default.packages.yaml
+# and default configuration located in the overlays repo under workspaces/*/metadata/*.yaml
+# See https://github.com/redhat-developer/rhdh-plugin-export-overlays/
+#
+# To update this file, trigger a rebuld of the index image from 
+# https://gitlab.cee.redhat.com/rhidp/rhdh-plugin-catalog/-/blob/main/build/ci/update-index.sh
+plugins:
+  # Tag: 2.1.0--2.0.0, Build date: 2026-09-22T16:33:57Z
+  - package: oci://quay.io/rhdh/backstage-community-plugin-analytics-provider-segment@sha256:59576e5a44f34be09fd035e0bac5ffbbd1296840f80660711b927fd5060f89bf
+    enabled: true
+    pluginConfig:
+      backend:
+        csp:
+          script-src:
+            - "'self'"
+            - "'unsafe-eval'"
+            - https://cdn.segment.com
+      app:
+        analytics:
+          segment:
+            writeKey: ${SEGMENT_WRITE_KEY}
+            maskIP: true
+            testMode: ${SEGMENT_TEST_MODE}
+            appVersion: ${RHDH_VERSION}
+            backstageVersion: ${BACKSTAGE_VERSION}
+  # Tag: 2.1.0--2.18.0, Build date: 2026-09-09T08:35:50Z
+  - package: oci://quay.io/rhdh/backstage-community-plugin-scaffolder-backend-module-regex@sha256:bb5b056de13065a17405ad1e3293d24ffeb097a06045b9ca3d5ea684e37bd1c9
+    enabled: true
+  # Tag: 2.1.0--1.18.0, Build date: 2026-09-21T19:41:32Z
+  - package: oci://quay.io/rhdh/backstage-plugin-techdocs@sha256:96ec8f282ea53c0f44b493a5356d03794d462b766e2f9ee846096296aff5c1e0
+    enabled: true
+    pluginConfig:
+      dynamicPlugins:
+        frontend:
+          backstage.plugin-techdocs:
+            routeBindings:
+              targets:
+                - importName: techdocsPlugin
+              bindings:
+                - bindTarget: catalogPlugin.externalRoutes
+                  bindMap:
+                    viewTechDoc: techdocsPlugin.routes.docRoot
+                - bindTarget: scaffolderPlugin.externalRoutes
+                  bindMap:
+                    viewTechDoc: techdocsPlugin.routes.docRoot
+            dynamicRoutes:
+              - path: /docs
+                importName: TechDocsIndexPage
+                menuItem:
+                  icon: docs
+                  text: Docs
+                  textKey: menuItem.docs
+              - path: /docs/:namespace/:kind/:name/*
+                importName: TechDocsReaderPage
+            mountPoints:
+              - mountPoint: entity.page.docs/cards
+                importName: EntityTechdocsContent
+                config:
+                  layout:
+                    gridColumn: 1 / -1
+                  if:
+                    allOf:
+                      - isTechDocsAvailable
+              - mountPoint: search.page.results
+                importName: TechDocsSearchResultListItem
+              - mountPoint: search.page.filters
+                importName: TechdocsSearchFilter
+              - mountPoint: search.page.types
+                importName: techdocsSearchType
+                config:
+                  props:
+                    name: Documentation
+                    icon: docs
+  # Tag: 2.1.0--2.2.4, Build date: 2026-09-21T19:37:34Z
+  - package: oci://quay.io/rhdh/backstage-plugin-techdocs-backend@sha256:1172c42f8e0e7084d2c5ae29ffb260ff3faac99b57c2ac4429c2a6b1be63fdbe
+    enabled: true
+    pluginConfig:
+      techdocs:
+        builder: local
+        generator:
+          runIn: local
+        publisher:
+          type: local
+  # Tag: 2.1.0--1.1.39, Build date: 2026-09-21T19:40:51Z
+  - package: oci://quay.io/rhdh/backstage-plugin-techdocs-module-addons-contrib@sha256:b6bb81357fdfd215010e3c3b739ca3381befd2a109b348f564472263ba84f3bf
+    enabled: true
+    pluginConfig:
+      app:
+        extensions:
+          - addon:techdocs/expandable-navigation: false
+          - addon:techdocs/report-issue
+          - addon:techdocs/text-size: false
+          - addon:techdocs/light-box: false
+  - package: oci://quay.io/rhdh/backstage-plugin-org:2.1.0--0.7.8
+    enabled: true
+  # Tag: 2.1.0--1.0.4, Build date: 2026-08-19T17:13:33Z
+  - package: oci://quay.io/rhdh/red-hat-developer-hub-backstage-plugin-adoption-insights@sha256:ee2a9cc249a0e0e16196775515b37c9944503e24976942e37c85441f73d26216
+    enabled: true
+    pluginConfig:
+      dynamicPlugins:
+        frontend:
+          red-hat-developer-hub.backstage-plugin-adoption-insights:
+            translationResources:
+              - importName: adoptionInsightsTranslations
+                module: Alpha
+                ref: adoptionInsightsTranslationRef
+            appIcons:
+              - name: adoptionInsightsIcon
+                importName: AdoptionInsightsIcon
+            dynamicRoutes:
+              - path: /adoption-insights
+                importName: AdoptionInsightsPage
+                menuItem:
+                  icon: adoptionInsightsIcon
+                  text: Adoption Insights
+                  textKey: menuItem.adoptionInsights
+            menuItems:
+              adoption-insights:
+                parent: default.admin
+                icon: adoptionInsightsIcon
+  # Tag: 2.1.0--1.0.4, Build date: 2026-08-19T17:00:12Z
+  - package: oci://quay.io/rhdh/red-hat-developer-hub-backstage-plugin-adoption-insights-backend@sha256:4b572b8592f160a7e6b9cd5520a37cf0f0790b6ada08091b6b05828c0da4c430
+    enabled: true
+    pluginConfig:
+      app:
+        analytics:
+          adoptionInsights:
+            maxBufferSize: 20
+            flushInterval: 5000
+            debug: false
+            licensedUsers: 100
+  # Tag: 2.1.0--1.0.4, Build date: 2026-09-22T16:46:16Z
+  - package: oci://quay.io/rhdh/red-hat-developer-hub-backstage-plugin-analytics-module-adoption-insights@sha256:d2de93edfbedad5abb72890012bd452afa0cf8ef51a734dbc95339f499745a9f
+    enabled: true
+    pluginConfig:
+      dynamicPlugins:
+        frontend:
+          red-hat-developer-hub.backstage-plugin-analytics-module-adoption-insights:
+            analyticsApiExtensions:
+              - importName: AdoptionInsightsAnalyticsApi
+  # Tag: 2.1.0--1.2.0, Build date: 2026-09-22T15:07:29Z
+  - package: oci://quay.io/rhdh/red-hat-developer-hub-backstage-plugin-app-auth@sha256:2773a40aca897bd18d11ff6796717642ea9c7ebb60b7b264ecf863d85e86718f
+    enabled: true
+  # Tag: 2.1.0--1.11.0, Build date: 2026-09-21T18:25:14Z
+  - package: oci://quay.io/rhdh/red-hat-developer-hub-backstage-plugin-app-defaults@sha256:fa4a0ac5e61e6ebf7364bcc395ab4107aadd6029ab01e78f679e814497132c69
+    enabled: true
+  # Tag: 2.1.0--1.1.1, Build date: 2026-09-21T18:26:44Z
+  - package: oci://quay.io/rhdh/red-hat-developer-hub-backstage-plugin-app-integrations@sha256:6f8910e8937c38f29a6358a8001949a6c57b51cf2f7b804cd47ddfa4fd2418d0
+    enabled: true
+  # Tag: 2.1.0--1.0.1, Build date: 2026-09-22T01:07:52Z
+  - package: oci://quay.io/rhdh/red-hat-developer-hub-backstage-plugin-catalog-backend-module-extensions@sha256:0cc9ba36eaf417dd0c360c28d15d69d5ca299281544a12af69f5e8b7dae1403e
+    enabled: true
+    pluginConfig:
+      extensions:
+        directory: ${RHDH_EXTENSIONS_DIRECTORY}
+  # Tag: 2.1.0--3.0.0, Build date: 2026-09-22T16:37:58Z
+  - package: oci://quay.io/rhdh/red-hat-developer-hub-backstage-plugin-homepage@sha256:ac08c7e670cd248caca7025559fe3528d884027265b6cf9a076180f99371eada
+    enabled: true
+    pluginConfig:
+      dynamicPlugins:
+        frontend:
+          red-hat-developer-hub.backstage-plugin-homepage:
+            dynamicRoutes:
+              - path: /
+                importName: DynamicHomePage
+            mountPoints:
+              - mountPoint: home.page/cards
+                importName: OnboardingSection
+                config:
+                  layouts:
+                    xl: {w: 12, h: 6}
+                    lg: {w: 12, h: 6}
+                    md: {w: 12, h: 7}
+                    sm: {w: 12, h: 8}
+                    xs: {w: 12, h: 9}
+                    xxs: {w: 12, h: 14}
+              - mountPoint: home.page/cards
+                importName: EntitySection
+                config:
+                  layouts:
+                    xl: {w: 12, h: 7}
+                    lg: {w: 12, h: 7}
+                    md: {w: 12, h: 8}
+                    sm: {w: 12, h: 9}
+                    xs: {w: 12, h: 11}
+                    xxs: {w: 12, h: 15}
+              - mountPoint: home.page/cards
+                importName: TemplateSection
+                config:
+                  layouts:
+                    xl: {w: 12, h: 5}
+                    lg: {w: 12, h: 5}
+                    md: {w: 12, h: 5}
+                    sm: {w: 12, h: 5}
+                    xs: {w: 12, h: 7.5}
+                    xxs: {w: 12, h: 13.5}
+              - mountPoint: home.page/widgets
+                importName: RecentlyVisitedCard
+                config:
+                  title: 'Recently Visited'
+                  description: 'Quick access to recently viewed entities and pages'
+                  priority: 2
+                  layouts:
+                    xl: {w: 4, h: 3}
+                    lg: {w: 4, h: 3}
+                    md: {w: 6, h: 3}
+                    sm: {w: 12, h: 3}
+                    xs: {w: 12, h: 3}
+                    xxs: {w: 12, h: 3}
+              - mountPoint: home.page/widgets
+                importName: TopVisitedCard
+                config:
+                  title: 'Most Visited'
+                  description: 'Your most frequently accessed entities and services'
+                  priority: 1
+                  layouts:
+                    xl: {w: 4, h: 3}
+                    lg: {w: 4, h: 3}
+                    md: {w: 6, h: 3}
+                    sm: {w: 12, h: 3}
+                    xs: {w: 12, h: 3}
+                    xxs: {w: 12, h: 3}
+  # Tag: 2.1.0--0.6.0, Build date: 2026-09-22T01:23:21Z
+  - package: oci://quay.io/rhdh/red-hat-developer-hub-backstage-plugin-homepage-backend@sha256:b316b1527a160f595fe625e0b6a46754b1722f5a3e643e0801f1b4b882358b5b
+    enabled: true
+    pluginConfig:
+      homepage:
+        defaultWidgets:
+          - id: rhdh-onboarding-section
+            ref: onboarding-section
+            props:
+              title: Onboarding section
+          - id: rhdh-entity-section
+            ref: entity-section
+            props:
+              title: Entity section
+          - id: rhdh-template-section
+            ref: template-section
+            props:
+              title: Template section
+  # Tag: 2.1.0--3.1.0, Build date: 2026-09-22T16:33:51Z
+  - package: oci://quay.io/rhdh/red-hat-developer-hub-backstage-plugin-global-header@sha256:fdc0228e3caf81d156eed1172a65131426313f331bbe13dd3c58cedf666e9fbc
+    enabled: true
+    pluginConfig:
+      dynamicPlugins:
+        frontend:
+          default.main-menu-items:
+            menuItems:
+              default.create:
+                title: ''
+              default.admin:
+                title: Administration
+                textKey: menuItem.administration
+                icon: admin
+  # Tag: 2.1.0--1.0.1, Build date: 2026-09-22T16:42:00Z
+  - package: oci://quay.io/rhdh/red-hat-developer-hub-backstage-plugin-extensions@sha256:a1eaab191deaf45b00ebfcc97cb6a428c37e31c2810cfc4c0beabdb60eeda284
+    enabled: true
+    pluginConfig:
+      dynamicPlugins:
+        frontend:
+          red-hat-developer-hub.backstage-plugin-extensions:
+            translationResources:
+              - importName: extensionsTranslations
+                ref: extensionsTranslationRef
+                module: Alpha
+            appIcons:
+              - name: pluginsIcon
+                importName: PluginsIcon
+            dynamicRoutes:
+              - path: /extensions
+                importName: DynamicExtensionsPluginRouter
+                menuItem:
+                  icon: pluginsIcon
+                  text: Extensions
+                  textKey: menuItem.extensions
+            menuItems:
+              extensions:
+                parent: default.admin
+  # Tag: 2.1.0--1.0.1, Build date: 2026-09-22T01:09:20Z
+  - package: oci://quay.io/rhdh/red-hat-developer-hub-backstage-plugin-extensions-backend@sha256:ed40d86822a9bccb0623d7c59fbb7ec5147977b9c629cfde00aad989c577086e
+    enabled: true
+    pluginConfig:
+      extensions:
+        installation:
+          enabled: false
+          saveToSingleFile:
+            file: ${RHDH_EXTENSIONS_INSTALL_EXPORT_PATH}
+  # Tag: 2.1.0--2.2.0, Build date: 2026-08-19T16:54:58Z
+  - package: oci://quay.io/rhdh/red-hat-developer-hub-backstage-plugin-quickstart@sha256:ea89e2dcfc34c900fc87fbb4801bbdb01218ded5bdf6f977a79174315f0a86a5
+    enabled: true
+    pluginConfig:
+      app:
+        quickstart:
+          - title: Set up authentication
+            titleKey: steps.setupAuthentication.title
+            icon: Admin
+            description: Set up secure login credentials to protect your account from unauthorized access.
+            descriptionKey: steps.setupAuthentication.description
+            cta:
+              text: Learn more
+              textKey: steps.setupAuthentication.ctaTitle
+              link: https://docs.redhat.com/en/documentation/red_hat_developer_hub/latest/html/authentication_in_red_hat_developer_hub/
+          - title: Configure RBAC
+            titleKey: steps.configureRbac.title
+            icon: Rbac
+            description: Assign roles and permissions to control who can view, create, or edit resources, ensuring secure and efficient collaboration.
+            descriptionKey: steps.configureRbac.description
+            cta:
+              text: Manage access
+              textKey: steps.configureRbac.ctaTitle
+              link: /rbac
+          - title: Configure Git
+            titleKey: steps.configureGit.title
+            icon: Git
+            description: Connect your Git providers, such as GitHub to manage code, automate workflows, and integrate with platform features.
+            descriptionKey: steps.configureGit.description
+            cta:
+              text: Learn more
+              textKey: steps.configureGit.ctaTitle
+              link: https://docs.redhat.com/en/documentation/red_hat_developer_hub/latest/html/integrating_red_hat_developer_hub_with_github/
+          - title: Manage plugins
+            titleKey: steps.managePlugins.title
+            icon: Plugins
+            description: Browse and install extensions to add features, connect with external tools, and customize your experience.
+            descriptionKey: steps.managePlugins.description
+            cta:
+              text: Explore plugins
+              textKey: steps.managePlugins.ctaTitle
+              link: /extensions
+          - title: Import application
+            roles:
+              - developer
+            icon: Import
+            description: Import your existing code and services into the catalog to organize and access them through your developer portal.
+            cta:
+              text: Import
+              link: /bulk-import
+          - title: Learn about the Catalog
+            roles:
+              - developer
+            icon: Catalog
+            description: Discover all software components, services, and APIs, and view their owners and documentation.
+            cta:
+              text: View Catalog
+              link: /catalog
+          - title: Explore Self-service templates
+            roles:
+              - developer
+            icon: SelfService
+            description: Use our self-service templates to quickly set up new projects, services, or documentation.
+            cta:
+              text: Explore templates
+              link: /create
+          - title: Find all Learning Paths
+            roles:
+              - developer
+            icon: Learning
+            description: Integrate tailored e-learning into your workflows with Learning Paths to accelerate onboarding, close skill gaps, and promote best practices.
+            cta:
+              text: View Learning Paths
+              link: /learning-paths
+          - title: Set up Intelligent Assistant
+            titleKey: steps.setupLightspeed.title
+            icon: Lightspeed
+            description: Connect Intelligent Assistant to a supported large language model (LLM) and configure permissions to provide your AI-powered assistance to your developers.
+            descriptionKey: steps.setupLightspeed.description
+            cta:
+              text: Learn more
+              textKey: steps.setupLightspeed.ctaTitle
+              link: https://docs.redhat.com/en/documentation/red_hat_developer_hub/latest/html/interacting_with_red_hat_developer_lightspeed_for_red_hat_developer_hub/
+          - title: Get started with Intelligent Assistant
+            titleKey: steps.getStartedWithLightspeed.title
+            icon: Lightspeed
+            roles:
+              - developer
+            description: Troubleshoot issues, generate code, and learn about platform resources using AI-powered chat.
+            descriptionKey: steps.getStartedWithLightspeed.description
+            cta:
+              text: Learn more
+              textKey: steps.getStartedWithLightspeed.ctaTitle
+              link: https://docs.redhat.com/en/documentation/red_hat_developer_hub/latest/html/interacting_with_red_hat_developer_lightspeed_for_red_hat_developer_hub/
+      dynamicPlugins:
+        frontend:
+          red-hat-developer-hub.backstage-plugin-quickstart:
+            translationResources:
+              - importName: quickstartTranslations
+                module: Alpha
+                ref: quickstartTranslationRef
+            # Legacy exports require `module: Legacy` — they are not available on the default module.
+            mountPoints:
+              - mountPoint: application/provider
+                importName: QuickstartDrawerProvider
+                module: Legacy
+              - mountPoint: application/internal/drawer-state
+                importName: QuickstartDrawerStateExposer
+                module: Legacy
+              - mountPoint: application/internal/drawer-content
+                importName: QuickstartDrawerContent
+                module: Legacy
+                config:
+                  id: quickstart
+              - mountPoint: global.header/help
+                importName: QuickstartButton
+                module: Legacy
+                config:
+                  priority: 100
+  # Tag: 2.1.0--0.5.6, Build date: 2026-09-22T15:09:04Z
+  - package: oci://quay.io/rhdh/backstage-plugin-auth-backend-module-github-provider@sha256:8d0c54235ac535141ccfa2b0a86a33eab0945fa22b94c07484d4d29b2614a5dc
+    enabled: false
+    pluginConfig:
+      auth:
+        providers:
+          github:
+            production:
+              clientId: ${GITHUB_CLIENT_ID}
+              clientSecret: ${GITHUB_CLIENT_SECRET}
+              signIn:
+                resolvers:
+                  - resolver: emailMatchingUserEntityProfileEmail
+  # Tag: 2.1.0--0.4.6, Build date: 2026-09-22T15:08:01Z
+  - package: oci://quay.io/rhdh/backstage-plugin-auth-backend-module-gitlab-provider@sha256:d17dc498290f51aca899974a3dc2fe90c1155545d3f851f636351253aa39183a
+    enabled: false
+    pluginConfig:
+      auth:
+        providers:
+          gitlab:
+            production:
+              clientId: ${GITLAB_CLIENT_ID}
+              clientSecret: ${GITLAB_CLIENT_SECRET}
+              signIn:
+                resolvers:
+                  - resolver: emailMatchingUserEntityProfileEmail
+  # Tag: 2.1.0--0.2.22, Build date: 2026-09-22T15:10:10Z
+  - package: oci://quay.io/rhdh/backstage-plugin-auth-backend-module-guest-provider@sha256:e83465115289476038b1c06866ded4e69aba8debb68b5197472dd6eff447a00b
+    enabled: false
+    pluginConfig:
+      auth:
+        providers:
+          guest:
+            dangerouslyAllowOutsideDevelopment: false
+  # Tag: 2.1.0--0.3.18, Build date: 2026-09-22T15:07:59Z
+  - package: oci://quay.io/rhdh/backstage-plugin-auth-backend-module-microsoft-provider@sha256:8942233489ad6c14fd9cf3108dff5d5a14e9382150dce9a0016927b7ce532e04
+    enabled: false
+    pluginConfig:
+      auth:
+        providers:
+          microsoft:
+            production:
+              clientId: ${MICROSOFT_CLIENT_ID}
+              clientSecret: ${MICROSOFT_CLIENT_SECRET}
+              tenantId: ${MICROSOFT_TENANT_ID}
+              signIn:
+                resolvers:
+                  - resolver: emailMatchingUserEntityProfileEmail
+  # Tag: 2.1.0--0.4.20, Build date: 2026-09-22T15:08:19Z
+  - package: oci://quay.io/rhdh/backstage-plugin-auth-backend-module-oidc-provider@sha256:c701cc727bca11bf4c2d8c83edc2aef43c65104864f39bf73e5696026816a52c
+    enabled: false
+    pluginConfig:
+      auth:
+        providers:
+          oidc:
+            production:
+              clientId: ${OIDC_CLIENT_ID}
+              clientSecret: ${OIDC_CLIENT_SECRET}
+              metadataUrl: ${OIDC_METADATA_URL}
+              signIn:
+                resolvers:
+                  - resolver: emailMatchingUserEntityProfileEmail
+  # Tag: 2.1.0--0.6.0, Build date: 2026-09-22T15:09:25Z
+  - package: oci://quay.io/rhdh/backstage-community-plugin-auth-backend-module-keycloak-provider@sha256:8f657651fcd40d8ae95ab7b4b950b0e6ffcb4e81653c3da4d7a36562bc29ff56
+    enabled: false
+    pluginConfig:
+      auth:
+        providers:
+          keycloak:
+            development:
+              clientId: ${KEYCLOAK_CLIENT_ID}
+              clientSecret: ${KEYCLOAK_CLIENT_SECRET}
+              baseUrl: ${KEYCLOAK_BASE_URL}
+              realm: ${KEYCLOAK_REALM}
+              signIn:
+                resolvers:
+                  - resolver: emailMatchingUserEntityProfileEmail
+            production:
+              clientId: ${AUTH_KEYCLOAK_CLIENT_ID}
+              clientSecret: ${AUTH_KEYCLOAK_CLIENT_SECRET}
+              baseUrl: ${AUTH_KEYCLOAK_BASE_URL}
+              realm: ${AUTH_KEYCLOAK_REALM}
+              prompt: auto
+              signIn:
+                resolvers:
+                  - resolver: preferredUsernameMatchingUserEntityName
+  # Tag: 2.1.0--0.4.0, Build date: 2026-09-22T15:09:25Z
+  - package: oci://quay.io/rhdh/backstage-community-plugin-auth-backend-module-pingfederate-provider@sha256:68fd7b0e8028b67c55f5d3fd71b5ba9b3e7a96c07327ae924537be02ec58ec80
+    enabled: false
+    pluginConfig:
+      auth:
+        providers:
+          pingfederate:
+            development:
+              clientId: ${PINGFEDERATE_CLIENT_ID}
+              clientSecret: ${PINGFEDERATE_CLIENT_SECRET}
+              baseUrl: ${PINGFEDERATE_BASE_URL}
+              signIn:
+                resolvers:
+                  - resolver: subClaimMatchingPingIdentityUserId
+  # Tag: 2.1.0--3.23.1, Build date: 2026-09-22T01:04:44Z
+  - package: oci://quay.io/rhdh/backstage-community-plugin-catalog-backend-module-keycloak@sha256:0dcd77501d52c9ddcc44d9ef73117ecdce2e9b64e96e8e4a7123e2096416c0cf
+    enabled: false
+    pluginConfig:
+      catalog:
+        providers:
+          keycloakOrg:
+            default:
+              baseUrl: ${KEYCLOAK_BASE_URL}
+              loginRealm: ${KEYCLOAK_LOGIN_REALM}
+              realm: ${KEYCLOAK_REALM}
+              clientId: ${KEYCLOAK_CLIENT_ID}
+              clientSecret: ${KEYCLOAK_CLIENT_SECRET}
+              schedule:
+                frequency:
+                  minutes: 60
+                initialDelay:
+                  seconds: 15
+                timeout:
+                  minutes: 50
+  # Tag: 2.1.0--0.15.0, Build date: 2026-08-19T17:14:32Z
+  - package: oci://quay.io/rhdh/backstage-community-plugin-catalog-backend-module-pingidentity@sha256:be529386d3f1af58c4d6f152f5251e9fd3dfe2b704643e6ccc67c66c4aa73775
+    enabled: false
+    pluginConfig:
+      catalog:
+        providers:
+          pingIdentityOrg:
+            default:
+              apiPath: ${PING_IDENTITY_API_BASE_URL}
+              authPath: ${PING_IDENTITY_AUTH_BASE_URL}
+              envId: ${PING_IDENTITY_ENV_ID}
+              clientId: ${PING_IDENTITY_CLIENT_ID}
+              clientSecret: ${PING_IDENTITY_CLIENT_SECRET}
+              schedule:
+                frequency:
+                  minutes: 30
+                timeout:
+                  minutes: 10
+                initialDelay:
+                  seconds: 15
+  # Tag: 2.1.0--2.17.1, Build date: 2026-08-21T16:36:12Z
+  - package: oci://quay.io/rhdh/backstage-community-plugin-catalog-backend-module-scaffolder-relation-processor@sha256:7799c58e3d183622a46c0f2d782479c7b4b80c6f30410922c9a9e3850b748b6b
+    enabled: false
+  # Tag: 2.1.0--2.3.1, Build date: 2026-08-21T15:51:26Z
+  - package: oci://quay.io/rhdh/backstage-community-plugin-rbac@sha256:8224a5374ba197697b5ef91646bbbf83dfa91bd26f5a515cebb4b54549f42cb8
+    enabled: false
+    pluginConfig:
+      dynamicPlugins:
+        frontend:
+          backstage-community.plugin-rbac:
+            translationResources:
+              - importName: rbacTranslations
+                ref: rbacTranslationRef
+            appIcons:
+              - name: rbacIcon
+                importName: RbacIcon
+                module: Legacy
+            dynamicRoutes:
+              - path: /rbac
+                importName: RbacPage
+                module: Legacy
+                menuItem:
+                  icon: rbacIcon
+                  text: RBAC
+                  textKey: menuItem.rbac
+            menuItems:
+              rbac:
+                parent: default.admin
+                icon: rbacIcon
+  # Tag: 2.1.0--2.21.0, Build date: 2026-09-21T18:24:08Z
+  - package: oci://quay.io/rhdh/backstage-community-plugin-scaffolder-backend-module-kubernetes@sha256:2158aba17a02fc2aacce61dffa27c36cd65a50541e059c87bdcf1ed7da4578b1
+    enabled: false
+  # Tag: 2.1.0--1.22.0, Build date: 2026-08-19T17:21:53Z
+  - package: oci://quay.io/rhdh/backstage-community-plugin-tech-radar@sha256:27d97f97ec2223bdc3a63a81fadaede3e90a631502c6d34338e2a2270acce8cd
+    enabled: false
+    pluginConfig:
+      dynamicPlugins:
+        frontend:
+          backstage-community.plugin-tech-radar:
+            apiFactories:
+              - importName: TechRadarApi
+            appIcons:
+              - name: techRadar
+                importName: TechRadarIcon
+            dynamicRoutes:
+              - path: /tech-radar
+                importName: TechRadarPage
+                menuItem:
+                  icon: techRadar
+                  text: menuItem.techRadar
+                  textKey: menuItem.techRadar
+                config:
+                  props:
+                    width: 1500
+                    height: 800
+  # Tag: 2.1.0--1.21.0, Build date: 2026-08-19T16:59:05Z
+  - package: oci://quay.io/rhdh/backstage-community-plugin-tech-radar-backend@sha256:1b9896a2183a6fbcd078f87bf7899ffb4dbe7c29f83e8681abf400cbae5af2a0
+    enabled: false
+    pluginConfig:
+      techRadar:
+        url: ${TECH_RADAR_DATA_URL}
+  # Tag: 2.1.0--3.0.1, Build date: 2026-08-19T17:23:02Z
+  - package: oci://quay.io/rhdh/backstage-community-plugin-topology@sha256:191bd39b38b120b61da120b2a9a4c77e1d8f56d77afe48649284f23f25079ff3
+    enabled: false
+    pluginConfig:
+      dynamicPlugins:
+        frontend:
+          backstage-community.plugin-topology:
+            translationResources:
+              - importName: topologyTranslations
+                ref: topologyTranslationRef
+                module: Alpha
+            mountPoints:
+              - mountPoint: entity.page.topology/cards
+                importName: TopologyPage
+                config:
+                  layout:
+                    gridColumn: 1 / -1
+                    height: 75vh
+                  if:
+                    anyOf:
+                      - hasAnnotation: backstage.io/kubernetes-id
+                      - hasAnnotation: backstage.io/kubernetes-namespace
+  # Tag: 2.1.0--0.13.5, Build date: 2026-09-21T19:41:20Z
+  - package: oci://quay.io/rhdh/backstage-plugin-catalog-backend-module-github@sha256:f70493db1fda39deeef64e380cf107b13e442c8309a4a021f9516d43406e0c83
+    enabled: false
+    pluginConfig:
+      catalog:
+        providers:
+          github:
+            providerId:
+              organization: ${GITHUB_ORG}
+  # Tag: 2.1.0--0.3.25, Build date: 2026-09-21T19:43:27Z
+  - package: oci://quay.io/rhdh/backstage-plugin-catalog-backend-module-github-org@sha256:bc127acd256c791d526a46c8f4b65ea9165cd260c0e7cf1d28523a46885885ce
+    enabled: false
+    pluginConfig:
+      catalog:
+        providers:
+          githubOrg:
+            id: production
+            githubUrl: ${GITHUB_URL}
+            orgs:
+              - ${GITHUB_ORG}
+            schedule:
+              frequency:
+                minutes: 60
+              initialDelay:
+                seconds: 15
+              timeout:
+                minutes: 15
+  # Tag: 2.1.0--0.8.7, Build date: 2026-09-21T19:39:41Z
+  - package: oci://quay.io/rhdh/backstage-plugin-catalog-backend-module-gitlab@sha256:7ffe50e24afbba045658cb7e0e5947e8195be41276369c51338dc674d92111f9
+    enabled: false
+    pluginConfig:
+      catalog:
+        providers:
+          gitlab:
+            default:
+              host: ${GITLAB_HOST}
+              group: ${GITLAB_DISCOVERY_GROUP}
+              schedule:
+                frequency:
+                  minutes: 30
+                timeout:
+                  minutes: 3
+                initialDelay:
+                  seconds: 15
+  # Tag: 2.1.0--0.2.24, Build date: 2026-09-21T19:39:46Z
+  - package: oci://quay.io/rhdh/backstage-plugin-catalog-backend-module-gitlab-org@sha256:ff1b6cff59ab96b7d6df8a31abb7ae8f51f34f4a11238264c78377fab826837d
+    enabled: false
+    pluginConfig:
+      catalog:
+        providers:
+          gitlab:
+            orgProvider:
+              host: ${GITLAB_HOST}
+              orgEnabled: true
+              group: ${GITLAB_ORG_GROUP}
+              schedule:
+                frequency:
+                  minutes: 30
+                timeout:
+                  minutes: 3
+                initialDelay:
+                  seconds: 15
+  # Tag: 2.1.0--0.12.8, Build date: 2026-09-21T19:37:21Z
+  - package: oci://quay.io/rhdh/backstage-plugin-catalog-backend-module-ldap@sha256:2e9b5ec43cd660f6224660b3dde29ad7a66f97ce831b85c5fbe7be14e01fef3a
+    enabled: false
+    pluginConfig:
+      catalog:
+        providers:
+          ldapOrg:
+            default:
+              target: ${LDAP_TARGET_URL}
+              bind:
+                dn: ${LDAP_BIND_DN}
+                secret: ${LDAP_BIND_SECRET}
+              users:
+                - dn: ${LDAP_USERS_DN}
+                  options:
+                    filter: (uid=*)
+              groups:
+                - dn: ${LDAP_GROUPS_DN}
+                  options:
+                    filter: (cn=*)
+              schedule:
+                frequency:
+                  minutes: 60
+                initialDelay:
+                  seconds: 15
+                timeout:
+                  minutes: 15
+  # Tag: 2.1.0--0.10.5, Build date: 2026-09-21T19:40:42Z
+  - package: oci://quay.io/rhdh/backstage-plugin-catalog-backend-module-msgraph@sha256:7fb9cbeb4c535b6354d7eea21dcf678e0314c9da700361694f7e87bfb814657f
+    enabled: false
+    pluginConfig:
+      catalog:
+        providers:
+          microsoftGraphOrg:
+            providerId:
+              target: https://graph.microsoft.com/v1.0
+              tenantId: ${MICROSOFT_TENANT_ID}
+              clientId: ${MICROSOFT_CLIENT_ID}
+              clientSecret: ${MICROSOFT_CLIENT_SECRET}
+              schedule:
+                frequency:
+                  minutes: 60
+                initialDelay:
+                  seconds: 15
+                timeout:
+                  minutes: 15
+  # Tag: 2.1.0--0.4.15, Build date: 2026-09-21T19:37:31Z
+  - package: oci://quay.io/rhdh/backstage-plugin-events-backend-module-github@sha256:f7208cd74df274f4642b7e81b31d5e1281ec911484142a61f1eec645e5dae2b3
+    enabled: false
+    pluginConfig:
+      events:
+        http:
+          topics:
+            - github
+        modules:
+          github:
+            webhookSecret: ${GITHUB_WEBHOOK_SECRET}
+  # Tag: 2.1.0--0.12.22, Build date: 2026-09-22T16:46:01Z
+  - package: oci://quay.io/rhdh/backstage-plugin-kubernetes@sha256:ee23606a1d154b8405925c20f22d74b6be7996ef6a5185e8b3ed7f3c3f63dc2d
+    enabled: false
+    pluginConfig:
+      dynamicPlugins:
+        frontend:
+          backstage.plugin-kubernetes:
+            mountPoints:
+              - mountPoint: entity.page.kubernetes/cards
+                importName: EntityKubernetesContent
+                config:
+                  layout:
+                    gridColumn: 1 / -1
+                  if:
+                    anyOf:
+                      - hasAnnotation: backstage.io/kubernetes-id
+                      - hasAnnotation: backstage.io/kubernetes-namespace
+  # Tag: 2.1.0--0.21.10, Build date: 2026-09-21T19:37:41Z
+  - package: oci://quay.io/rhdh/backstage-plugin-kubernetes-backend@sha256:72c59f3441b0f3caecf84d0612bfac777caa9b9d983a76dcabec1fe9ad40833b
+    enabled: false
+    pluginConfig:
+      kubernetes:
+        serviceLocatorMethod:
+          type: multiTenant
+        clusterLocatorMethods:
+          - type: config
+            clusters:
+              - name: ${K8S_CLUSTER_NAME}
+                url: ${K8S_CLUSTER_URL}
+                authProvider: serviceAccount
+                skipTLSVerify: true
+                serviceAccountToken: ${K8S_CLUSTER_TOKEN}
+  # Tag: 2.1.0--0.5.20, Build date: 2026-09-22T16:39:47Z
+  - package: oci://quay.io/rhdh/backstage-plugin-notifications@sha256:c692a9eab60ba6e456bde84ae749ed0669e4a7df0e4210088fceb7da07ae40ae
+    enabled: false
+    pluginConfig:
+      dynamicPlugins:
+        frontend:
+          backstage.plugin-notifications:
+            dynamicRoutes:
+              - importName: NotificationsPage
+                menuItem:
+                  config:
+                    props:
+                      titleCounterEnabled: true
+                      webNotificationsEnabled: false
+                  importName: NotificationsSidebarItem
+                path: /notifications
+  # Tag: 2.1.0--0.6.8, Build date: 2026-09-21T19:39:31Z
+  - package: oci://quay.io/rhdh/backstage-plugin-notifications-backend@sha256:f45573d459b7c0dd1bbf8af3c9d80ab1f2f6f102bb59bed277c910458169af04
+    enabled: false
+    pluginConfig:
+      notifications:
+        concurrencyLimit: 10
+  # Tag: 2.1.0--0.3.24, Build date: 2026-09-21T19:38:08Z
+  - package: oci://quay.io/rhdh/backstage-plugin-notifications-backend-module-email@sha256:fd3fb12839350e0eff5c5ed0bf42a9d145d8d683555252d78d0df42f1f07cbe6
+    enabled: false
+    pluginConfig:
+      notifications:
+        processors:
+          email:
+            transportConfig:
+              transport: smtp
+              hostname: ${EMAIL_HOSTNAME}
+              port: 587
+              username: ${EMAIL_USERNAME}
+              password: ${EMAIL_PASSWORD}
+            sender: ${EMAIL_SENDER}
+            broadcastConfig:
+              receiver: users
+  # Tag: 2.1.0--0.9.13, Build date: 2026-09-21T19:41:34Z
+  - package: oci://quay.io/rhdh/backstage-plugin-scaffolder-backend-module-github@sha256:065d9aa11f13a0ddb25ecffe4274035c7002a822a956fb43b56f427203a859ad
+    enabled: false
+  # Tag: 2.1.0--0.11.10, Build date: 2026-09-21T19:38:23Z
+  - package: oci://quay.io/rhdh/backstage-plugin-scaffolder-backend-module-gitlab@sha256:9e452045ec0551abe2f1fd600cd3d1bb0b1650be26daf7d623684e007323f083
+    enabled: false
+  # Tag: 2.1.0--0.0.34, Build date: 2026-09-22T16:42:55Z
+  - package: oci://quay.io/rhdh/backstage-plugin-signals@sha256:5aef8abe57e219c0019355e856fe3265d7d1fec438e255cf1b52ec451f0ff115
+    enabled: false
+    pluginConfig:
+      dynamicPlugins:
+        frontend:
+          backstage.plugin-signals: {}
+  # Tag: 2.1.0--0.3.18, Build date: 2026-09-21T20:25:32Z
+  - package: oci://quay.io/rhdh/backstage-plugin-signals-backend@sha256:029227f361db0d417fd29e2a907ead06067def56581ef2cddfdbedb9f68f9528
+    enabled: false
+  # Tag: 2.1.0--9.1.1, Build date: 2026-09-22T01:15:41Z
+  - package: oci://quay.io/rhdh/red-hat-developer-hub-backstage-plugin-bulk-import@sha256:c2bf9034a43d568d2785bd3f5fb4d6ed0a85583ffa53ff92500dcd3f6c1a7a64
+    enabled: false
+    pluginConfig:
+      dynamicPlugins:
+        frontend:
+          red-hat-developer-hub.backstage-plugin-bulk-import:
+            translationResources:
+              - importName: bulkImportTranslations
+                module: Legacy
+                ref: bulkImportTranslationRef
+            appIcons:
+              - name: bulkImportIcon
+                module: Legacy
+                importName: BulkImportIcon
+            dynamicRoutes:
+              - path: /bulk-import
+                importName: BulkImportPage
+                module: Legacy
+                menuItem:
+                  icon: bulkImportIcon
+                  text: Bulk import
+  # Tag: 2.1.0--9.1.1, Build date: 2026-09-22T01:05:46Z
+  - package: oci://quay.io/rhdh/red-hat-developer-hub-backstage-plugin-bulk-import-backend@sha256:d1c881ce8dd220199d05dea18a494739a72929b402aa66ed5f3ffdc8ec1ab09d
+    enabled: false
+    pluginConfig:
+      bulkImport:
+        importAPI: open-pull-requests
+  # Tag: 2.1.0--5.3.5, Build date: 2026-08-21T15:36:36Z
+  - package: oci://quay.io/rhdh/red-hat-developer-hub-backstage-plugin-intelligent-assistant@sha256:88cccf46912392c8be10aa9a454c5f5fd2257968bee1007ab8430a22cdc3d65c
+    enabled: false
+    pluginConfig:
+      intelligent-assistant:
+        # OPTIONAL: Custom users prompts displayed to users
+        # If not provided, the plugin uses built-in default prompts
+        prompts:
+          - title: 'Getting Started with Red Hat Developer Hub'
+            message: Can you guide me through the first steps to start using Developer Hub as a developer, like exploring the Software Catalog and adding my service?
+      dynamicPlugins:
+        frontend:
+          red-hat-developer-hub.backstage-plugin-intelligent-assistant:
+            translationResources:
+              - importName: lightspeedTranslations
+                module: Alpha
+                ref: intelligentAssistantTranslationRef
+            dynamicRoutes:
+              - path: /intelligent-assistant
+                importName: LightspeedPage
+                module: Legacy
+            mountPoints:
+              - mountPoint: application/listener
+                importName: LightspeedFAB
+                module: Legacy
+              - mountPoint: application/provider
+                importName: LightspeedDrawerProvider
+                module: Legacy
+              - mountPoint: application/internal/drawer-state
+                importName: LightspeedDrawerStateExposer
+                module: Legacy
+                config:
+                  id: intelligent-assistant
+              - mountPoint: application/internal/drawer-content
+                importName: LightspeedChatContainer
+                module: Legacy
+                config:
+                  id: intelligent-assistant
+                  priority: 100
+  # Tag: 2.1.0--5.3.5, Build date: 2026-08-21T15:27:50Z
+  - package: oci://quay.io/rhdh/red-hat-developer-hub-backstage-plugin-intelligent-assistant-backend@sha256:76c597cd1e44b6fff262ad9fa8bacf0123f55bb97139138dbde8fa401dc4dc84
+    enabled: false
+    pluginConfig:
+      intelligent-assistant:
+        # OPTIONAL: Port for intelligent-assistant service (default: 8080)
+        servicePort: 8080
+        # OPTIONAL: MCP server name and token for MCP servers defined in LCORE config
+        # mcpServers:
+        #  - name: <mcp server name>
+        #    token: ${MCP_TOKEN}
+  # Tag: 2.1.0--6.2.1, Build date: 2026-09-22T01:02:51Z
+  - package: oci://quay.io/rhdh/red-hat-developer-hub-backstage-plugin-orchestrator@sha256:e088a669a6a7978191c064a704325555022d5430eb26a32b8949f218afcd1609
+    enabled: false
+    pluginConfig:
+      dynamicPlugins:
+        frontend:
+          red-hat-developer-hub.backstage-plugin-orchestrator:
+            # Legacy exports require `module: Legacy` — they are not available on the default module.
+            translationResources:
+              - importName: orchestratorTranslations
+                module: Legacy
+                ref: orchestratorTranslationRef
+            appIcons:
+              - importName: OrchestratorIcon
+                name: orchestratorIcon
+                module: Legacy
+            dynamicRoutes:
+              - importName: OrchestratorPage
+                module: Legacy
+                menuItem:
+                  icon: orchestratorIcon
+                  text: Orchestrator
+                  textKey: menuItem.orchestrator
+                path: /orchestrator
+            menuItems:
+              orchestrator:
+                parent: default.admin
+                icon: orchestratorIcon
+            entityTabs:
+              - path: /workflows
+                title: Workflows
+                titleKey: catalog.entityPage.workflows.title
+                mountPoint: entity.page.workflows
+            mountPoints:
+              - mountPoint: entity.page.workflows/cards
+                importName: OrchestratorCatalogTab
+                module: Legacy
+                config:
+                  layout:
+                    gridColumn: 1 / -1
+                  if:
+                    anyOf:
+                      - hasAnnotation: orchestrator.io/workflows
+  # Tag: 2.1.0--8.13.1, Build date: 2026-09-22T01:25:08Z
+  - package: oci://quay.io/rhdh/red-hat-developer-hub-backstage-plugin-orchestrator-backend@sha256:3bd4562c0c63ffe4899a1c4fc81a5cf697094f86d18747deed46718870b3cc96
+    enabled: false
+    pluginConfig:
+      orchestrator:
+        dataIndexService:
+          url: http://sonataflow-platform-data-index-service
+  # Tag: 2.1.0--1.5.1, Build date: 2026-09-22T01:08:36Z
+  - package: oci://quay.io/rhdh/red-hat-developer-hub-backstage-plugin-orchestrator-backend-module-loki@sha256:2d6700e7aece25d52ae44f49f9b76d3533758d93fe283b7e8bef2fb7b6441267
+    enabled: false
+    pluginConfig:
+      orchestrator:
+        workflowLogProvider:
+          loki:
+            baseUrl: ${LOKI_BASE_URL}
+            token: ${AUTH_TOKEN}
+  # Tag: 2.1.0--2.2.0, Build date: 2026-09-22T01:08:15Z
+  - package: oci://quay.io/rhdh/red-hat-developer-hub-backstage-plugin-orchestrator-form-widgets@sha256:6985671a07eee565fb9e73b040aec2c12b0fa12908a9a2af2edbe4ee12d26b2e
+    enabled: false
+    pluginConfig:
+      dynamicPlugins:
+        frontend:
+          # OFS loads BackstagePlugin from Legacy after NFS graduation (PluginRoot is NFS).
+          red-hat-developer-hub.backstage-plugin-orchestrator-form-widgets:
+            pluginModule: Legacy
+  # Tag: 2.1.0--1.8.1, Build date: 2026-09-22T01:24:13Z
+  - package: oci://quay.io/rhdh/red-hat-developer-hub-backstage-plugin-scaffolder-backend-module-orchestrator@sha256:6722d6eaa17b4b192f172b6dbb0b86279ef43be446f8c90937f4ceac6bab265f
+    enabled: false
+    pluginConfig:
+      orchestrator:
+        dataIndexService:
+          url: http://sonataflow-platform-data-index-service
+  # Tag: 2.1.0--5.8.0, Build date: 2026-09-21T15:53:44Z
+  - package: oci://quay.io/rhdh/roadiehq-scaffolder-backend-module-http-request@sha256:1d3540a6ead60643cfbf19ee786ee7d34c7d3655abd4f3019ef60a132bb36993
+    enabled: false
+  # Tag: 2.1.0--4.4.1, Build date: 2026-09-21T23:51:11Z
+  - package: oci://quay.io/rhdh/red-hat-developer-hub-backstage-plugin-scorecard@sha256:5c80a98e9e1b936692f3377f67f0e21ced5950a3d56e4a1bb51ca2d20c52adc3
+    enabled: false
+    pluginConfig:
+      dynamicPlugins:
+        frontend:
+          red-hat-developer-hub.backstage-plugin-scorecard:
+            # Legacy exports require `module: Legacy` — they are not available on the default module.
+            translationResources:
+              - importName: scorecardTranslations
+                module: Legacy
+                ref: scorecardTranslationRef
+            dynamicRoutes:
+              - path: /scorecard/aggregations/:aggregationId/metrics/:metricId
+                importName: ScorecardPage
+                module: Legacy
+            entityTabs:
+              - path: "/scorecard"
+                title: Scorecard
+                mountPoint: entity.page.scorecard
+            mountPoints:
+              - mountPoint: entity.page.scorecard/cards
+                importName: EntityScorecardContent
+                module: Legacy
+                config:
+                  layout:
+                    gridColumn: 1 / -1
+                if:
+                  allOf:
+                    - isKind: component
+  # Tag: 2.1.0--4.4.1, Build date: 2026-09-21T23:50:40Z
+  - package: oci://quay.io/rhdh/red-hat-developer-hub-backstage-plugin-scorecard-backend@sha256:61d47d7336502b26620e0e64f3d8dc76da5305da6de801863eb98c1c66f5c6f0
+    enabled: false
+    pluginConfig:
+      scorecard:
+        dataRetentionDays: 365
+  # Tag: 2.1.0--4.4.1, Build date: 2026-09-21T23:50:40Z
+  - package: oci://quay.io/rhdh/red-hat-developer-hub-backstage-plugin-scorecard-backend-module-sonarqube@sha256:626b16b04f07251fdabf0620a7c4c8984b86e2ca91ce5bfd248195a893cd0937
+    enabled: false
+    pluginConfig:
+      sonarqube:
+        baseUrl: https://sonarcloud.io
+        apiKey: ${SONARQUBE_API_KEY}
+  # Tag: 2.1.0--2.0.0, Build date: 2026-09-21T23:51:07Z
+  - package: oci://quay.io/rhdh/red-hat-developer-hub-backstage-plugin-scorecard-backend-module-openssf@sha256:69759ec95badd27be5656331337987a191f30976a28e6937f1e4a6a2d7907693
+    enabled: false
+  # Tag: 2.1.0--4.4.1, Build date: 2026-09-21T23:51:14Z
+  - package: oci://quay.io/rhdh/red-hat-developer-hub-backstage-plugin-scorecard-backend-module-jira@sha256:1ac6a476899201e7e397ba3481357f0e14babbbff3c7f893f434d122bb45bd35
+    enabled: false
+    pluginConfig:
+      jira:
+        product: cloud
+        proxyPath: /jira/api
+      proxy:
+        endpoints:
+          "/jira/api":
+            target: ${JIRA_URL}
+            headers:
+              Accept: "application/json"
+              Content-Type: "application/json"
+              X-Atlassian-Token: "no-check"
+              # Required: (For cloud use 'Basic email:tokenInBase64', for datacenter use 'Bearer YourJiraToken')
+              Authorization: ${JIRA_TOKEN}
+  # Tag: 2.1.0--4.4.1, Build date: 2026-09-21T23:51:09Z
+  - package: oci://quay.io/rhdh/red-hat-developer-hub-backstage-plugin-scorecard-backend-module-github@sha256:aa4522d6d7fbef638a16bdf7fef5b2d0b8618b1f47794adf28c101096cef22e3
+    enabled: false
+    pluginConfig:
+      scorecard:
+        metricProviders:
+          github:
+            openPRs:
+              schedule:
+                frequency:
+                  hours: 4
+                timeout:
+                  minutes: 10
+  # Tag: 2.1.0--1.1.3, Build date: 2026-09-21T23:51:09Z
+  - package: oci://quay.io/rhdh/red-hat-developer-hub-backstage-plugin-scorecard-backend-module-filecheck@sha256:e6f98370bed3d2ae2149471142f75293788a583b199f6ca8fb899174c09e70ca
+    enabled: false
+  # Tag: 2.1.0--1.1.3, Build date: 2026-09-21T23:51:13Z
+  - package: oci://quay.io/rhdh/red-hat-developer-hub-backstage-plugin-scorecard-backend-module-dependabot@sha256:6118371fef30bce61e420ea9201ec183626c3cc28530dff5b9f92c9cb8320c2c
+    enabled: false
+  # Tag: 2.1.0--0.2.2, Build date: 2026-09-21T23:50:37Z
+  - package: oci://quay.io/rhdh/red-hat-developer-hub-backstage-plugin-scorecard-backend-module-dora@sha256:6cdcc182c5fe84a00fece749a1598b30dc84139021b1eb5241c845f8b3a3ff2f
+    enabled: false
+    pluginConfig:
+      scorecard:
+        plugins:
+          dora:
+            productionEnvironments:
+              - production
+            collectors:
+              deployments:
+                id: github:doraDeployments
+              deploymentPullRequests:
+                id: github:doraDeploymentPullRequests
+              incidents:
+                id: jira:doraIncidents
